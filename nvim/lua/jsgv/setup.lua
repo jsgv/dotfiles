@@ -50,6 +50,7 @@ vim.api.nvim_set_keymap('n', 'j', 'gj', opts)
 vim.api.nvim_set_keymap('n', 'k', 'gk', opts)
 vim.api.nvim_set_keymap('i', 'jj', '<ESC>l', opts)
 
+-- Pane hopping
 vim.api.nvim_set_keymap('n', '<C-j>', '<C-w>j', opts)
 vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', opts)
 vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', opts)
@@ -65,7 +66,7 @@ vim.api.nvim_set_keymap('n', '<Leader>fg', '<Cmd>Telescope live_grep<CR>',  opts
 vim.api.nvim_set_keymap('n', '<Leader>fb', '<Cmd>Telescope buffers<CR>',    opts)
 vim.api.nvim_set_keymap('n', '<Leader>fh', '<Cmd>Telescope help_tags<CR>',  opts)
 
--- NERD_Tree
+-- NERDTree
 vim.g.NERDTreeShowHidden = 1
 vim.g.NERDTreeIgnore = { '^.DS_Store$', 'node_modules', '.git$[[dir]]' }
 vim.g.NERDTreeMapOpenSplit = 's'
@@ -78,6 +79,8 @@ vim.api.nvim_exec([[
     autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 ]], false)
 
+-- Only show relative numbers in the current pane
+-- Toggle when switching between panes
 vim.api.nvim_exec([[
     function! SetRelativeNumber() abort
         if (bufname("%") =~ "NERD_Tree_")
