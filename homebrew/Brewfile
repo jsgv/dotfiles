@@ -1,0 +1,189 @@
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
+tap "homebrew/core"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@1.1"
+# Automatic configure script builder
+brew "autoconf"
+# Tool for generating GNU Standards-compliant Makefiles
+brew "automake"
+# Bourne-Again SHell, a UNIX command interpreter
+brew "bash"
+# Clone of cat(1) with syntax highlighting and Git integration
+brew "bat"
+# Parser generator
+brew "bison"
+# C/C++ and Java libraries for Unicode and globalization
+brew "icu4c"
+# Freely available high-quality data compressor
+brew "bzip2"
+# GNU internationalization (i18n) and localization (l10n) library
+brew "gettext"
+# Perl compatible regular expressions library
+brew "pcre"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.9"
+# Manage compile and link flags for libraries
+brew "pkg-config"
+# Cross-platform make
+brew "cmake"
+# GNU File, Shell, and Text utilities
+brew "coreutils"
+# Reimplementation of ctags(1)
+brew "ctags"
+# Get a file from an HTTP, HTTPS or FTP server
+brew "curl"
+# Go dependency management tool
+brew "dep"
+# Read, write, modify, and display EXIF data on the command-line
+brew "exif"
+# Perl lib for reading and writing EXIF metadata
+brew "exiftool"
+# Database of public exploits and corresponding vulnerable software
+brew "exploitdb"
+# GNU multiple precision arithmetic library
+brew "gmp"
+# Generic library support script
+brew "libtool"
+# Asynchronous event library
+brew "libevent"
+# Image manipulation library
+brew "jpeg"
+# Play, record, convert, and stream audio and video
+brew "ffmpeg"
+# Cross-platform subdomain enumerator
+brew "findomain"
+# X11 implementation of the Remote Desktop Protocol (RDP)
+brew "freerdp"
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# GitHub command-line tool
+brew "gh"
+# Lossy LZW compression, reduces GIF file sizes by 30-50%
+brew "giflossy"
+# Distributed revision control system
+brew "git"
+# Git extension for versioning large files
+brew "git-lfs"
+# Render markdown on the CLI
+brew "glow"
+# GNU implementation of the famous stream editor
+brew "gnu-sed"
+# X.509 and CMS library
+brew "libksba"
+# GNU Pretty Good Privacy (PGP) package
+brew "gnupg"
+# Graph visualization software from AT&T and Bell Labs
+brew "graphviz"
+# GNU grep, egrep and fgrep
+brew "grep"
+# World's fastest and most advanced password recovery utility
+brew "hashcat"
+# User-friendly cURL replacement (command-line HTTP client)
+brew "httpie"
+# Configurable static site generator
+brew "hugo"
+# Network logon cracker which supports many services
+brew "hydra"
+# Tools and libraries to manipulate images in many formats
+brew "imagemagick"
+# Enhanced version of john, a UNIX password cracker
+brew "john-jumbo"
+# Lightweight and flexible command-line JSON processor
+brew "jq"
+# Python implementation written in Java (successor to JPython)
+brew "jython"
+# GNOME XML library
+brew "libxml2"
+# YAML Parser
+brew "libyaml"
+# Just-In-Time Compiler (JIT) for the Lua programming language
+brew "luajit", args: ["HEAD"]
+# Bare libuv bindings for lua
+brew "luv"
+# Make/rake-like build tool using Go
+brew "mage"
+# TCP port scanner, scans entire Internet in under 5 minutes
+brew "masscan"
+# Java-based project management
+brew "maven"
+# Uniform interface to a large number of hash algorithms
+brew "mhash"
+# Replacement for the old crypt package and crypt(1) command
+brew "mcrypt"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim", args: ["HEAD"]
+# Utility for managing network connections
+brew "netcat"
+# Small build system for use with gyp or CMake
+brew "ninja"
+# Port scanning utility for large networks
+brew "nmap"
+# Platform built on V8 to build network applications
+brew "node"
+# High performance message passing library
+brew "open-mpi"
+# OpenBSD freely-licensed SSH connectivity tools
+brew "openssh"
+# Highly capable, feature-rich programming language
+brew "perl"
+# General-purpose scripting language
+brew "php"
+# Cross-platform application and UI framework
+brew "qt"
+# Generate C-based recognizers from regular expressions
+brew "re2c"
+# Persistent key-value database, with built-in net interface
+brew "redis"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# Source-code syntax highlighter
+brew "source-highlight"
+# Version control system designed to be a better CVS
+brew "subversion"
+# User interface to the TELNET protocol
+brew "telnet"
+# Tool to build, change, and version infrastructure
+brew "terraform"
+# Terminal multiplexer
+brew "tmux"
+# NetBSD's FTP client
+brew "tnftp"
+# Watch files and take action when they change
+brew "watchman"
+# XML command-line utilities
+brew "xmlstarlet"
+# Download YouTube videos from the command-line
+brew "youtube-dl"
+# General-purpose lossless data-compression library
+brew "zlib"
+# UNIX shell (command interpreter)
+brew "zsh"
+# Additional completion definitions for zsh
+brew "zsh-completions"
+# Fish shell like syntax highlighting for zsh
+brew "zsh-syntax-highlighting"
+# GPU-accelerated terminal emulator
+cask "alacritty"
+cask "android-sdk"
+# E-books management software
+cask "calibre"
+cask "font-fira-code"
+# Icon set and toolkit
+cask "font-fontawesome"
+cask "font-rubik"
+cask "font-source-code-pro"
+cask "font-source-sans-pro"
+# Hex editor focussing on speed
+cask "hex-fiend"
+cask "java8"
+# Penetration testing framework
+cask "metasploit"
+# Administration and development platform for PostgreSQL
+cask "pgadmin4"
+# GUI for streamlined Redis application development
+cask "redisinsight"
+# Tool to manage the size and position of windows
+cask "shiftit"
