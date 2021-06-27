@@ -7,9 +7,15 @@ return require('packer').startup(function(use)
     use 'arcticicestudio/nord-vim'
     use 'scrooloose/nerdtree'
 
-    use 'nvim-lua/popup.nvim'
-    use 'nvim-lua/plenary.nvim'
-    use 'nvim-telescope/telescope.nvim'
+    -- use 'nvim-lua/popup.nvim'
+    -- use 'nvim-lua/plenary.nvim'
+    use {
+        'nvim-telescope/telescope.nvim',
+        requires = {
+            { 'nvim-lua/popup.nvim'   },
+            { 'nvim-lua/plenary.nvim' },
+        }
+    }
 
     use 'tpope/vim-fugitive'
     use 'tpope/vim-commentary'

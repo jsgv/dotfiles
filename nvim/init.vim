@@ -6,6 +6,7 @@ lua require('jsgv.plugins')
 lua require('jsgv.setup')
 lua require('jsgv.lsp')
 lua require('jsgv.treesitter')
+lua require('jsgv.telescope')
 
 autocmd VimEnter,VimResume  * set guicursor=n-v-c-sm:block,i-ci-ve:ver25-Cursor,r-cr-o:hor20
 autocmd VimLeave,VimSuspend * set guicursor=a:hor20

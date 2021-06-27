@@ -63,8 +63,12 @@ vim.api.nvim_set_keymap('x', '<C-\\>', ':Commentary<CR>', opts)
 -- Telescope
 vim.api.nvim_set_keymap('n', '<Leader>ff', '<Cmd>Telescope find_files<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>fg', '<Cmd>Telescope live_grep<CR>',  opts)
-vim.api.nvim_set_keymap('n', '<Leader>fb', '<Cmd>Telescope buffers<CR>',    opts)
 vim.api.nvim_set_keymap('n', '<Leader>fh', '<Cmd>Telescope help_tags<CR>',  opts)
+vim.api.nvim_set_keymap('n', '<Leader>fb', '<Cmd>Telescope buffers<CR>',    opts)
+
+-- set buffers window to open in normal in order to quickly select buffer (currently does not work)
+-- ref: https://github.com/nvim-telescope/telescope.nvim/issues/750
+-- vim.api.nvim_set_keymap('n', '<Leader>fb', '<Cmd>Telescope buffers initial_mode=normal<CR>',    opts)
 
 -- NERDTree
 vim.g.NERDTreeShowHidden = 1
