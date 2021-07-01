@@ -41,8 +41,6 @@ brew "dep"
 brew "exif"
 # Perl lib for reading and writing EXIF metadata
 brew "exiftool"
-# Database of public exploits and corresponding vulnerable software
-brew "exploitdb"
 # GNU multiple precision arithmetic library
 brew "gmp"
 # Generic library support script
@@ -113,8 +111,6 @@ brew "maven"
 brew "mhash"
 # Replacement for the old crypt package and crypt(1) command
 brew "mcrypt"
-# Ambitious Vim-fork focused on extensibility and agility
-brew "neovim", args: ["HEAD"]
 # Utility for managing network connections
 brew "netcat"
 # Small build system for use with gyp or CMake
@@ -151,6 +147,8 @@ brew "terraform"
 brew "tmux"
 # NetBSD's FTP client
 brew "tnftp"
+# Parser generator tool and incremental parsing library
+brew "tree-sitter"
 # Watch files and take action when they change
 brew "watchman"
 # XML command-line utilities
