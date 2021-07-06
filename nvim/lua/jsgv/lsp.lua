@@ -16,7 +16,7 @@ vim.api.nvim_set_keymap('i', '<CR>', 'compe#confirm(\'<CR>\')', { noremap = true
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-    local filetype = vim.api.nvim_buf_get_option(0, "filetype")
+    -- local filetype = vim.api.nvim_buf_get_option(0, "filetype")
 
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -51,30 +51,41 @@ local on_attach = function(client, bufnr)
     -- buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
     -- autoformat on save, only for rust since vim-go handles it for go
-    -- { "go", "rust" }
-    if vim.tbl_contains({ "rust" }, filetype) then
-        vim.cmd([[
-            autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync()
-        ]])
-    end
+    -- if vim.tbl_contains({ "rust" }, filetype) then
+    --     vim.cmd([[
+    --         autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync()
+    --     ]])
+    -- end
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "gopls", "tsserver", "rust_analyzer" }
-for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
-        on_attach    = on_attach,
-        capabilities = capabilities,
-    }
-end
+-- local servers = { "gopls", "tsserver" }
+-- for _, lsp in ipairs(servers) do
+--     nvim_lsp[lsp].setup {
+--         on_attach    = on_attach,
+--         capabilities = capabilities,
+--     }
+-- end
+
+-- Go
+nvim_lsp.gopls.setup {
+    on_attach    = on_attach,
+    capabilities = capabilities,
+}
+
+-- TypeScript
+nvim_lsp.tsserver.setup {
+    on_attach    = on_attach,
+    capabilities = capabilities,
+}
 
 -- CodeQL
 nvim_lsp.codeqlls.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
     cmd          = { "codeql", "execute", "language-server", "--check-errors", "ON_CHANGE", "-q" },
-    settings = {
+    settings     = {
         search_path = {
             vim.fn.expand('~/codeql-home/codeql-repo'),
             vim.fn.expand('~/codeql-home/codeql-go'),
@@ -83,20 +94,23 @@ nvim_lsp.codeqlls.setup {
     },
 }
 
+local sumneko_root_path = vim.fn.expand('~/Code/github.com/sumneko/lua-language-server')
+local sumneko_binary    = sumneko_root_path .. '/bin/macOS/lua-language-server'
+
 -- Lua
 nvim_lsp.sumneko_lua.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
     cmd          = {
-        vim.fn.expand('~/Code/github.com/sumneko/lua-language-server/bin/macOS/lua-language-server'),
+        sumneko_binary,
         '-E',
-        vim.fn.expand('~/Code/github.com/sumneko/lua-language-server/main.lua'),
+        sumneko_root_path .. '/main.lua',
     },
     settings = {
         Lua = {
             runtime = {
                 version = '5.4',
-                path = { '/usr/local/bin/lua' },
+                path    = { '/usr/local/bin/lua' },
             },
             -- Get the language server to recognize the `vim` global
             diagnostics = { globals = {'vim'} },
@@ -123,7 +137,6 @@ require('compe').setup {
     max_kind_width   = 100,
     max_menu_width   = 100,
     documentation    = true,
-
     source = {
         path       = true,
         nvim_lsp   = true,

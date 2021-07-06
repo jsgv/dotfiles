@@ -1,4 +1,5 @@
 nvim/plugin/packer_compiled.vim
+nvim/plugin/packer_compiled.lua
 zsh/hunt
 zsh/functions.zsh
 zsh/secrets.zsh
