@@ -1,4 +1,5 @@
-local nvim_lsp = require('lspconfig')
+local nvim_lsp     = require('lspconfig')
+local root_pattern = require('lspconfig/util').root_pattern
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -35,20 +36,20 @@ local on_attach = function(client, bufnr)
     -- buf_set_keymap('n', '<C-k>',      '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    -- buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    -- buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    -- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-    -- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-    -- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-    -- buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    -- buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    -- buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    -- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    -- buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    -- buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    -- buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-    -- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-    -- buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    -- buf_set_keymap('n', 'gD',        '<Cmd>lua vim.lsp.buf.declaration()<CR>',                                opts)
+    -- buf_set_keymap('n', 'gi',        '<Cmd>lua vim.lsp.buf.implementation()<CR>',                             opts)
+    -- buf_set_keymap('n', '<space>wa', '<Cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',                       opts)
+    -- buf_set_keymap('n', '<space>wr', '<Cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',                    opts)
+    -- buf_set_keymap('n', '<space>wl', '<Cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+    -- buf_set_keymap('n', '<space>D',  '<Cmd>lua vim.lsp.buf.type_definition()<CR>',                            opts)
+    -- buf_set_keymap('n', '<space>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>',                                     opts)
+    -- buf_set_keymap('n', '<space>ca', '<Cmd>lua vim.lsp.buf.code_action()<CR>',                                opts)
+    -- buf_set_keymap('n', 'gr',        '<Cmd>lua vim.lsp.buf.references()<CR>',                                 opts)
+    -- buf_set_keymap('n', '<space>e',  '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',               opts)
+    -- buf_set_keymap('n', '[d',        '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',                           opts)
+    -- buf_set_keymap('n', ']d',        '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>',                           opts)
+    -- buf_set_keymap('n', '<space>q',  '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>',                         opts)
+    -- buf_set_keymap('n', '<space>f',  '<Cmd>lua vim.lsp.buf.formatting()<CR>',                                 opts)
 
     -- autoformat on save, only for rust since vim-go handles it for go
     -- if vim.tbl_contains({ "rust" }, filetype) then
@@ -58,20 +59,15 @@ local on_attach = function(client, bufnr)
     -- end
 end
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
--- local servers = { "gopls", "tsserver" }
--- for _, lsp in ipairs(servers) do
---     nvim_lsp[lsp].setup {
---         on_attach    = on_attach,
---         capabilities = capabilities,
---     }
--- end
-
 -- Go
 nvim_lsp.gopls.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
+
+    -- overwrite default, otherwise lsp will only start when `go.mod` and `.git`
+    -- are present.
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#gopls
+    root_dir     = root_pattern("*.go"),
 }
 
 -- TypeScript
@@ -94,10 +90,9 @@ nvim_lsp.codeqlls.setup {
     },
 }
 
+-- Lua
 local sumneko_root_path = vim.fn.expand('~/Code/github.com/sumneko/lua-language-server')
 local sumneko_binary    = sumneko_root_path .. '/bin/macOS/lua-language-server'
-
--- Lua
 nvim_lsp.sumneko_lua.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
@@ -118,7 +113,7 @@ nvim_lsp.sumneko_lua.setup {
                 -- Make the server aware of Neovim runtime files
                 library = vim.api.nvim_get_runtime_file("", true),
             },
-            -- Do not send telemetry data containing a randomized but unique identifier
+            -- Do not send telemetry data
             telemetry = { enable = false },
         },
     }
@@ -158,8 +153,8 @@ local check_back_space = function()
 end
 
 -- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
+-- move to prev/next item in completion menuone
+-- jump to prev/next snippet's placeholder
 _G.tab_complete = function()
     if vim.fn.pumvisible() == 1 then
         return t "<C-n>"

@@ -1,3 +1,6 @@
+-- autocmd VimEnter,VimResume  * set guicursor=n-v-c-sm:block,i-ci-ve:ver25-Cursor,r-cr-o:hor20
+-- autocmd VimLeave,VimSuspend * set guicursor=a:hor20
+
 vim.g.mapleader               = ","
 vim.opt.inccommand            = "split"
 vim.opt.mouse                 = "a"
@@ -41,6 +44,7 @@ vim.g.python3_host_prog       = '/usr/local/bin/python3'
 vim.g.perl_host_prog          = '/usr/local/bin/perl'
 vim.o.completeopt             = "menuone,noselect"
 -- vim.opt.foldmethod            = "syntax"
+vim.g.loaded_perl_provider    = 0
 
 local opts = { noremap = true }
 
