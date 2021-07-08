@@ -16,6 +16,8 @@ export PATH=$HOME/nvim/bin:$PATH
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+export DO_NOT_TRACK=1 # https://consoledonottrack.com
+export HOMEBREW_NO_ANALYTICS=1
 export LANG=en_US.UTF-8
 export EDITOR=nvim
 export HISTFILE=~/.zsh_history
