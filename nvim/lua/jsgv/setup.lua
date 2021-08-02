@@ -45,6 +45,7 @@ vim.g.perl_host_prog          = '/usr/local/bin/perl'
 vim.o.completeopt             = "menuone,noselect"
 -- vim.opt.foldmethod            = "syntax"
 vim.g.loaded_perl_provider    = 0
+vim.opt.signcolumn              = "yes"
 
 local opts = { noremap = true }
 
@@ -80,11 +81,15 @@ vim.g.NERDTreeMapOpenSplit  = 's'
 vim.g.NERDTreeMapOpenVSplit = 'v'
 vim.api.nvim_set_keymap('', '<C-b>', ':NERDTreeToggle<CR>',  opts)
 
--- Start NERDTree when Vim is started without file arguments.
+-- OLD:  Start NERDTree when Vim is started without file arguments.
+-- NEW:  Starts NeoVim with NERDTree expanded.
+-- TODO: Focus buffer instead of the NERDTree pane.
+-- autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 vim.api.nvim_exec([[
     autocmd StdinReadPre * let s:std_in=1
-    autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+    autocmd VimEnter * NERDTree
 ]], false)
+
 
 -- Only show relative numbers in the current pane
 -- Toggle when switching between panes

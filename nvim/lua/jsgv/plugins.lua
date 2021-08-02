@@ -34,8 +34,13 @@ return require('packer').startup(function(use)
     use 'hrsh7th/nvim-compe'
 
     -- https://github.com/nvim-treesitter/nvim-treesitter/issues/484
-    use { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate" }
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        branch = '0.5-compat',
+        run = ':TSUpdate'
+    }
     use 'nvim-treesitter/playground'
+
     -- use 'nvim-lua/completion-nvim'
 
     -- CodeQL plugin

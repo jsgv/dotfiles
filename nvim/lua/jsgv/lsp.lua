@@ -11,26 +11,40 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
     }
 }
 
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = true,
+        signs = true,
+        update_in_insert = true,
+    }
+)
+
 -- hrsh7th/nvim-compe
 vim.api.nvim_set_keymap('i', '<CR>', 'compe#confirm(\'<CR>\')', { noremap = true, silent = true, expr = true })
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-    -- local filetype = vim.api.nvim_buf_get_option(0, "filetype")
+    local filetype = vim.api.nvim_buf_get_option(0, "filetype")
 
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+    -- local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
     -- Enable completion triggered by <C-x><C-o>
     -- not sure if i need this (or what it means)
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+    -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     -- Mappings.
     local opts = { noremap=true, silent=true }
-    buf_set_keymap('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>',     opts)
-    buf_set_keymap('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>',          opts)
-    buf_set_keymap('n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>',         opts)
+    buf_set_keymap('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>',                   opts)
+    buf_set_keymap('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>',                        opts)
+    buf_set_keymap('n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>',                       opts)
+    buf_set_keymap('n', '[d',         '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',             opts)
+    buf_set_keymap('n', ']d',         '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>',             opts)
+    buf_set_keymap('n', 'E',          '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    buf_set_keymap('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>',                   opts)
+    buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',           opts)
+    buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',             opts)
 
     -- i already have <C-k> mapped to 'pane hopping', but I could later reuse this mapping.
     -- buf_set_keymap('n', '<C-k>',      '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -46,17 +60,27 @@ local on_attach = function(client, bufnr)
     -- buf_set_keymap('n', '<space>ca', '<Cmd>lua vim.lsp.buf.code_action()<CR>',                                opts)
     -- buf_set_keymap('n', 'gr',        '<Cmd>lua vim.lsp.buf.references()<CR>',                                 opts)
     -- buf_set_keymap('n', '<space>e',  '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',               opts)
-    -- buf_set_keymap('n', '[d',        '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',                           opts)
-    -- buf_set_keymap('n', ']d',        '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>',                           opts)
     -- buf_set_keymap('n', '<space>q',  '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>',                         opts)
     -- buf_set_keymap('n', '<space>f',  '<Cmd>lua vim.lsp.buf.formatting()<CR>',                                 opts)
 
-    -- autoformat on save, only for rust since vim-go handles it for go
-    -- if vim.tbl_contains({ "rust" }, filetype) then
-    --     vim.cmd([[
-    --         autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync()
-    --     ]])
-    -- end
+    -- autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
+    -- autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+    -- autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+    vim.cmd([[
+        highlight LspReference guifg=NONE guibg=#665c54 guisp=NONE gui=NONE cterm=NONE ctermfg=NONE ctermbg=59
+        highlight! link LspReferenceText  LspReference
+        highlight! link LspReferenceRead  LspReference
+        highlight! link LspReferenceWrite LspReference
+    ]])
+
+    if filetype == "rust" then
+        vim.cmd([[
+            augroup lsp_buf_format
+                au! BufWritePre <buffer>
+                autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting(nil, 5000)
+            augroup END
+        ]])
+    end
 end
 
 -- Go
@@ -67,7 +91,24 @@ nvim_lsp.gopls.setup {
     -- overwrite default, otherwise lsp will only start when `go.mod` and `.git`
     -- are present.
     -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#gopls
-    root_dir     = root_pattern("*.go"),
+    -- root_dir     = root_pattern("*.go"),
+    -- settings     = {
+    --     gopls    = {
+    --         -- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
+    --         analyses = {
+    --             unusedparams = true,
+    --             shadow       = true,
+    --         },
+    --         -- https://staticcheck.io
+    --         staticcheck = true,
+    --     },
+    -- },
+}
+
+-- Rust
+nvim_lsp.rust_analyzer.setup{
+    on_attach    = on_attach,
+    capabilities = capabilities,
 }
 
 -- TypeScript
