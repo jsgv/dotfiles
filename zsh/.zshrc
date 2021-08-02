@@ -40,12 +40,13 @@ precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 
 setopt PROMPT_SUBST
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*:*' unstagedstr "%F{1}*%f"
-zstyle ':vcs_info:git*' formats '%m%u%c %F{4}(%b)%f'
+zstyle ':vcs_info:git*' check-for-changes true
+zstyle ':vcs_info:git*' get-revision      true
+zstyle ':vcs_info:git*' unstagedstr       '%F{1}*%f'
+zstyle ':vcs_info:git*' formats           '%m%u%c %7.7i %F{4}(%b)%f'
 
-RPROMPT='${vcs_info_msg_0_} %*'
 PROMPT='%F{4}%~%f %F{8}%#%f '
+RPROMPT='${vcs_info_msg_0_} %*'
 
 compinit
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
