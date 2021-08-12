@@ -54,6 +54,26 @@ vim.api.nvim_set_keymap('n', 'j',         'gj',     opts)
 vim.api.nvim_set_keymap('n', 'k',         'gk',     opts)
 vim.api.nvim_set_keymap('i', 'jj',        '<ESC>l', opts)
 
+-- [BEGIN testing]
+-- checking to see if they work for me
+vim.api.nvim_set_keymap('n', 'Y', 'y$', opts)
+vim.api.nvim_set_keymap('n', 'n', 'nzzzv', opts)
+vim.api.nvim_set_keymap('n', 'N', 'Nzzzv', opts)
+vim.api.nvim_set_keymap('n', 'J', 'mzJ`z', opts)
+
+vim.api.nvim_set_keymap('i', ',', ',<C-g>u', opts)
+vim.api.nvim_set_keymap('i', '.', '.<C-g>u', opts)
+vim.api.nvim_set_keymap('i', '!', '!<C-g>u', opts)
+vim.api.nvim_set_keymap('i', '?', '?<C-g>u', opts)
+
+vim.api.nvim_set_keymap('v', 'J',     ':m \'>+1<CR>gv=gv', opts)
+vim.api.nvim_set_keymap('v', 'K',     ':m \'<-2<CR>gv=gv', opts)
+-- vim.api.nvim_set_keymap('i', '<C-j>', '<ESC>:m .+1<CR>==', opts)
+-- vim.api.nvim_set_keymap('i', '<C-k>', '<ESC>:m .-2<CR>==', opts)
+-- vim.api.nvim_set_keymap('n', '<Leader>j', ':m .+1<CR>==', opts)
+-- vim.api.nvim_set_keymap('n', '<Leader>k', ':m .-2<CR>==', opts)
+-- [END testing]
+
 -- Pane hopping
 vim.api.nvim_set_keymap('n', '<C-j>', '<C-w>j', opts)
 vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', opts)
@@ -81,15 +101,10 @@ vim.g.NERDTreeMapOpenSplit  = 's'
 vim.g.NERDTreeMapOpenVSplit = 'v'
 vim.api.nvim_set_keymap('', '<C-b>', ':NERDTreeToggle<CR>',  opts)
 
--- OLD:  Start NERDTree when Vim is started without file arguments.
--- NEW:  Starts NeoVim with NERDTree expanded.
--- TODO: Focus buffer instead of the NERDTree pane.
--- autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 vim.api.nvim_exec([[
     autocmd StdinReadPre * let s:std_in=1
-    autocmd VimEnter * NERDTree
+    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | else | NERDTree | wincmd p | endif
 ]], false)
-
 
 -- Only show relative numbers in the current pane
 -- Toggle when switching between panes

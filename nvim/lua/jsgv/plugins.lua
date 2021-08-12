@@ -7,8 +7,6 @@ return require('packer').startup(function(use)
     use 'arcticicestudio/nord-vim'
     use 'scrooloose/nerdtree'
 
-    -- use 'nvim-lua/popup.nvim'
-    -- use 'nvim-lua/plenary.nvim'
     use {
         'nvim-telescope/telescope.nvim',
         requires = {
@@ -19,7 +17,6 @@ return require('packer').startup(function(use)
 
     use 'tpope/vim-fugitive'
     use 'tpope/vim-commentary'
-    -- use 'tpope/vim-surround'
 
     use 'airblade/vim-gitgutter'
     use 'vim-airline/vim-airline'
@@ -28,8 +25,6 @@ return require('packer').startup(function(use)
     use 'cakebaker/scss-syntax.vim'
     use 'chr4/nginx.vim'
 
-    -- https://crispgm.com/page/neovim-is-overpowering.html
-    -- https://github.com/neovim/nvim-lspconfig
     use 'neovim/nvim-lspconfig'
     use 'hrsh7th/nvim-compe'
 
@@ -40,8 +35,6 @@ return require('packer').startup(function(use)
         run = ':TSUpdate'
     }
     use 'nvim-treesitter/playground'
-
-    -- use 'nvim-lua/completion-nvim'
 
     -- CodeQL plugin
     -- use '~/Code/github.com/jsgv/codeql.nvim'

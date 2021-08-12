@@ -45,6 +45,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>',                   opts)
     buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',           opts)
     buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',             opts)
+    buf_set_keymap('n', 'ge',         '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>',           opts)
 
     -- i already have <C-k> mapped to 'pane hopping', but I could later reuse this mapping.
     -- buf_set_keymap('n', '<C-k>',      '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -80,7 +81,15 @@ local on_attach = function(client, bufnr)
                 autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting(nil, 5000)
             augroup END
         ]])
+    elseif filetype == "typescriptreact" then
+         vim.api.nvim_exec([[
+             augroup LspAutocommands
+                 autocmd! * <buffer>
+                 autocmd BufWritePost <buffer> :lua vim.lsp.buf.formatting()
+             augroup END
+         ]], true)
     end
+
 end
 
 -- Go
