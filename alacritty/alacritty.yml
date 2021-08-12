@@ -1,8 +1,8 @@
 # https://github.com/alacritty/alacritty/blob/master/alacritty.yml
 
-# draw_bold_text_with_bright_colors: true
 background_opacity: 1.0
 live_config_reload: true
+# draw_bold_text_with_bright_colors: true
 # winpty_backend: false
 # alt_send_esc: true
 # working_directory: None
@@ -13,6 +13,10 @@ env:
 
 shell:
   program: /usr/local/bin/zsh
+  args:
+    - -l
+    - -c
+    - "tmux attach || tmux"
 
 window:
   dimensions:
