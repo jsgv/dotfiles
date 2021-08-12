@@ -33,6 +33,7 @@ export BABEL_DISABLE_CACHE=1
 export DOCKER_BUILDKIT=1
 export HASURA_GRAPHQL_ENABLE_TELEMETRY=false
 export STRIPE_CLI_TELEMETRY_OPTOUT=true
+export NEXT_TELEMETRY_DISABLED=1
 
 autoload -Uz vcs_info compinit
 
