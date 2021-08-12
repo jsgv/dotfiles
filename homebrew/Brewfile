@@ -3,6 +3,8 @@ tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 tap "homebrew/core"
+# Run your GitHub Actions locally 🚀
+brew "act"
 # Cryptography and SSL/TLS Toolkit
 brew "openssl@1.1"
 # Automatic configure script builder
@@ -127,6 +129,8 @@ brew "openssh"
 brew "perl"
 # General-purpose scripting language
 brew "php"
+# Go support for Google's protocol buffers
+brew "protoc-gen-go"
 # Cross-platform application and UI framework
 brew "qt"
 # Generate C-based recognizers from regular expressions
@@ -135,6 +139,8 @@ brew "re2c"
 brew "redis"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Experimental Rust compiler front-end for IDEs
+brew "rust-analyzer"
 # Source-code syntax highlighter
 brew "source-highlight"
 # Version control system designed to be a better CVS
@@ -147,6 +153,8 @@ brew "terraform"
 brew "tmux"
 # NetBSD's FTP client
 brew "tnftp"
+# CLI tool that moves files or folder to the trash
+brew "trash"
 # Parser generator tool and incremental parsing library
 brew "tree-sitter"
 # Watch files and take action when they change
@@ -177,8 +185,6 @@ cask "font-source-sans-pro"
 # Hex editor focussing on speed
 cask "hex-fiend"
 cask "java8"
-# Penetration testing framework
-cask "metasploit"
 # Administration and development platform for PostgreSQL
 cask "pgadmin4"
 # GUI for streamlined Redis application development
