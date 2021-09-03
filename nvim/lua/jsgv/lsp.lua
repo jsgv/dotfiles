@@ -1,8 +1,18 @@
-local nvim_lsp     = require('lspconfig')
-local root_pattern = require('lspconfig/util').root_pattern
+local nvim_lsp = require('lspconfig')
+local luasnip  = require('luasnip')
+local lspkind  = require('lspkind')
+
+vim.opt.completeopt = { 'menuone', 'noselect' }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.preselectSupport = true
+capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
 capabilities.textDocument.completion.completionItem.resolveSupport = {
     properties = {
         'documentation',
@@ -12,15 +22,86 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = true,
-        signs = true,
-        update_in_insert = true,
-    }
+vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = {
+        prefix  = "»",
+        spacing = 4,
+    },
+    signs            = true,
+    update_in_insert = false,
+}
 )
 
--- hrsh7th/nvim-compe
-vim.api.nvim_set_keymap('i', '<CR>', 'compe#confirm(\'<CR>\')', { noremap = true, silent = true, expr = true })
+-- loads friendly-snippets libraries
+require('luasnip/loaders/from_vscode').load({
+    paths = {
+        vim.fn.stdpath('data') .. '/site/pack/packer/start/friendly-snippets'
+    }
+})
+
+require('lspkind').init({
+    with_test = true,
+})
+
+local cmp = require('cmp')
+cmp.setup {
+    preselect = cmp.PreselectMode.None,
+    snippet = {
+        expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+        end,
+    },
+    mapping = {
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<CR>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select   = true,
+        },
+        ['<Tab>'] = function(fallback)
+            if vim.fn.pumvisible() == 1 then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+            elseif luasnip.expand_or_jumpable() then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
+            else
+                fallback()
+            end
+        end,
+        ['<S-Tab>'] = function(fallback)
+            if vim.fn.pumvisible() == 1 then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
+            elseif luasnip.jumpable(-1) then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+            else
+                fallback()
+            end
+        end,
+    },
+    formatting = {
+        format = function (entry, vim_item)
+            vim_item.kind = require('lspkind').presets.default[vim_item.kind] .. ' ' .. vim_item.kind
+
+            vim_item.menu= ({
+                nvim_lsp = '[LSP]',
+                luasnip  = '[LuaSnip]',
+
+                buffer   = '[Buffer]',
+                nvim_lua = '[NvimLua]',
+                path     = '[Path]',
+            })[entry.source.name]
+
+            return vim_item
+        end,
+    },
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'luasnip' },
+
+        { name = 'buffer '},
+        { name = 'nvim_lua '},
+        { name = 'path '},
+    },
+}
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -68,34 +149,36 @@ local on_attach = function(client, bufnr)
     -- autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
     -- autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
     vim.cmd([[
-        highlight LspReference guifg=NONE guibg=#665c54 guisp=NONE gui=NONE cterm=NONE ctermfg=NONE ctermbg=59
-        highlight! link LspReferenceText  LspReference
-        highlight! link LspReferenceRead  LspReference
-        highlight! link LspReferenceWrite LspReference
+    highlight LspReference guifg=NONE guibg=#665c54 guisp=NONE gui=NONE cterm=NONE ctermfg=NONE ctermbg=59
+    highlight! link LspReferenceText  LspReference
+    highlight! link LspReferenceRead  LspReference
+    highlight! link LspReferenceWrite LspReference
     ]])
 
     if filetype == "rust" then
         vim.cmd([[
-            augroup lsp_buf_format
-                au! BufWritePre <buffer>
-                autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting(nil, 5000)
-            augroup END
+        augroup lsp_buf_format
+        au! BufWritePre <buffer>
+        autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting(nil, 5000)
+        augroup END
         ]])
     elseif filetype == "typescriptreact" then
-         vim.api.nvim_exec([[
-             augroup LspAutocommands
-                 autocmd! * <buffer>
-                 autocmd BufWritePost <buffer> :lua vim.lsp.buf.formatting()
-             augroup END
-         ]], true)
+        vim.api.nvim_exec([[
+        augroup LspAutocommands
+        autocmd! * <buffer>
+        autocmd BufWritePost <buffer> :lua vim.lsp.buf.formatting()
+        augroup END
+        ]], true)
     end
-
 end
 
 -- Go
 nvim_lsp.gopls.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
+    flags        = {
+        debounce_text_changes = 200,
+    },
 
     -- overwrite default, otherwise lsp will only start when `go.mod` and `.git`
     -- are present.
@@ -169,61 +252,43 @@ nvim_lsp.sumneko_lua.setup {
     }
 }
 
-require('compe').setup {
-    enabled          = true,
-    autocomplete     = true,
-    debug            = false,
-    min_length       = 1,
-    preselect        = 'enable',
-    throttle_time    = 80,
-    source_timeout   = 200,
-    incomplete_delay = 400,
-    max_abbr_width   = 100,
-    max_kind_width   = 100,
-    max_menu_width   = 100,
-    documentation    = true,
-    source = {
-        path       = true,
-        nvim_lsp   = true,
-        treesitter = true,
-    },
-}
+-- local t = function(str)
+--     return vim.api.nvim_replace_termcodes(str, true, true, true)
+-- end
 
-local t = function(str)
-    return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        return true
-    else
-        return false
-    end
-end
+-- local check_back_space = function()
+--     local col = vim.fn.col('.') - 1
+--     if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+--         return true
+--     else
+--         return false
+--     end
+-- end
 
 -- Use (s-)tab to:
 -- move to prev/next item in completion menuone
 -- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-    if vim.fn.pumvisible() == 1 then
-        return t "<C-n>"
-    elseif check_back_space() then
-        return t "<Tab>"
-    else
-        return vim.fn['compe#complete']()
-    end
-end
+-- _G.tab_complete = function()
+--     if vim.fn.pumvisible() == 1 then
+--         return t "<C-n>"
+--     elseif check_back_space() then
+--         return t "<Tab>"
+--     else
+--         return vim.fn['compe#complete']()
+--     end
+-- end
 
-_G.s_tab_complete = function()
-    if vim.fn.pumvisible() == 1 then
-        return t "<C-p>"
-    else
-        return t "<S-Tab>"
-    end
-end
+-- _G.s_tab_complete = function()
+--     if vim.fn.pumvisible() == 1 then
+--         return t "<C-p>"
+--     else
+--         return t "<S-Tab>"
+--     end
+-- end
 
-vim.api.nvim_set_keymap("i", "<Tab>",   "v:lua.tab_complete()",   { expr = true })
-vim.api.nvim_set_keymap("s", "<Tab>",   "v:lua.tab_complete()",   { expr = true })
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
+-- -- https://elianiva.my.id/post/my-nvim-lsp-setup#tsserver
+-- local opts_tab_complete = { expr = true, silent = true }
+-- vim.api.nvim_set_keymap("i", "<Tab>",   "v:lua.tab_complete()",   opts_tab_complete)
+-- vim.api.nvim_set_keymap("s", "<Tab>",   "v:lua.tab_complete()",   opts_tab_complete)
+-- vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", opts_tab_complete)
+-- vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", opts_tab_complete)

@@ -42,7 +42,7 @@ vim.g.python3_host_skip_check = 1
 vim.g.python_host_prog        = '/usr/bin/python'
 vim.g.python3_host_prog       = '/usr/local/bin/python3'
 vim.g.perl_host_prog          = '/usr/local/bin/perl'
-vim.o.completeopt             = "menuone,noselect"
+vim.o.completeopt             = 'menuone,noselect'
 -- vim.opt.foldmethod            = "syntax"
 vim.g.loaded_perl_provider    = 0
 vim.opt.signcolumn              = "yes"
@@ -70,8 +70,8 @@ vim.api.nvim_set_keymap('v', 'J',     ':m \'>+1<CR>gv=gv', opts)
 vim.api.nvim_set_keymap('v', 'K',     ':m \'<-2<CR>gv=gv', opts)
 -- vim.api.nvim_set_keymap('i', '<C-j>', '<ESC>:m .+1<CR>==', opts)
 -- vim.api.nvim_set_keymap('i', '<C-k>', '<ESC>:m .-2<CR>==', opts)
--- vim.api.nvim_set_keymap('n', '<Leader>j', ':m .+1<CR>==', opts)
--- vim.api.nvim_set_keymap('n', '<Leader>k', ':m .-2<CR>==', opts)
+vim.api.nvim_set_keymap('n', '<Leader>j', ':m .+1<CR>==', opts)
+vim.api.nvim_set_keymap('n', '<Leader>k', ':m .-2<CR>==', opts)
 -- [END testing]
 
 -- Pane hopping
@@ -79,27 +79,6 @@ vim.api.nvim_set_keymap('n', '<C-j>', '<C-w>j', opts)
 vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', opts)
 vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', opts)
 vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', opts)
-
--- Vim commentary
-vim.api.nvim_set_keymap('n', '<C-\\>', ':Commentary<CR>', opts)
-vim.api.nvim_set_keymap('x', '<C-\\>', ':Commentary<CR>', opts)
-
--- Telescope
-vim.api.nvim_set_keymap('n', '<Leader>ff', '<Cmd>Telescope find_files<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>fg', '<Cmd>Telescope live_grep<CR>',  opts)
-vim.api.nvim_set_keymap('n', '<Leader>fh', '<Cmd>Telescope help_tags<CR>',  opts)
-vim.api.nvim_set_keymap('n', '<Leader>fb', '<Cmd>Telescope buffers<CR>',    opts)
-
--- set buffers window to open in normal in order to quickly select buffer (currently does not work)
--- ref: https://github.com/nvim-telescope/telescope.nvim/issues/750
--- vim.api.nvim_set_keymap('n', '<Leader>fb', '<Cmd>Telescope buffers initial_mode=normal<CR>',    opts)
-
--- NERDTree
-vim.g.NERDTreeShowHidden    = 1
-vim.g.NERDTreeIgnore        = { '^.DS_Store$', 'node_modules', '.git$[[dir]]' }
-vim.g.NERDTreeMapOpenSplit  = 's'
-vim.g.NERDTreeMapOpenVSplit = 'v'
-vim.api.nvim_set_keymap('', '<C-b>', ':NERDTreeToggle<CR>',  opts)
 
 vim.api.nvim_exec([[
     autocmd StdinReadPre * let s:std_in=1

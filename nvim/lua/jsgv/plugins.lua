@@ -26,7 +26,14 @@ return require('packer').startup(function(use)
     use 'chr4/nginx.vim'
 
     use 'neovim/nvim-lspconfig'
-    use 'hrsh7th/nvim-compe'
+    use 'hrsh7th/nvim-cmp'
+    use 'hrsh7th/cmp-nvim-lsp'
+
+    -- snippets
+    use 'saadparwaiz1/cmp_luasnip'
+    use 'L3MON4D3/LuaSnip'
+    use 'onsails/lspkind-nvim'
+    use 'rafamadriz/friendly-snippets'
 
     -- https://github.com/nvim-treesitter/nvim-treesitter/issues/484
     use {
@@ -34,6 +41,7 @@ return require('packer').startup(function(use)
         branch = '0.5-compat',
         run = ':TSUpdate'
     }
+
     use 'nvim-treesitter/playground'
 
     -- CodeQL plugin
