@@ -44,7 +44,8 @@ font:
   size: 16
   normal:
     style: Regular
-    family: "Fira Code"
+    family: "FiraCode Nerd Font"
+    # family: "Fira Code"
 
 key_bindings:
   - { key: Paste,                   action: Paste                            }
