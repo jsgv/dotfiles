@@ -1,12 +1,16 @@
 local actions = require('telescope.actions')
 
-local opts = { noremap = true }
+local key_maps = {}
+key_maps["<Leader>ff"]  = "<Cmd>Telescope find_files<CR>"
+key_maps["<Leader>fg"]  = "<Cmd>Telescope live_grep<CR>"
+key_maps["<Leader>fb"]  = "<Cmd>Telescope buffers<CR>"
+key_maps["<Leader>fr"]  = "<Cmd>Telescope lsp_references<CR>"
+key_maps["<Leader>fi"]  = "<Cmd>Telescope lsp_implementations<CR>"
+key_maps["<Leader>fds"] = "<Cmd>Telescope lsp_document_symbols<CR>"
 
-vim.api.nvim_set_keymap('n', '<Leader>ff', '<Cmd>Telescope find_files<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>fg', '<Cmd>Telescope live_grep<CR>',  opts)
-vim.api.nvim_set_keymap('n', '<Leader>fh', '<Cmd>Telescope help_tags<CR>',  opts)
-vim.api.nvim_set_keymap('n', '<Leader>fb', '<Cmd>Telescope buffers<CR>',    opts)
-vim.api.nvim_set_keymap('n', '<Leader>fds', '<Cmd>Telescope lsp_document_symbols<CR>',    opts)
+for key, value in pairs(key_maps) do
+    vim.api.nvim_set_keymap('n', key, value, { noremap = true })
+end
 
 -- set buffers window to open in normal in order to quickly select buffer (currently does not work)
 -- ref: https://github.com/nvim-telescope/telescope.nvim/issues/750
@@ -27,7 +31,7 @@ require("telescope").setup {
             sort_lastused = true,
         },
         find_files = {
-            prompt_prefix = "🔍",
+            prompt_prefix = " 🔍 ",
             -- find_command = { 'rg' },
         },
     },

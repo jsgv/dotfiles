@@ -43,7 +43,6 @@ vim.g.python_host_prog        = '/usr/bin/python'
 vim.g.python3_host_prog       = '/usr/local/bin/python3'
 vim.g.perl_host_prog          = '/usr/local/bin/perl'
 vim.o.completeopt             = 'menuone,noselect'
--- vim.opt.foldmethod            = "syntax"
 vim.g.loaded_perl_provider    = 0
 vim.opt.signcolumn              = "yes"
 
