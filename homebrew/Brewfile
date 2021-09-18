@@ -176,7 +176,10 @@ cask "alacritty"
 cask "android-sdk"
 # E-books management software
 cask "calibre"
+# Universal database tool and SQL client
+cask "dbeaver-community"
 cask "font-fira-code"
+cask "font-fira-code-nerd-font"
 # Icon set and toolkit
 cask "font-fontawesome"
 cask "font-rubik"
