@@ -1,6 +1,6 @@
 local nvim_lsp = require('lspconfig')
 local luasnip  = require('luasnip')
-local lspkind  = require('lspkind')
+-- local lspkind  = require('lspkind')
 
 vim.opt.completeopt = { 'menuone', 'noselect' }
 
@@ -95,17 +95,18 @@ cmp.setup {
     },
     sources = {
         { name = 'nvim_lsp' },
-        { name = 'luasnip' },
+        -- { name = 'luasnip' },
 
         { name = 'buffer '},
         { name = 'nvim_lua '},
         { name = 'path '},
     },
+
 }
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
+local on_attach = function(_, bufnr)
     local filetype = vim.api.nvim_buf_get_option(0, "filetype")
 
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -207,6 +208,24 @@ nvim_lsp.rust_analyzer.setup{
 nvim_lsp.tsserver.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
+    handlers = {
+        ["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
+            -- disable certain diagnostics from appearing
+            -- https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
+            if result.diagnostics ~= nil then
+                for i = 1, #result.diagnostics do
+                    local k  = result.diagnostics[i]
+                    if k.code == 80001 then
+                        table.remove(result.diagnostics, i)
+                    else
+                        i = i + 1
+                    end
+                end
+            end
+
+            vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
+        end,
+    },
 }
 
 -- CodeQL

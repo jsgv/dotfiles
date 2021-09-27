@@ -65,12 +65,12 @@ vim.api.nvim_set_keymap('i', '.', '.<C-g>u', opts)
 vim.api.nvim_set_keymap('i', '!', '!<C-g>u', opts)
 vim.api.nvim_set_keymap('i', '?', '?<C-g>u', opts)
 
-vim.api.nvim_set_keymap('v', 'J',     ':m \'>+1<CR>gv=gv', opts)
-vim.api.nvim_set_keymap('v', 'K',     ':m \'<-2<CR>gv=gv', opts)
+-- vim.api.nvim_set_keymap('v', 'J',     ':m \'>+1<CR>gv=gv', opts)
+-- vim.api.nvim_set_keymap('v', 'K',     ':m \'<-2<CR>gv=gv', opts)
 -- vim.api.nvim_set_keymap('i', '<C-j>', '<ESC>:m .+1<CR>==', opts)
 -- vim.api.nvim_set_keymap('i', '<C-k>', '<ESC>:m .-2<CR>==', opts)
-vim.api.nvim_set_keymap('n', '<Leader>j', ':m .+1<CR>==', opts)
-vim.api.nvim_set_keymap('n', '<Leader>k', ':m .-2<CR>==', opts)
+-- vim.api.nvim_set_keymap('n', '<Leader>j', ':m .+1<CR>==', opts)
+-- vim.api.nvim_set_keymap('n', '<Leader>k', ':m .-2<CR>==', opts)
 -- [END testing]
 
 -- Pane hopping
