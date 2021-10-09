@@ -59,19 +59,15 @@ cmp.setup {
             select   = true,
         },
         ['<Tab>'] = function(fallback)
-            if vim.fn.pumvisible() == 1 then
-                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
-            elseif luasnip.expand_or_jumpable() then
-                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
+            if cmp.visible() then
+                cmp.select_next_item()
             else
                 fallback()
             end
         end,
         ['<S-Tab>'] = function(fallback)
-            if vim.fn.pumvisible() == 1 then
-                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
-            elseif luasnip.jumpable(-1) then
-                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+            if cmp.visible() then
+                cmp.select_prev_item()
             else
                 fallback()
             end
@@ -110,11 +106,11 @@ local on_attach = function(_, bufnr)
     local filetype = vim.api.nvim_buf_get_option(0, "filetype")
 
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    -- local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
     -- Enable completion triggered by <C-x><C-o>
     -- not sure if i need this (or what it means)
-    -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     -- Mappings.
     local opts = { noremap=true, silent=true }
@@ -196,6 +192,18 @@ nvim_lsp.gopls.setup {
     --         staticcheck = true,
     --     },
     -- },
+}
+
+-- nvim_lsp.ccls.setup{
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+-- }
+
+nvim_lsp.clangd.setup{
+    on_attach    = on_attach,
+    capabilities = capabilities,
+    cmd       = { "clangd", "--background-index", "--clang-tidy" },
+    root_dir  = function() return vim.loop.cwd() end
 }
 
 -- Rust
