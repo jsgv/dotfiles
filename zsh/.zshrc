@@ -6,6 +6,8 @@ export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.yarn/bin:$PATH
 export PATH=$HOME/codeql-home/codeql:$PATH
 
+export PATH=/usr/local/opt/llvm/bin:$PATH
+
 export GO111MODULE=on
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
