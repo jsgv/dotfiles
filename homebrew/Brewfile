@@ -31,6 +31,8 @@ brew "python@3.9"
 brew "pkg-config"
 # Cross-platform make
 brew "cmake"
+# GNU multiple precision arithmetic library
+brew "gmp"
 # GNU File, Shell, and Text utilities
 brew "coreutils"
 # Reimplementation of ctags(1)
@@ -43,8 +45,6 @@ brew "dep"
 brew "exif"
 # Perl lib for reading and writing EXIF metadata
 brew "exiftool"
-# GNU multiple precision arithmetic library
-brew "gmp"
 # Generic library support script
 brew "libtool"
 # Asynchronous event library
@@ -176,8 +176,6 @@ cask "alacritty"
 cask "android-sdk"
 # E-books management software
 cask "calibre"
-# Universal database tool and SQL client
-cask "dbeaver-community"
 cask "font-fira-code"
 cask "font-fira-code-nerd-font"
 # Icon set and toolkit
