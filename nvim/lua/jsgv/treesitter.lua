@@ -1,6 +1,6 @@
 vim.opt.foldenable      = false
-vim.opt.foldmethod      = "expr"
-vim.opt.foldexpr        = "nvim_treesitter#foldexpr()"
+vim.opt.foldmethod      = 'expr'
+vim.opt.foldexpr        = 'nvim_treesitter#foldexpr()'
 vim.opt.foldlevel       = 1
 vim.opt.foldlevelstart  = 99
 
@@ -8,12 +8,25 @@ vim.api.nvim_set_keymap('n', '<F9>', 'za', { noremap = true })
 
 require('nvim-treesitter.configs').setup {
     ensure_installed = {
-        "go",
-        "rust",
-        "toml",
-        "typescript",
-        "tsx",
-        "ql",
+        'bash',
+        'cpp',
+        'css',
+        'go',
+        'graphql',
+        'html',
+        'javascript',
+        'json',
+        'lua',
+        'php',
+        'python',
+        'ql',
+        'regex',
+        'rust',
+        'scss',
+        'toml',
+        'tsx',
+        'typescript',
+        'yaml',
     },
 
     highlight = {
