@@ -6,11 +6,13 @@ return require('packer').startup(function(use)
     use {
         'hoob3rt/lualine.nvim',
         config = function()
-            require('lualine').setup {
-                options = {
-                    theme = 'github'
-                }
-            }
+            -- require('lualine').setup {
+            --     options = {
+            --         -- theme = 'github'
+            --         -- theme = 'nordfox'
+            --         theme = 'onenord'
+            --     }
+            -- }
         end
     }
 
@@ -42,8 +44,11 @@ return require('packer').startup(function(use)
 
     -- LSP
     use 'neovim/nvim-lspconfig'
+
+    -- Completion
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-nvim-lua'
 
     -- Snippets
     use 'hrsh7th/cmp-vsnip'
@@ -54,4 +59,6 @@ return require('packer').startup(function(use)
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
     }
+
+    use 'nvim-treesitter/playground'
 end)

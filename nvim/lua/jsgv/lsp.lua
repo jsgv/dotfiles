@@ -5,24 +5,11 @@ lspkind.init({
     with_test = true,
 })
 
-vim.opt.completeopt = { 'menuone', 'noselect' }
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+vim.opt.shortmess:append "c"
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.preselectSupport = true
-capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-        'documentation',
-        'detail',
-        'additionalTextEdits',
-    }
-}
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -35,7 +22,6 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     }
 )
 
-
 local cmp = require('cmp')
 cmp.setup {
     preselect = cmp.PreselectMode.None,
@@ -44,54 +30,42 @@ cmp.setup {
             vim.fn['vsnip#anonymous'](args.body)
         end,
     },
+    -- https://github.com/hrsh7th/nvim-cmp/blob/main/lua/cmp/config/default.lua#L83
     mapping = {
-        ['<CR>'] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
+        ['<C-y>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Insert,
             select   = true,
         },
-        ['<Tab>'] = function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            else
-                fallback()
-            end
-        end,
-        ['<S-Tab>'] = function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            else
-                fallback()
-            end
-        end,
     },
     formatting = {
-        format = function (entry, vim_item)
-            vim_item.kind = lspkind.presets.default[vim_item.kind] .. ' ' .. vim_item.kind
-
-            vim_item.menu= ({
+        format = lspkind.cmp_format({
+            with_text = true,
+            menu = {
                 nvim_lsp = '[LSP]',
-                vsnip    = 'Vsnip',
+                vsnip    = '[Vsnip]',
                 buffer   = '[Buffer]',
                 nvim_lua = '[NvimLua]',
                 path     = '[Path]',
-            })[entry.source.name]
-
-            return vim_item
-        end,
+            },
+        }),
     },
     sources = {
         { name = 'nvim_lsp' },
-        { name = 'vsnip' },
-        { name = 'buffer '},
-        { name = 'nvim_lua '},
-        { name = 'path '},
+        { name = 'vsnip'    },
+        { name = 'buffer', keyword_length = 3 },
+        { name = 'nvim_lua' },
+        { name = 'path'     },
     },
-
+    experimental = {
+        native_menu = false,
+        ghost_text  = true,
+    },
 }
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local on_attach = function(_, bufnr)
+-- on attention
+local on_attach = function(client, bufnr)
     local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -111,22 +85,7 @@ local on_attach = function(_, bufnr)
     buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',           opts)
     buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',             opts)
     buf_set_keymap('n', 'ge',         '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>',           opts)
-
-    vim.cmd([[
-        highlight LspReference guifg=NONE guibg=#665c54 guisp=NONE gui=NONE cterm=NONE ctermfg=NONE ctermbg=59
-        highlight! link LspReferenceText  LspReference
-        highlight! link LspReferenceRead  LspReference
-        highlight! link LspReferenceWrite LspReference
-    ]])
-
-    -- if filetype == 'rust' then
-    --     vim.cmd([[
-    --     augroup lsp_buf_format
-    --     au! BufWritePre <buffer>
-    --     autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting(nil, 5000)
-    --     augroup END
-    --     ]])
-    -- end
+    buf_set_keymap('n', '<Leader>fm', '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 1500)<CR>',     opts)
 
     local web = {
         ['javascript']      = true,
@@ -137,57 +96,29 @@ local on_attach = function(_, bufnr)
     }
 
     if web[filetype] then
-        vim.cmd([[
-            augroup LspAutocommands
-                au!     BufWritePre <buffer>
-                autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting()
-            augroup END
-        ]])
+        client.resolved_capabilities.document_formatting = false
+        client.resolved_capabilities.document_range_formatting = false
+
+        -- vim.cmd([[
+        --     augroup LspAutocommands
+        --         autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync(nil, 1500)
+        --     augroup END
+        -- ]])
+        -- autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting()
     end
 end
 
-nvim_lsp.diagnosticls.setup {
-    on_attach = function (client)
-        client.resolved_capabilities.document_formatting = false
-        client.resolved_capabilities.document_range_formatting = false
-    end,
-    filetypes = {
-        'typescriptreact',
-    },
-    init_options = {
-        filetypes = {
-            typescriptreact = 'eslint',
-        },
-        linters = {
-            eslint = {
-                sourceName = 'eslint',
-                -- command = './node_modules/.bin/eslint',
-                command = 'npx',
-                rootPatterns = {
-                    'package.json',
-                },
-                args = {
-                    'eslint',
-                    '--stdin',
-                    '--stdin-filename=%filepath',
-                    '--format=json',
-                },
-                parseJson = {
-                    errorsRoot = '[0].messages',
-                    line = 'line',
-                    column = 'column',
-                    endLine = 'endLine',
-                    endColumn = 'endColumn',
-                    message = '${message} [${ruleId}]',
-                    security = 'severity',
-                },
-                securities = {
-                    [2] = 'error',
-                    [1] = 'warning',
-                },
-            },
-        },
-    },
+
+-- Bash
+nvim_lsp.bashls.setup {
+    on_attach    = on_attach,
+    capabilities = capabilities,
+}
+
+-- Haskell
+nvim_lsp.hls.setup {
+    on_attach    = on_attach,
+    capabilities = capabilities,
 }
 
 -- Go
@@ -199,6 +130,7 @@ nvim_lsp.gopls.setup {
     },
 }
 
+-- C++
 nvim_lsp.clangd.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
@@ -210,6 +142,13 @@ nvim_lsp.clangd.setup {
 nvim_lsp.rust_analyzer.setup {
     on_attach    = on_attach,
     capabilities = capabilities,
+    settings     = {
+        ["rust-analyzer"] = {
+            cargo = {
+                loadOutDirsFromCheck = true
+            },
+        }
+    }
 }
 
 -- TypeScript
@@ -233,6 +172,67 @@ nvim_lsp.tsserver.setup {
 
             vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
         end,
+    },
+}
+
+-- Diagnosticls
+nvim_lsp.diagnosticls.setup {
+    on_attach = function ()
+        --
+    end,
+    filetypes = {
+        'typescriptreact',
+        'javascript',
+        'css',
+    },
+    init_options = {
+        filetypes = {
+            typescriptreact = 'eslint',
+            javascript = 'eslint',
+        },
+        linters = {
+            eslint = {
+                sourceName = 'eslint',
+                command = 'eslint',
+                args = {
+                    '--stdin',
+                    '--stdin-filename=%filepath',
+                    '--format=json',
+                },
+                rootPatterns = {
+                    'package.json',
+                },
+                parseJson = {
+                    errorsRoot = '[0].messages',
+                    line = 'line',
+                    column = 'column',
+                    endLine = 'endLine',
+                    endColumn = 'endColumn',
+                    message = '${message} [${ruleId}]',
+                    security = 'severity',
+                },
+                securities = {
+                    [2] = 'error',
+                    [1] = 'warning',
+                },
+            },
+        },
+        formatFiletypes = {
+            typescriptreact = 'prettier',
+            javascript = 'prettier',
+            css = 'prettier',
+        },
+        formatters = {
+            prettier = {
+                command = 'prettier',
+                args = {
+                    '--stdin-filepath=%filepath',
+                },
+                rootPatterns = {
+                    'package.json',
+                },
+            },
+        },
     },
 }
 
