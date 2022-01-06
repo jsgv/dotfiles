@@ -73,19 +73,18 @@ local on_attach = function(client, bufnr)
 
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    -- Mappings.
     local opts = { noremap=true, silent=true }
-    buf_set_keymap('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>',                   opts)
-    buf_set_keymap('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>',                        opts)
-    buf_set_keymap('n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>',                       opts)
-    buf_set_keymap('n', '[d',         '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',             opts)
-    buf_set_keymap('n', ']d',         '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>',             opts)
-    buf_set_keymap('n', 'E',          '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    buf_set_keymap('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>',                   opts)
-    buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',           opts)
-    buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',             opts)
-    buf_set_keymap('n', 'ge',         '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>',           opts)
-    buf_set_keymap('n', '<Leader>fm', '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 1500)<CR>',     opts)
+    buf_set_keymap('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>',               opts)
+    buf_set_keymap('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>',                    opts)
+    buf_set_keymap('n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>',                   opts)
+    buf_set_keymap('n', '[d',         '<Cmd>lua vim.diagnostic.goto_prev()<CR>',             opts)
+    buf_set_keymap('n', ']d',         '<Cmd>lua vim.diagnostic.goto_next()<CR>',             opts)
+    buf_set_keymap('n', 'E',          '<Cmd>lua vim.diagnostic.show_line_diagnostics()<CR>', opts)
+    buf_set_keymap('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>',               opts)
+    buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',       opts)
+    buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',         opts)
+    buf_set_keymap('n', 'ge',         '<Cmd>lua vim.diagnostic.set_loclist()<CR>',           opts)
+    buf_set_keymap('n', '<Leader>fm', '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 1500)<CR>', opts)
 
     local web = {
         ['javascript']      = true,

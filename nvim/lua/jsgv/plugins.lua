@@ -17,8 +17,12 @@ return require('packer').startup(function(use)
     }
 
     use {
-        'projekt0n/github-nvim-theme',
-        commit = '771ac5b'
+        'jsgv/github-theme.nvim',
+        config = function ()
+            require('github-theme').setup({
+                theme = 'dark_dimmed'
+            })
+        end
     }
 
     use 'kyazdani42/nvim-tree.lua'

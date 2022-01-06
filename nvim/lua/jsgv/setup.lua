@@ -43,6 +43,10 @@ vim.o.completeopt             = 'menuone,noselect'
 vim.g.loaded_perl_provider    = 0
 vim.opt.signcolumn            = 'yes'
 
+vim.cmd([[
+    set colorcolumn=80
+]])
+
 local opts = { noremap = true }
 
 vim.api.nvim_set_keymap('n', '<Leader>w', ':w<CR>', opts)

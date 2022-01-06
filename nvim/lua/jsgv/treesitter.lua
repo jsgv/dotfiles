@@ -18,6 +18,7 @@ require('nvim-treesitter.configs').setup {
         'json',
         'json5',
         'lua',
+        'markdown',
         'php',
         'python',
         'ql',
@@ -32,6 +33,7 @@ require('nvim-treesitter.configs').setup {
 
     highlight = {
         enable = true,
+        additional_vim_regex_highlighting = true,
     },
 
     playground = {
