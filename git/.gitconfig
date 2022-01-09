@@ -1,0 +1,21 @@
+[alias]
+	br = branch --sort=-committerdate
+	cm = commit
+	co = checkout
+	lg = log --oneline --graph
+	pl = pull
+	ps = push
+	st = status
+[user]
+	useConfigOnly = true
+[core]
+	excludesfile = ~/.gitignore_global
+[pager]
+	branch = false
+	stash = false
+[pull]
+	rebase = false
+[init]
+	defaultBranch = master
+[push]
+	followTags = true
