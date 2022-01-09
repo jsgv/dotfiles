@@ -54,12 +54,20 @@ RPROMPT='${vcs_info_msg_0_} %*'
 compinit
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 
-eval `gdircolors -b $HOME/Code/github.com/arcticicestudio/nord-dircolors/src/dir_colors`
-source $HOME/.rvm/scripts/rvm
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/Code/github.com/jsgv/dotfiles/zsh/secrets.zsh
 source $HOME/Code/github.com/jsgv/dotfiles/zsh/functions.zsh
+
+# Haskell
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# export PATH="$PATH:$HOME/.rvm/bin"
+source $HOME/.rvm/scripts/rvm
 
 setopt extended_history
 setopt hist_expire_dups_first
