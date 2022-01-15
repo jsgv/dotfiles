@@ -74,17 +74,17 @@ local on_attach = function(client, bufnr)
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     local opts = { noremap=true, silent=true }
-    buf_set_keymap('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>',               opts)
-    buf_set_keymap('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>',                    opts)
-    buf_set_keymap('n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>',                   opts)
     buf_set_keymap('n', '[d',         '<Cmd>lua vim.diagnostic.goto_prev({ float =  { border = "single" }})<CR>',         opts)
     buf_set_keymap('n', ']d',         '<Cmd>lua vim.diagnostic.goto_next({ float =  { border = "single" }})<CR>',         opts)
     buf_set_keymap('n', 'E',          '<Cmd>lua vim.diagnostic.open_float(0, { scope = "line", border = "single" })<CR>', opts)
+    buf_set_keymap('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>',               opts)
+    buf_set_keymap('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>',                    opts)
+    buf_set_keymap('n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>',                   opts)
     buf_set_keymap('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>',               opts)
     buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',       opts)
     buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',         opts)
     buf_set_keymap('n', 'ge',         '<Cmd>lua vim.diagnostic.set_loclist()<CR>',           opts)
-    buf_set_keymap('n', '<Leader>fm', '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 1500)<CR>', opts)
+    buf_set_keymap('n', '<Leader>fm', '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 3500)<CR>', opts)
 
     local web = {
         ['javascript']      = true,
@@ -97,13 +97,6 @@ local on_attach = function(client, bufnr)
     if web[filetype] then
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
-
-        -- vim.cmd([[
-        --     augroup LspAutocommands
-        --         autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync(nil, 1500)
-        --     augroup END
-        -- ]])
-        -- autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting()
     end
 end
 
