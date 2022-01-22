@@ -5,12 +5,20 @@ tap "homebrew/cask-versions"
 tap "homebrew/core"
 # Run your GitHub Actions locally 🚀
 brew "act"
+# Image manipulation library
+brew "jpeg"
 # Cryptography and SSL/TLS Toolkit
 brew "openssl@1.1"
 # Automatic configure script builder
 brew "autoconf"
+# Shell extension to jump to frequently used directories
+brew "autojump"
 # Tool for generating GNU Standards-compliant Makefiles
 brew "automake"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.9"
+# Official Amazon AWS command-line interface
+brew "awscli"
 # Bourne-Again SHell, a UNIX command interpreter
 brew "bash"
 # Clone of cat(1) with syntax highlighting and Git integration
@@ -25,8 +33,6 @@ brew "bzip2"
 brew "gettext"
 # Perl compatible regular expressions library
 brew "pcre"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.9"
 # Manage compile and link flags for libraries
 brew "pkg-config"
 # Cross-platform make
@@ -49,8 +55,6 @@ brew "exiftool"
 brew "libtool"
 # Asynchronous event library
 brew "libevent"
-# Image manipulation library
-brew "jpeg"
 # Play, record, convert, and stream audio and video
 brew "ffmpeg"
 # Cross-platform subdomain enumerator
@@ -75,6 +79,8 @@ brew "gnu-sed"
 brew "libksba"
 # GNU Pretty Good Privacy (PGP) package
 brew "gnupg"
+# Database migrations CLI tool
+brew "golang-migrate"
 # Graph visualization software from AT&T and Bell Labs
 brew "graphviz"
 # GNU grep, egrep and fgrep
@@ -113,14 +119,16 @@ brew "maven"
 brew "mhash"
 # Replacement for the old crypt package and crypt(1) command
 brew "mcrypt"
+# Parser generator tool and incremental parsing library
+brew "tree-sitter"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
 # Utility for managing network connections
 brew "netcat"
 # Small build system for use with gyp or CMake
 brew "ninja"
 # Port scanning utility for large networks
 brew "nmap"
-# Platform built on V8 to build network applications
-brew "node"
 # High performance message passing library
 brew "open-mpi"
 # OpenBSD freely-licensed SSH connectivity tools
@@ -153,10 +161,10 @@ brew "terraform"
 brew "tmux"
 # NetBSD's FTP client
 brew "tnftp"
+# Program that allows you to count code, quickly
+brew "tokei"
 # CLI tool that moves files or folder to the trash
 brew "trash"
-# Parser generator tool and incremental parsing library
-brew "tree-sitter"
 # Watch files and take action when they change
 brew "watchman"
 # XML command-line utilities
@@ -183,6 +191,8 @@ cask "font-fontawesome"
 cask "font-rubik"
 cask "font-source-code-pro"
 cask "font-source-sans-pro"
+# Desktop automation application
+cask "hammerspoon"
 # Hex editor focussing on speed
 cask "hex-fiend"
 cask "java8"
