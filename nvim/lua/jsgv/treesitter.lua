@@ -9,6 +9,7 @@ vim.api.nvim_set_keymap('n', '<F9>', 'za', { noremap = true })
 require('nvim-treesitter.configs').setup {
     ensure_installed = {
         'bash',
+        'comment',
         'cpp',
         'css',
         'go',

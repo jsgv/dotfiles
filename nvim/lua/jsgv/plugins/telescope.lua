@@ -8,6 +8,7 @@ key_maps['<Leader>fb']  = '<Cmd>Telescope buffers<CR>'
 key_maps['<Leader>fr']  = '<Cmd>Telescope lsp_references<CR>'
 key_maps['<Leader>fi']  = '<Cmd>Telescope lsp_implementations<CR>'
 key_maps['<Leader>fds'] = '<Cmd>Telescope lsp_document_symbols<CR>'
+key_maps['<Leader>gst'] = '<Cmd>Telescope git_status<CR>'
 
 for key, value in pairs(key_maps) do
     vim.api.nvim_set_keymap('n', key, value, { noremap = true })
