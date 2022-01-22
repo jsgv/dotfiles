@@ -5,7 +5,7 @@ My personal set of dotfiles.
 ### Tools
 
 Logo | Name | Description
-:---: | --- | ---
+:---: | :--- | :---
 <img width="32" src="https://raw.githubusercontent.com/alacritty/alacritty/master/extra/logo/compat/alacritty-term%2Bscanlines.png"> | [Alacritty](https://github.com/alacritty/alacritty)  | Terminal emulator
 <img width="32" src="https://docs.brew.sh/assets/img/homebrew-256x256.png"> | [Homebrew](https://brew.sh/) | macOS package manager
 <img width="24" src="https://upload.wikimedia.org/wikipedia/commons/0/07/Neovim-mark-flat.svg"> | [Neovim](https://neovim.io/) | Editor / IDE
