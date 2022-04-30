@@ -15,6 +15,8 @@ export PATH=$GOBIN:$PATH
 
 export PATH=$HOME/nvim/bin:$PATH
 
+export XDG_CONFIG_HOME=$HOME/.config
+
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
@@ -36,6 +38,8 @@ export DOCKER_BUILDKIT=1
 export HASURA_GRAPHQL_ENABLE_TELEMETRY=false
 export STRIPE_CLI_TELEMETRY_OPTOUT=true
 export NEXT_TELEMETRY_DISABLED=1
+
+export RIPGREP_CONFIG_PATH=$HOME/.config/ripgrep/.ripgreprc
 
 autoload -Uz vcs_info compinit
 
@@ -65,6 +69,7 @@ source $HOME/Code/github.com/jsgv/dotfiles/zsh/functions.zsh
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+export NODE_BIN="$NVM_BIN/node"
 
 # export PATH="$PATH:$HOME/.rvm/bin"
 source $HOME/.rvm/scripts/rvm
@@ -92,3 +97,6 @@ bindkey "^[[1;3D" backward-word
 bindkey "^[[1;3C" forward-word
 
 typeset -aU path
+
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
