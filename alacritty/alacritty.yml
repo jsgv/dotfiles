@@ -1,12 +1,12 @@
 # https://github.com/alacritty/alacritty/blob/master/alacritty.yml
 
-background_opacity: 1.0
 live_config_reload: true
 # draw_bold_text_with_bright_colors: true
 # winpty_backend: false
 # alt_send_esc: true
 # working_directory: None
 # enable_experimental_conpty_backend: false
+# background_opacity: 1.0
 
 env:
   TERM: xterm-256color
@@ -19,6 +19,7 @@ shell:
     - "tmux attach || tmux"
 
 window:
+  opacity: 1
   dimensions:
     columns: 0
     lines: 0
