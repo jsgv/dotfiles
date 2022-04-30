@@ -44,6 +44,7 @@ vim.g.loaded_perl_provider    = 0
 vim.opt.signcolumn            = 'yes'
 
 vim.cmd([[
+    set termguicolors
     set colorcolumn=80
 ]])
 
@@ -93,4 +94,3 @@ vim.cmd([[
         autocmd BufLeave,FocusLost,InsertEnter   * call SetNoRelativeNumber()
     augroup END
 ]])
-

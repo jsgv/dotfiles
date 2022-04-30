@@ -12,6 +12,7 @@ require('nvim-treesitter.configs').setup {
         'comment',
         'cpp',
         'css',
+        'dockerfile',
         'go',
         'graphql',
         'html',
@@ -34,7 +35,7 @@ require('nvim-treesitter.configs').setup {
 
     highlight = {
         enable = true,
-        additional_vim_regex_highlighting = true,
+        -- additional_vim_regex_highlighting = true,
     },
 
     playground = {

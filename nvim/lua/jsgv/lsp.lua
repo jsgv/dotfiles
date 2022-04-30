@@ -1,10 +1,6 @@
 local nvim_lsp = require('lspconfig')
 local lspkind = require('lspkind')
 
-lspkind.init({
-    with_test = true,
-})
-
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 vim.opt.shortmess:append "c"
 
@@ -30,16 +26,20 @@ cmp.setup {
             vim.fn['vsnip#anonymous'](args.body)
         end,
     },
-    -- https://github.com/hrsh7th/nvim-cmp/blob/main/lua/cmp/config/default.lua#L83
-    mapping = {
+    mapping = cmp.mapping.preset.insert({
         ['<C-y>'] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Insert,
             select   = true,
         },
-    },
+        -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        -- ['<C-Space>'] = cmp.mapping.complete(),
+        -- ['<C-e>'] = cmp.mapping.abort(),
+        -- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
     formatting = {
         format = lspkind.cmp_format({
-            with_text = true,
+            mode = "symbol_text",
             menu = {
                 nvim_lsp = '[LSP]',
                 vsnip    = '[Vsnip]',
@@ -49,13 +49,15 @@ cmp.setup {
             },
         }),
     },
-    sources = {
+    sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'vsnip'    },
-        { name = 'buffer', keyword_length = 3 },
+        -- { name = 'buffer', keyword_length = 3 },
         { name = 'nvim_lua' },
         { name = 'path'     },
-    },
+    }, {
+        { name = 'buffer', keyword_length = 3 },
+    }),
     experimental = {
         native_menu = false,
         ghost_text  = true,
@@ -66,7 +68,7 @@ cmp.setup {
 -- after the language server attaches to the current buffer
 -- on attention
 local on_attach = function(client, bufnr)
-    local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
+    -- local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -86,20 +88,19 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'ge',         '<Cmd>lua vim.diagnostic.set_loclist()<CR>',           opts)
     buf_set_keymap('n', '<Leader>fm', '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 3500)<CR>', opts)
 
-    local web = {
-        ['javascript']      = true,
-        ['typescript']      = true,
-        ['javascriptreact'] = true,
-        ['typescriptreact'] = true,
-        ['vue']             = true,
-    }
-
-    if web[filetype] then
+    -- Disable formatting capabilities for 'tsserver' since we are using 'diagnosticls' instead.
+    if client.name == 'tsserver' then
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
     end
 end
 
+
+-- Solidity
+nvim_lsp.solc.setup{
+    on_attach    = on_attach,
+    capabilities = capabilities,
+}
 
 -- Bash
 nvim_lsp.bashls.setup {
@@ -154,10 +155,13 @@ nvim_lsp.tsserver.setup {
             if result.diagnostics ~= nil then
                 for i = 1, #result.diagnostics do
                     local k  = result.diagnostics[i]
-                    if k.code == 80001 then
-                        table.remove(result.diagnostics, i)
-                    else
-                        i = i + 1
+
+                    if k ~= nil then
+                        if k.code == 80001 then
+                            table.remove(result.diagnostics, i)
+                        else
+                            i = i + 1
+                        end
                     end
                 end
             end
@@ -169,25 +173,27 @@ nvim_lsp.tsserver.setup {
 
 -- Diagnosticls
 nvim_lsp.diagnosticls.setup {
-    on_attach = function ()
-        --
-    end,
+    on_attach = on_attach,
     filetypes = {
-        'typescriptreact',
         'typescript',
+        'typescriptreact',
         'javascript',
+        'javascriptreact',
         'css',
     },
     init_options = {
         filetypes = {
+            typescript = 'eslint',
             typescriptreact = 'eslint',
             javascript = 'eslint',
+            javascriptreact = 'eslint',
         },
         linters = {
             eslint = {
                 sourceName = 'eslint',
-                command = 'eslint',
+                command = 'npx',
                 args = {
+                    'eslint',
                     '--stdin',
                     '--stdin-filename=%filepath',
                     '--format=json',
@@ -211,15 +217,18 @@ nvim_lsp.diagnosticls.setup {
             },
         },
         formatFiletypes = {
-            typescriptreact = 'prettier',
             typescript      = 'prettier',
+            typescriptreact = 'prettier',
             javascript      = 'prettier',
+            javascriptreact = 'prettier',
             css             = 'prettier',
         },
         formatters = {
             prettier = {
-                command = 'prettier',
+                sourceName = 'prettier',
+                command = 'npx',
                 args = {
+                    'prettier',
                     '--stdin-filepath=%filepath',
                 },
                 rootPatterns = {

@@ -1,6 +1,8 @@
 local tree_cb = require('nvim-tree.config').nvim_tree_callback
 
 vim.g.nvim_tree_root_folder_modifier = ':t'
+vim.g.nvim_tree_git_hl = 0
+vim.g.nvim_tree_git_hl = 0
 
 local list = {
     { key = {'<CR>', 'o', '<2-LeftMouse>'}, cb = tree_cb('edit') },
@@ -11,8 +13,11 @@ local list = {
     { key = 'p',                            cb = tree_cb('parent_node') },
 }
 
+vim.g.nvim_tree_special_files = {}
+
 require('nvim-tree').setup({
     git = {
+        enable = false,
         ignore = false,
     },
     view = {

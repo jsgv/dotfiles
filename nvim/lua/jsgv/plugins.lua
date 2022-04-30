@@ -4,26 +4,25 @@ return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
     use {
-        'hoob3rt/lualine.nvim',
-        config = function()
-            -- require('lualine').setup {
-            --     options = {
-            --         -- theme = 'github'
-            --         -- theme = 'nordfox'
-            --         theme = 'onenord'
-            --     }
-            -- }
-        end
+        'nvim-lualine/lualine.nvim',
     }
 
     use {
-        'jsgv/github-theme.nvim',
+        'EdenEast/nightfox.nvim',
         config = function ()
-            require('github-theme').setup({
-                theme = 'dark_dimmed'
-            })
+          vim.cmd("colorscheme nightfox")
         end
     }
+
+    -- use {
+    --     '~/Code/github.com/jsgv/github-theme.nvim',
+    --     -- 'jsgv/github-theme.nvim',
+    --     config = function ()
+    --         require('github-theme').setup({
+    --             theme = 'dark_dimmed'
+    --         })
+    --     end
+    -- }
 
     use 'kyazdani42/nvim-tree.lua'
     use 'kyazdani42/nvim-web-devicons'
