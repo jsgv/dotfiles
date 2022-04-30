@@ -1,22 +1,25 @@
+tap "caffix/amass"
+tap "ethereum/ethereum"
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 tap "homebrew/core"
+tap "homebrew/services"
 # Run your GitHub Actions locally 🚀
 brew "act"
 # Image manipulation library
 brew "jpeg"
 # Cryptography and SSL/TLS Toolkit
 brew "openssl@1.1"
+# Companion library to apr, the Apache Portable Runtime library
+brew "apr-util"
 # Automatic configure script builder
 brew "autoconf"
 # Shell extension to jump to frequently used directories
 brew "autojump"
 # Tool for generating GNU Standards-compliant Makefiles
 brew "automake"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.9"
 # Official Amazon AWS command-line interface
 brew "awscli"
 # Bourne-Again SHell, a UNIX command interpreter
@@ -37,24 +40,30 @@ brew "pcre"
 brew "pkg-config"
 # Cross-platform make
 brew "cmake"
+# Get a file from an HTTP, HTTPS or FTP server
+brew "curl"
+# Generic library support script
+brew "libtool"
 # GNU multiple precision arithmetic library
 brew "gmp"
+# General-purpose scripting language
+brew "php"
+# Dependency Manager for PHP
+brew "composer"
 # GNU File, Shell, and Text utilities
 brew "coreutils"
 # Reimplementation of ctags(1)
 brew "ctags"
-# Get a file from an HTTP, HTTPS or FTP server
-brew "curl"
 # Go dependency management tool
 brew "dep"
 # Read, write, modify, and display EXIF data on the command-line
 brew "exif"
 # Perl lib for reading and writing EXIF metadata
 brew "exiftool"
-# Generic library support script
-brew "libtool"
 # Asynchronous event library
 brew "libevent"
+# Fast, simple, recursive content discovery tool written in Rust
+brew "feroxbuster"
 # Play, record, convert, and stream audio and video
 brew "ffmpeg"
 # Cross-platform subdomain enumerator
@@ -85,6 +94,8 @@ brew "golang-migrate"
 brew "graphviz"
 # GNU grep, egrep and fgrep
 brew "grep"
+# Interactive web UI for gRPC, along the lines of postman
+brew "grpcui"
 # World's fastest and most advanced password recovery utility
 brew "hashcat"
 # User-friendly cURL replacement (command-line HTTP client)
@@ -101,6 +112,8 @@ brew "john-jumbo"
 brew "jq"
 # Python implementation written in Java (successor to JPython)
 brew "jython"
+# Lazier way to manage everything docker
+brew "lazydocker"
 # GNOME XML library
 brew "libxml2"
 # YAML Parser
@@ -135,10 +148,10 @@ brew "open-mpi"
 brew "openssh"
 # Highly capable, feature-rich programming language
 brew "perl"
-# General-purpose scripting language
-brew "php"
 # Go support for Google's protocol buffers
 brew "protoc-gen-go"
+# Protoc plugin that generates code for gRPC-Go clients
+brew "protoc-gen-go-grpc"
 # Cross-platform application and UI framework
 brew "qt"
 # Generate C-based recognizers from regular expressions
@@ -149,6 +162,8 @@ brew "redis"
 brew "ripgrep"
 # Experimental Rust compiler front-end for IDEs
 brew "rust-analyzer"
+# Contract-oriented programming language
+brew "solidity"
 # Source-code syntax highlighter
 brew "source-highlight"
 # Version control system designed to be a better CVS
@@ -167,6 +182,8 @@ brew "tokei"
 brew "trash"
 # Watch files and take action when they change
 brew "watchman"
+# Internet file retriever
+brew "wget"
 # XML command-line utilities
 brew "xmlstarlet"
 # Download YouTube videos from the command-line
@@ -179,11 +196,15 @@ brew "zsh"
 brew "zsh-completions"
 # Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
+# In-depth Attack Surface Mapping and Asset Discovery
+brew "caffix/amass/amass"
 # GPU-accelerated terminal emulator
 cask "alacritty"
 cask "android-sdk"
 # E-books management software
 cask "calibre"
+# Desktop debugging platform for mobile developers
+cask "flipper"
 cask "font-fira-code"
 cask "font-fira-code-nerd-font"
 # Icon set and toolkit
