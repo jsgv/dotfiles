@@ -2,3 +2,4 @@ nvim/plugin/packer_compiled.vim
 nvim/plugin/packer_compiled.lua
 nvim/lua/jsgv/wip.lua
 zsh/*
+*.bak.json
