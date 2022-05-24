@@ -1,0 +1,168 @@
+{
+  "[go]": {
+    "editor.defaultFormatter": "golang.go",
+    "editor.tabSize": 4
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.formatOnSave": true
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[rust]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  },
+  "debug.confirmOnExit": "always",
+  "diffEditor.ignoreTrimWhitespace": true,
+  "diffEditor.renderSideBySide": false,
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.fontFamily": "Fira Code",
+  "editor.fontSize": 15,
+  "editor.insertSpaces": false,
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "selection",
+  "editor.rulers": [
+    100
+  ],
+  "editor.tabCompletion": "on",
+  "editor.wordWrap": "on",
+  "emmet.triggerExpansionOnTab": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.debug": true,
+  "eslint.run": "onSave",
+  "eslint.validate": [
+    "vue",
+    "html",
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
+  "explorer.autoReveal": false,
+  "explorer.compactFolders": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.decorations.colors": false,
+  "extensions.ignoreRecommendations": true,
+  "files.associations": {
+    ".php_cs": "php"
+  },
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "files.watcherExclude": {
+    "**/bower_components/**": true,
+    "**/node_modules/**": true,
+    "**/tmp/**": true
+  },
+  "git.autorefresh": true,
+  "git.decorations.enabled": false,
+  "git.openDiffOnClick": false,
+  "go.formatFlags": [],
+  "go.formatTool": "goimports",
+  "go.lintFlags": [],
+  "go.lintOnSave": "off",
+  "go.toolsEnvVars": {
+    "GO111MODULE": "on"
+  },
+  "go.useLanguageServer": true,
+  "go.vetOnSave": "off",
+  "javascript.suggest.autoImports": false,
+  "javascript.suggestionActions.enabled": false,
+  "javascript.updateImportsOnFileMove.enabled": "never",
+  "js/ts.implicitProjectConfig.checkJs": true,
+  "js/ts.implicitProjectConfig.experimentalDecorators": true,
+  "latex-workshop.latex.autoClean.run": "onBuilt",
+  "latex-workshop.latex.tools": [
+    {
+      "args": [
+        "-xelatex",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "command": "latexmk",
+      "env": {},
+      "name": "latexmk"
+    }
+  ],
+  "php.suggest.basic": false,
+  "problems.autoReveal": false,
+  "react-native-tools.showUserTips": false,
+  "search.exclude": {
+    "**/node_modules": false
+  },
+  "security.workspace.trust.untrustedFiles": "open",
+  "telemetry.telemetryLevel": "off",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "timeline.excludeSources": [
+    "git-history"
+  ],
+  "typescript.disableAutomaticTypeAcquisition": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "vetur.completion.autoImport": false,
+  "vetur.format.defaultFormatter.ts": "vscode-typescript",
+  "vetur.format.options.tabSize": 4,
+  "vetur.validation.script": false,
+  "vetur.validation.template": false,
+  "vim.disableExtension": false,
+  "vim.insertModeKeyBindings": [
+    {
+      "after": [
+        "<Esc>"
+      ],
+      "before": [
+        "j",
+        "j"
+      ]
+    }
+  ],
+  "vim.leader": ",",
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<leader>",
+        "w"
+      ],
+      "commands": [
+        ":w"
+      ]
+    }
+  ],
+  "window.newWindowDimensions": "maximized",
+  "window.title": "${folderPath}",
+  "window.zoomLevel": 0.35,
+  "workbench.colorTheme": "Tokyo Night",
+  "workbench.editor.closeEmptyGroups": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.editor.showTabs": true,
+  "workbench.editor.untitled.hint": "hidden",
+  "workbench.preferredDarkColorTheme": "GitHub Dark Dimmed",
+  "workbench.sideBar.location": "left",
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.tree.renderIndentGuides": "none",
+  "workbench.welcomePage.walkthroughs.openOnInstall": false
+}
