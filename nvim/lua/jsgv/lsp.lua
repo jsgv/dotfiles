@@ -7,6 +7,8 @@ vim.opt.shortmess:append "c"
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
+vim.api.nvim_set_keymap('n', '<Leader>ca', ':lua vim.lsp.buf.code_action()<CR>', { noremap = true })
+
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = {
@@ -52,7 +54,6 @@ cmp.setup {
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'vsnip'    },
-        -- { name = 'buffer', keyword_length = 3 },
         { name = 'nvim_lua' },
         { name = 'path'     },
     }, {
@@ -86,15 +87,19 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',       opts)
     buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',         opts)
     buf_set_keymap('n', 'ge',         '<Cmd>lua vim.diagnostic.set_loclist()<CR>',           opts)
-    buf_set_keymap('n', '<Leader>fm', '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 3500)<CR>', opts)
+    -- buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 6500)<CR>', opts)
+    buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.formatting_sync()<CR>', opts)
 
-    -- Disable formatting capabilities for 'tsserver' since we are using 'diagnosticls' instead.
     if client.name == 'tsserver' then
+        -- Disable formatting capabilities for 'tsserver' since we are using 'diagnosticls' instead.
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
+    elseif client.name == 'rust_analyzer' then
+        vim.api.nvim_command([[
+            autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync()
+        ]])
     end
 end
-
 
 -- Solidity
 nvim_lsp.solc.setup{
@@ -121,6 +126,11 @@ nvim_lsp.gopls.setup {
     flags        = {
         debounce_text_changes = 200,
     },
+    settings  = {
+        gopls = {
+            gofumpt = true
+        }
+    }
 }
 
 -- C++

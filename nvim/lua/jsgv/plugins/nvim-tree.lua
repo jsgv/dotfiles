@@ -4,15 +4,7 @@ vim.g.nvim_tree_root_folder_modifier = ':t'
 vim.g.nvim_tree_git_hl = 0
 vim.g.nvim_tree_git_hl = 0
 
-local list = {
-    { key = {'<CR>', 'o', '<2-LeftMouse>'}, cb = tree_cb('edit') },
-    { key = {'<2-RightMouse>', '<C-]>'},    cb = tree_cb('cd') },
-    { key = 'v',                            cb = tree_cb('vsplit') },
-    { key = 's',                            cb = tree_cb('split') },
-    { key = 'r',                            cb = tree_cb('rename') },
-    { key = 'p',                            cb = tree_cb('parent_node') },
-}
-
+-- Disable special highlighting for certain files.
 vim.g.nvim_tree_special_files = {}
 
 require('nvim-tree').setup({
@@ -22,10 +14,16 @@ require('nvim-tree').setup({
     },
     view = {
         width = 30,
-        auto_resize = true,
         mappings = {
             custom_only = false,
-            list = list,
+            list = {
+                { key = {'<CR>', 'o', '<2-LeftMouse>'}, cb = tree_cb('edit') },
+                { key = {'<2-RightMouse>', '<C-]>'},    cb = tree_cb('cd') },
+                { key = 'v',                            cb = tree_cb('vsplit') },
+                { key = 's',                            cb = tree_cb('split') },
+                { key = 'r',                            cb = tree_cb('rename') },
+                { key = 'p',                            cb = tree_cb('parent_node') },
+            },
         }
     }
 })

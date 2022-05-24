@@ -74,6 +74,8 @@ vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', opts)
 vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', opts)
 vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', opts)
 
+vim.api.nvim_set_keymap('n', '<C-w>m', '<C-w>_<CR><C-w>|<CR>', opts)
+
 -- Only show relative numbers in the current pane
 -- Toggle when switching between panes
 vim.cmd([[
