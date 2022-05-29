@@ -11,6 +11,7 @@ export PATH=/usr/local/opt/llvm/bin:$PATH
 export GO111MODULE=on
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
+export GOPROXY=direct
 export PATH=$GOBIN:$PATH
 
 export PATH=$HOME/nvim/bin:$PATH
