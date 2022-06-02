@@ -118,6 +118,8 @@
   "security.workspace.trust.untrustedFiles": "open",
   "telemetry.telemetryLevel": "off",
   "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.enablePersistentSessions": false,
+  "terminal.integrated.persistentSessionReviveProcess": "never",
   "timeline.excludeSources": [
     "git-history"
   ],
