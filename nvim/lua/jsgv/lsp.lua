@@ -1,5 +1,6 @@
 local nvim_lsp = require('lspconfig')
 local lspkind = require('lspkind')
+local cmp = require('cmp')
 
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 vim.opt.shortmess:append "c"
@@ -19,51 +20,6 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
         update_in_insert = false,
     }
 )
-
-local cmp = require('cmp')
-cmp.setup {
-    preselect = cmp.PreselectMode.None,
-    snippet = {
-        expand = function(args)
-            vim.fn['vsnip#anonymous'](args.body)
-        end,
-    },
-    mapping = cmp.mapping.preset.insert({
-        ['<C-y>'] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Insert,
-            select   = true,
-        },
-        -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        -- ['<C-Space>'] = cmp.mapping.complete(),
-        -- ['<C-e>'] = cmp.mapping.abort(),
-        -- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    }),
-    formatting = {
-        format = lspkind.cmp_format({
-            mode = "symbol_text",
-            menu = {
-                nvim_lsp = '[LSP]',
-                vsnip    = '[Vsnip]',
-                buffer   = '[Buffer]',
-                nvim_lua = '[NvimLua]',
-                path     = '[Path]',
-            },
-        }),
-    },
-    sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'vsnip'    },
-        { name = 'nvim_lua' },
-        { name = 'path'     },
-    }, {
-        { name = 'buffer', keyword_length = 3 },
-    }),
-    experimental = {
-        native_menu = false,
-        ghost_text  = true,
-    },
-}
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -87,8 +43,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',       opts)
     buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',         opts)
     buf_set_keymap('n', 'ge',         '<Cmd>lua vim.diagnostic.set_loclist()<CR>',           opts)
-    -- buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 6500)<CR>', opts)
-    buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.formatting_sync()<CR>', opts)
+    buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 7500)<CR>', opts)
 
     if client.name == 'tsserver' then
         -- Disable formatting capabilities for 'tsserver' since we are using 'diagnosticls' instead.
@@ -141,18 +96,68 @@ nvim_lsp.clangd.setup {
     root_dir  = function() return vim.loop.cwd() end
 }
 
--- Rust
-nvim_lsp.rust_analyzer.setup {
-    on_attach    = on_attach,
-    capabilities = capabilities,
-    settings     = {
-        ["rust-analyzer"] = {
-            cargo = {
-                loadOutDirsFromCheck = true
+local has_rust_tools, rust_tools = pcall(require, "rust-tools")
+if has_rust_tools then
+    rust_tools.setup({
+        tools = {
+            autoSetHints = true,
+            hover_with_actions = true,
+            inlay_hints = {
+                show_parameter_hints = false,
+                parameter_hints_prefix = "",
+                other_hints_prefix = "",
             },
-        }
-    }
-}
+        },
+
+        server = {
+            on_attach = on_attach,
+            settings  = {
+                ["rust-analyzer"] = {
+                    checkOnSave = {
+                        command = "clippy"
+                    },
+                    cargo = {
+                        loadOutDirsFromCheck = true
+                    },
+                    procMacro = {
+                        enable = true
+                    },
+                    diagnostics = {
+                        enable = true,
+                        enableExperimental = false,
+                    },
+                    lens = {
+                        enable = true,
+                    },
+                }
+            }
+        },
+    })
+end
+
+-- Rust
+-- nvim_lsp.rust_analyzer.setup {
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+--     settings     = {
+--         ["rust-analyzer"] = {
+--             cargo = {
+--                 loadOutDirsFromCheck = true
+--             },
+--             procMacro = {
+--                 enable = true
+--             },
+--             diagnostics = {
+--                 enable = true,
+--                 enableExperimental = false,
+--                 -- disabled = {"unresolved-proc-macro"},
+--             },
+--             lens = {
+--                 enable = true,
+--             },
+--         }
+--     }
+-- }
 
 -- TypeScript
 nvim_lsp.tsserver.setup {
@@ -290,4 +295,48 @@ nvim_lsp.sumneko_lua.setup {
             telemetry = { enable = false },
         },
     }
+}
+
+cmp.setup {
+    preselect = cmp.PreselectMode.None,
+    snippet = {
+        expand = function(args)
+            vim.fn['vsnip#anonymous'](args.body)
+        end,
+    },
+    mapping = cmp.mapping.preset.insert({
+        ['<C-y>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Insert,
+            select   = true,
+        },
+        -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        -- ['<C-Space>'] = cmp.mapping.complete(),
+        -- ['<C-e>'] = cmp.mapping.abort(),
+        -- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+    formatting = {
+        format = lspkind.cmp_format({
+            mode = "symbol_text",
+            menu = {
+                nvim_lsp = '[LSP]',
+                vsnip    = '[Vsnip]',
+                buffer   = '[Buffer]',
+                nvim_lua = '[NvimLua]',
+                path     = '[Path]',
+            },
+        }),
+    },
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'vsnip'    },
+        { name = 'nvim_lua' },
+        { name = 'path'     },
+    }, {
+        { name = 'buffer', keyword_length = 3 },
+    }),
+    experimental = {
+        native_menu = false,
+        ghost_text  = true,
+    },
 }
