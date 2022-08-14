@@ -21,6 +21,11 @@ export XDG_CONFIG_HOME=$HOME/.config
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+export PATH="/usr/local/opt/libpq/bin:$PATH"
+export RUSTUP_TOOLCHAIN="stable"
+
+export GPG_TTY=$(tty)
+
 export DO_NOT_TRACK=1 # https://consoledonottrack.com
 export HOMEBREW_NO_ANALYTICS=1
 export LANG=en_US.UTF-8
@@ -72,7 +77,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 export NODE_BIN="$NVM_BIN/node"
 
-# export PATH="$PATH:$HOME/.rvm/bin"
 source $HOME/.rvm/scripts/rvm
 
 setopt extended_history
