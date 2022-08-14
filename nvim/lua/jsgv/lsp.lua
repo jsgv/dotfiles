@@ -2,13 +2,13 @@ local nvim_lsp = require('lspconfig')
 local lspkind = require('lspkind')
 local cmp = require('cmp')
 
+local has_rust_tools, rust_tools = pcall(require, 'rust-tools')
+
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-vim.opt.shortmess:append "c"
+vim.opt.shortmess:append 'c'
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
-vim.api.nvim_set_keymap('n', '<Leader>ca', ':lua vim.lsp.buf.code_action()<CR>', { noremap = true })
 
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -21,9 +21,6 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     }
 )
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
--- on attention
 local on_attach = function(client, bufnr)
     -- local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
@@ -32,47 +29,36 @@ local on_attach = function(client, bufnr)
 
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    local opts = { noremap=true, silent=true }
-    buf_set_keymap('n', '[d',         '<Cmd>lua vim.diagnostic.goto_prev({ float =  { border = "single" }})<CR>',         opts)
-    buf_set_keymap('n', ']d',         '<Cmd>lua vim.diagnostic.goto_next({ float =  { border = "single" }})<CR>',         opts)
-    buf_set_keymap('n', 'E',          '<Cmd>lua vim.diagnostic.open_float(0, { scope = "line", border = "single" })<CR>', opts)
-    buf_set_keymap('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>',               opts)
-    buf_set_keymap('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>',                    opts)
-    buf_set_keymap('n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>',                   opts)
-    buf_set_keymap('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>',               opts)
-    buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',       opts)
-    buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',         opts)
-    buf_set_keymap('n', 'ge',         '<Cmd>lua vim.diagnostic.set_loclist()<CR>',           opts)
-    buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 7500)<CR>', opts)
+    local opts_set_keymap = { noremap=true, silent=true }
+    buf_set_keymap('n', '[d',         '<Cmd>lua vim.diagnostic.goto_prev({ float =  { border = "single" }})<CR>',         opts_set_keymap)
+    buf_set_keymap('n', ']d',         '<Cmd>lua vim.diagnostic.goto_next({ float =  { border = "single" }})<CR>',         opts_set_keymap)
+    buf_set_keymap('n', 'E',          '<Cmd>lua vim.diagnostic.open_float(0, { scope = "line", border = "single" })<CR>', opts_set_keymap)
+    buf_set_keymap('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>',               opts_set_keymap)
+    buf_set_keymap('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>',                    opts_set_keymap)
+    buf_set_keymap('n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>',                   opts_set_keymap)
+    buf_set_keymap('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>',               opts_set_keymap)
+    buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',       opts_set_keymap)
+    buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',         opts_set_keymap)
+    buf_set_keymap('n', 'ge',         '<Cmd>lua vim.diagnostic.set_loclist()<CR>',           opts_set_keymap)
+    buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.formatting_sync(nil, 7500)<CR>', opts_set_keymap)
+
+    local opts_keymap_set = { buffer = bufnr }
+    vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, opts_keymap_set)
 
     if client.name == 'tsserver' then
         -- Disable formatting capabilities for 'tsserver' since we are using 'diagnosticls' instead.
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
     elseif client.name == 'rust_analyzer' then
-        vim.api.nvim_command([[
-            autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync()
-        ]])
+        vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync() ]])
+
+        -- @temp Trying this for now.
+        if has_rust_tools then
+            vim.keymap.set('n', 'K', rust_tools.hover_actions.hover_actions, opts_keymap_set)
+            -- vim.keymap.set('n', '<Leader>ca', rust_tools.code_action_group.code_action_group, { buffer = bufnr })
+        end
     end
 end
-
--- Solidity
-nvim_lsp.solc.setup{
-    on_attach    = on_attach,
-    capabilities = capabilities,
-}
-
--- Bash
-nvim_lsp.bashls.setup {
-    on_attach    = on_attach,
-    capabilities = capabilities,
-}
-
--- Haskell
-nvim_lsp.hls.setup {
-    on_attach    = on_attach,
-    capabilities = capabilities,
-}
 
 -- Go
 nvim_lsp.gopls.setup {
@@ -96,25 +82,22 @@ nvim_lsp.clangd.setup {
     root_dir  = function() return vim.loop.cwd() end
 }
 
-local has_rust_tools, rust_tools = pcall(require, "rust-tools")
 if has_rust_tools then
     rust_tools.setup({
         tools = {
             autoSetHints = true,
-            hover_with_actions = true,
             inlay_hints = {
                 show_parameter_hints = false,
-                parameter_hints_prefix = "",
-                other_hints_prefix = "",
+                parameter_hints_prefix = '',
+                other_hints_prefix = '',
             },
         },
-
         server = {
             on_attach = on_attach,
             settings  = {
-                ["rust-analyzer"] = {
+                ['rust-analyzer'] = {
                     checkOnSave = {
-                        command = "clippy"
+                        command = 'clippy'
                     },
                     cargo = {
                         loadOutDirsFromCheck = true
@@ -140,7 +123,7 @@ end
 --     on_attach    = on_attach,
 --     capabilities = capabilities,
 --     settings     = {
---         ["rust-analyzer"] = {
+--         ['rust-analyzer'] = {
 --             cargo = {
 --                 loadOutDirsFromCheck = true
 --             },
@@ -150,7 +133,7 @@ end
 --             diagnostics = {
 --                 enable = true,
 --                 enableExperimental = false,
---                 -- disabled = {"unresolved-proc-macro"},
+--                 -- disabled = {'unresolved-proc-macro'},
 --             },
 --             lens = {
 --                 enable = true,
@@ -172,6 +155,7 @@ nvim_lsp.tsserver.setup {
                     local k  = result.diagnostics[i]
 
                     if k ~= nil then
+                        -- https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json#L6433-L6436
                         if k.code == 80001 then
                             table.remove(result.diagnostics, i)
                         else
@@ -254,20 +238,6 @@ nvim_lsp.diagnosticls.setup {
     },
 }
 
--- CodeQL
-nvim_lsp.codeqlls.setup {
-    on_attach    = on_attach,
-    capabilities = capabilities,
-    cmd          = { 'codeql', 'execute', 'language-server', '--check-errors', 'ON_CHANGE', '-q' },
-    settings     = {
-        search_path = {
-            vim.fn.expand('~/codeql-home/codeql-repo'),
-            vim.fn.expand('~/codeql-home/codeql-go'),
-            vim.fn.expand('~/codeql-home/codeql'),
-        }
-    },
-}
-
 -- Lua
 local sumneko_root_path = vim.fn.expand('~/Code/github.com/sumneko/lua-language-server')
 local sumneko_binary    = sumneko_root_path .. '/bin/macOS/lua-language-server'
@@ -297,6 +267,47 @@ nvim_lsp.sumneko_lua.setup {
     }
 }
 
+-- CodeQL
+-- nvim_lsp.codeqlls.setup {
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+--     cmd          = { 'codeql', 'execute', 'language-server', '--check-errors', 'ON_CHANGE', '-q' },
+--     settings     = {
+--         search_path = {
+--             vim.fn.expand('~/codeql-home/codeql-repo'),
+--             vim.fn.expand('~/codeql-home/codeql-go'),
+--             vim.fn.expand('~/codeql-home/codeql'),
+--         }
+--     },
+-- }
+
+-- Solidity
+-- nvim_lsp.solc.setup{
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+-- }
+
+-- Bash
+-- nvim_lsp.bashls.setup {
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+-- }
+
+-- Haskell
+-- nvim_lsp.hls.setup {
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+-- }
+
+local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+end
+
+local feedkey = function(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
 cmp.setup {
     preselect = cmp.PreselectMode.None,
     snippet = {
@@ -309,15 +320,22 @@ cmp.setup {
             behavior = cmp.ConfirmBehavior.Insert,
             select   = true,
         },
-        -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        -- ['<C-Space>'] = cmp.mapping.complete(),
-        -- ['<C-e>'] = cmp.mapping.abort(),
-        -- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-e>'] = cmp.mapping.abort(),
+        ['<Tab>'] = cmp.mapping(function(fallback)
+            if vim.fn['vsnip#available'](1) == 1 then
+                feedkey('<Plug>(vsnip-expand-or-jump)', '')
+            elseif has_words_before() then
+                cmp.complete()
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
     }),
     formatting = {
         format = lspkind.cmp_format({
-            mode = "symbol_text",
+            mode = 'symbol_text',
             menu = {
                 nvim_lsp = '[LSP]',
                 vsnip    = '[Vsnip]',
