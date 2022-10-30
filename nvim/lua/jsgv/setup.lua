@@ -50,11 +50,12 @@ vim.cmd([[
 
 local opts = { noremap = true }
 
-vim.api.nvim_set_keymap('n', '<Leader>w', ':w<CR>', opts)
-vim.api.nvim_set_keymap('n', 'j', 'gj', opts)
-vim.api.nvim_set_keymap('n', 'k', 'gk', opts)
-vim.api.nvim_set_keymap('i', 'jj', '<ESC>l', opts)
-vim.api.nvim_set_keymap('n', '<C-p>', ':e#<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>w',  ':w<CR>', opts)
+vim.api.nvim_set_keymap('n', 'j',          'gj', opts)
+vim.api.nvim_set_keymap('n', 'k',          'gk', opts)
+vim.api.nvim_set_keymap('i', 'jj',         '<ESC>l', opts)
+vim.api.nvim_set_keymap('n', '<C-p>',      ':e#<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>fc', ':NvimTreeFindFile<CR>', opts)
 
 -- [BEGIN testing] checking to see if they work for me
 

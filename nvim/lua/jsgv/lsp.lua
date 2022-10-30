@@ -7,8 +7,7 @@ local has_rust_tools, rust_tools = pcall(require, 'rust-tools')
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 vim.opt.shortmess:append 'c'
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -20,6 +19,12 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
         update_in_insert = false,
     }
 )
+
+ vim.diagnostic.config({
+    float = {
+        source = 'always'
+    }
+ })
 
 local on_attach = function(client, bufnr)
     -- local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
@@ -47,16 +52,20 @@ local on_attach = function(client, bufnr)
 
     if client.name == 'tsserver' then
         -- Disable formatting capabilities for 'tsserver' since we are using 'diagnosticls' instead.
-        client.resolved_capabilities.document_formatting = false
-        client.resolved_capabilities.document_range_formatting = false
+        -- client.server_capabilities.document_formatting = false
+        -- client.server_capabilities.document_range_formatting = false
     elseif client.name == 'rust_analyzer' then
-        vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync() ]])
+        vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.format() ]])
 
         -- @temp Trying this for now.
         if has_rust_tools then
             vim.keymap.set('n', 'K', rust_tools.hover_actions.hover_actions, opts_keymap_set)
             -- vim.keymap.set('n', '<Leader>ca', rust_tools.code_action_group.code_action_group, { buffer = bufnr })
         end
+    elseif client.name == 'diagnosticls' then
+        vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.format() ]])
+        -- client.server_capabilities.document_formatting = true
+        -- client.server_capabilities.document_range_formatting = true
     end
 end
 
@@ -118,29 +127,12 @@ if has_rust_tools then
     })
 end
 
--- Rust
--- nvim_lsp.rust_analyzer.setup {
---     on_attach    = on_attach,
---     capabilities = capabilities,
---     settings     = {
---         ['rust-analyzer'] = {
---             cargo = {
---                 loadOutDirsFromCheck = true
---             },
---             procMacro = {
---                 enable = true
---             },
---             diagnostics = {
---                 enable = true,
---                 enableExperimental = false,
---                 -- disabled = {'unresolved-proc-macro'},
---             },
---             lens = {
---                 enable = true,
---             },
---         }
---     }
--- }
+-- PHP
+nvim_lsp.phpactor.setup({})
+nvim_lsp.psalm.setup({})
+
+-- Tailwind CSS
+nvim_lsp.tailwindcss.setup({})
 
 -- TypeScript
 nvim_lsp.tsserver.setup {

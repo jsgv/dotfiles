@@ -26,6 +26,11 @@ require('nvim-tree').setup({
         -- disable special highlighting for 'special' files.
         special_files = {},
     },
+    filters = {
+        custom = {
+            '.DS_Store'
+        },
+    },
 })
 
 vim.api.nvim_set_keymap('', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true })

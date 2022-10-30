@@ -26,7 +26,7 @@ end
 
 require('telescope').setup {
     defaults = {
-        file_sorter          = require('telescope.sorters').get_generic_fuzzy_sorter,
+        file_sorter          = require('telescope.sorters').get_fuzzy_file,
         layout_strategy      = 'vertical',
         file_ignore_patterns = {
             'node_modules/.*',
