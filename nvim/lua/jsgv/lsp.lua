@@ -129,7 +129,6 @@ end
 
 -- PHP
 nvim_lsp.phpactor.setup({})
-nvim_lsp.psalm.setup({})
 
 -- Tailwind CSS
 nvim_lsp.tailwindcss.setup({})

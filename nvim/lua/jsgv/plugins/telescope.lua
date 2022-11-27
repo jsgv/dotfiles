@@ -1,32 +1,30 @@
 local actions = require('telescope.actions')
+local builtin = require('telescope.builtin')
+local sorters = require('telescope.sorters')
 
-local key_maps = {}
+vim.keymap.set('n', '<Leader>ta', function () builtin.builtin() end)
 
-key_maps['<Leader>ta']  = ':lua require(\'telescope.builtin\').builtin()<CR>'
-
-key_maps['<Leader>ff']  = ':lua require(\'telescope.builtin\').find_files()<CR>'
-key_maps['<Leader>fg']  = ':lua require(\'telescope.builtin\').live_grep()<CR>'
-key_maps['<Leader>fb']  = ':lua require(\'telescope.builtin\').buffers()<CR>'
+vim.keymap.set('n', '<Leader>ff', function () builtin.find_files() end)
+vim.keymap.set('n', '<Leader>fg', function () builtin.live_grep() end)
+vim.keymap.set('n', '<Leader>fb', function () builtin.buffers() end)
 
 -- LSP
-key_maps['<Leader>fr']  = ':lua require(\'telescope.builtin\').lsp_references()<CR>'
-key_maps['<Leader>fi']  = ':lua require(\'telescope.builtin\').lsp_implementations()<CR>'
-key_maps['<Leader>fds'] = ':lua require(\'telescope.builtin\').lsp_document_symbols()<CR>'
+vim.keymap.set('n', '<Leader>fr', function () builtin.lsp_references() end)
+vim.keymap.set('n', '<Leader>fi', function () builtin.lsp_implementations() end)
+vim.keymap.set('n', '<Leader>fds', function () builtin.lsp_document_symbols() end)
 
 -- Diagnostics
-key_maps['<Leader>fdi'] = ':lua require(\'telescope.builtin\').diagnostics({ bufnr: 0 })<CR>'
-key_maps['<Leader>fwd'] = ':lua require(\'telescope.builtin\').diagnostics()<CR>'
+vim.keymap.set('n', '<Leader>fdi', function () builtin.diagnostics({ bufnr = 0 }) end)
+-- vim.keymap.set('n', '<Leader>fwd', function () builtin..diagnostics() end)
+-- key_maps['<Leader>fdi'] = ':lua require(\'telescope.builtin\').diagnostics({ bufnr: 0 })<CR>'
+-- key_maps['<Leader>fwd'] = ':lua require(\'telescope.builtin\').diagnostics()<CR>'
 
 -- Git
-key_maps['<Leader>gst'] = ':lua require(\'telescope.builtin\').git_status()<CR>'
-
-for key, value in pairs(key_maps) do
-    vim.api.nvim_set_keymap('n', key, value, { noremap = true })
-end
+vim.keymap.set('n', '<Leader>gst', function () builtin.git_status() end)
 
 require('telescope').setup {
     defaults = {
-        file_sorter          = require('telescope.sorters').get_fuzzy_file,
+        file_sorter          = sorters.get_fuzzy_file,
         layout_strategy      = 'vertical',
         file_ignore_patterns = {
             'node_modules/.*',
