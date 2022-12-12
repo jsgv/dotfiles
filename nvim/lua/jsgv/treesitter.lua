@@ -1,3 +1,5 @@
+local treesitter_configs = require('nvim-treesitter.configs')
+
 vim.opt.foldenable      = false
 vim.opt.foldmethod      = 'expr'
 vim.opt.foldexpr        = 'nvim_treesitter#foldexpr()'
@@ -6,7 +8,7 @@ vim.opt.foldlevelstart  = 99
 
 vim.api.nvim_set_keymap('n', '<F9>', 'za', { noremap = true })
 
-require('nvim-treesitter.configs').setup {
+treesitter_configs.setup {
     ensure_installed = {
         'bash',
         'comment',
