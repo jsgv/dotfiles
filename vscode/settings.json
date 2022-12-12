@@ -45,9 +45,7 @@
   "editor.insertSpaces": false,
   "editor.minimap.enabled": false,
   "editor.renderWhitespace": "selection",
-  "editor.rulers": [
-    100
-  ],
+  "editor.rulers": [100],
   "editor.tabCompletion": "on",
   "editor.wordWrap": "on",
   "emmet.triggerExpansionOnTab": true,
@@ -121,9 +119,7 @@
   "terminal.integrated.defaultProfile.osx": "zsh",
   "terminal.integrated.enablePersistentSessions": false,
   "terminal.integrated.persistentSessionReviveProcess": "never",
-  "timeline.excludeSources": [
-    "git-history"
-  ],
+  "timeline.excludeSources": ["git-history"],
   "typescript.disableAutomaticTypeAcquisition": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
   "vetur.completion.autoImport": false,
@@ -134,25 +130,15 @@
   "vim.disableExtension": false,
   "vim.insertModeKeyBindings": [
     {
-      "after": [
-        "<Esc>"
-      ],
-      "before": [
-        "j",
-        "j"
-      ]
+      "after": ["<Esc>"],
+      "before": ["j", "j"]
     }
   ],
   "vim.leader": ",",
   "vim.normalModeKeyBindingsNonRecursive": [
     {
-      "before": [
-        "<leader>",
-        "w"
-      ],
-      "commands": [
-        ":w"
-      ]
+      "before": ["<leader>", "w"],
+      "commands": [":w"]
     }
   ],
   "vim.useSystemClipboard": true,
