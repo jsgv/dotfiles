@@ -22,7 +22,7 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 export PATH="/usr/local/opt/libpq/bin:$PATH"
-export RUSTUP_TOOLCHAIN="stable"
+# export RUSTUP_TOOLCHAIN="nightly"
 
 export GPG_TTY=$(tty)
 
@@ -90,6 +90,7 @@ setopt share_history
 alias ls='gls --group-directories-first --color=always'
 alias ll='gls -l --group-directories-first --color=always'
 alias luamake="$HOME/Code/github.com/sumneko/lua-language-server/3rd/luamake/luamake"
+alias tf='terraform'
 
 RED="\033[1;31m"
 GREEN="\033[1;32m"

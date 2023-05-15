@@ -78,6 +78,7 @@
   "git.autorefresh": true,
   "git.decorations.enabled": false,
   "git.openDiffOnClick": false,
+  "git.openRepositoryInParentFolders": "never",
   "go.formatFlags": [],
   "go.formatTool": "goimports",
   "go.lintFlags": [],

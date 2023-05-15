@@ -7,13 +7,9 @@ vim.keymap.set('n', '<Leader>ta', function () builtin.builtin() end)
 vim.keymap.set('n', '<Leader>ff', function () builtin.find_files() end)
 vim.keymap.set('n', '<Leader>fg', function () builtin.live_grep() end)
 vim.keymap.set('n', '<Leader>fb', function () builtin.buffers() end)
-
--- LSP
 vim.keymap.set('n', '<Leader>fr', function () builtin.lsp_references() end)
 vim.keymap.set('n', '<Leader>fi', function () builtin.lsp_implementations() end)
 vim.keymap.set('n', '<Leader>fds', function () builtin.lsp_document_symbols() end)
-
--- Diagnostics
 vim.keymap.set('n', '<Leader>fdi', function () builtin.diagnostics({ bufnr = 0 }) end)
 -- vim.keymap.set('n', '<Leader>fwd', function () builtin..diagnostics() end)
 -- key_maps['<Leader>fdi'] = ':lua require(\'telescope.builtin\').diagnostics({ bufnr: 0 })<CR>'

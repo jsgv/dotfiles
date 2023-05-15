@@ -25,6 +25,7 @@ treesitter_configs.setup {
         'lua',
         'markdown',
         'php',
+        'prisma',
         'python',
         'ql',
         'regex',
@@ -32,13 +33,13 @@ treesitter_configs.setup {
         'scss',
         'toml',
         'tsx',
+        'terraform',
         'typescript',
         'yaml',
     },
 
     highlight = {
         enable = true,
-        -- additional_vim_regex_highlighting = true,
     },
 
     playground = {

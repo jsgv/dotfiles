@@ -1,10 +1,10 @@
 {
   "scripts": {
-    "prettier:check": "prettier --check ./vscode package.json",
-    "prettier:write": "prettier --write ./vscode package.json"
+    "prettier:check": "prettier --check vscode/settings.json",
+    "prettier:write": "prettier --write vscode/settings.json"
   },
   "devDependencies": {
-    "prettier": "2.8.1",
-    "prettier-plugin-sort-json": "0.0.3"
+    "prettier": "2.8.8",
+    "prettier-plugin-sort-json": "1.0.0"
   }
 }
