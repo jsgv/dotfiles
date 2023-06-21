@@ -1,23 +1,31 @@
-local tree_cb = require('nvim-tree.config').nvim_tree_callback
+local function on_attach(bufnr)
+  local api = require('nvim-tree.api')
+
+  local function opts(desc)
+    return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  api.config.mappings.default_on_attach(bufnr)
+
+  vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
+  vim.keymap.set('n', 'o', api.node.open.edit, opts('Open'))
+  vim.keymap.set('n', '<2-LeftMouse>', api.node.open.edit, opts('Open'))
+  vim.keymap.set('n', '<2-RightMouse>', api.tree.change_root_to_node, opts('CD'))
+  vim.keymap.set('n', '<C-]>', api.tree.change_root_to_node, opts('CD'))
+  vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
+  vim.keymap.set('n', 's', api.node.open.horizontal, opts('Open: Horizontal Split'))
+  vim.keymap.set('n', 'r', api.fs.rename, opts('Rename'))
+  vim.keymap.set('n', 'p', api.node.navigate.parent, opts('Parent Directory'))
+end
 
 require('nvim-tree').setup({
+    on_attach = on_attach,
     git = {
         enable = false,
         ignore = false,
     },
     view = {
         width = 30,
-        mappings = {
-            custom_only = false,
-            list = {
-                { key = {'<CR>', 'o', '<2-LeftMouse>'}, cb = tree_cb('edit') },
-                { key = {'<2-RightMouse>', '<C-]>'},    cb = tree_cb('cd') },
-                { key = 'v',                            cb = tree_cb('vsplit') },
-                { key = 's',                            cb = tree_cb('split') },
-                { key = 'r',                            cb = tree_cb('rename') },
-                { key = 'p',                            cb = tree_cb('parent_node') },
-            },
-        }
     },
     renderer = {
         highlight_git = false,
@@ -37,3 +45,4 @@ require('nvim-tree').setup({
 })
 
 vim.api.nvim_set_keymap('', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true })
+
