@@ -10,6 +10,7 @@ return require('packer').startup(function(use)
     use {
         'EdenEast/nightfox.nvim',
         config = function ()
+          vim.opt.background = 'dark'
           vim.cmd("colorscheme nightfox")
         end
     }
@@ -28,6 +29,12 @@ return require('packer').startup(function(use)
     use 'kyazdani42/nvim-web-devicons'
 
     use 'airblade/vim-gitgutter'
+    use {
+        'lewis6991/gitsigns.nvim',
+        config = function()
+            require('gitsigns').setup()
+        end
+    }
 
     use 'tpope/vim-fugitive'
     use 'tpope/vim-commentary'
@@ -40,7 +47,7 @@ return require('packer').startup(function(use)
     use {
         'nvim-telescope/telescope.nvim',
         requires = {
-            { 'nvim-lua/popup.nvim'   },
+            { 'nvim-lua/popup.nvim' },
             { 'nvim-lua/plenary.nvim' },
         }
     }

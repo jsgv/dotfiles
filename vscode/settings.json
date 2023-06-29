@@ -42,6 +42,7 @@
   "editor.acceptSuggestionOnEnter": "on",
   "editor.fontFamily": "Fira Code",
   "editor.fontSize": 15,
+  "editor.formatOnSave": true,
   "editor.insertSpaces": false,
   "editor.minimap.enabled": false,
   "editor.renderWhitespace": "selection",
@@ -66,7 +67,8 @@
   "explorer.decorations.colors": false,
   "extensions.ignoreRecommendations": true,
   "files.associations": {
-    ".php_cs": "php"
+    ".php_cs": "php",
+    "*.css": "scss"
   },
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
@@ -80,7 +82,7 @@
   "git.openDiffOnClick": false,
   "git.openRepositoryInParentFolders": "never",
   "go.formatFlags": [],
-  "go.formatTool": "goimports",
+  "go.formatTool": "gofumpt",
   "go.lintFlags": [],
   "go.lintOnSave": "off",
   "go.toolsEnvVars": {
@@ -112,6 +114,11 @@
   "problems.autoReveal": false,
   "react-native-tools.showUserTips": false,
   "rust-analyzer.diagnostics.experimental.enable": true,
+  "rust-analyzer.inlayHints.chainingHints.enable": false,
+  "rust-analyzer.inlayHints.parameterHints.enable": false,
+  "rust-analyzer.inlayHints.typeHints.enable": false,
+  "rust-analyzer.lens.debug.enable": false,
+  "rust-analyzer.lens.enable": false,
   "search.exclude": {
     "**/node_modules": false
   },
@@ -120,7 +127,9 @@
   "terminal.integrated.defaultProfile.osx": "zsh",
   "terminal.integrated.enablePersistentSessions": false,
   "terminal.integrated.persistentSessionReviveProcess": "never",
-  "timeline.excludeSources": ["git-history"],
+  "todo-tree.highlights.enabled": false,
+  "todo-tree.regex.regex": "(//|@|#|<!--|;|/\\*|^|^[ \\t]*(-|\\d+.))\\s*($TAGS)",
+  "todo-tree.regex.regexCaseSensitive": false,
   "typescript.disableAutomaticTypeAcquisition": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
   "vetur.completion.autoImport": false,
@@ -145,7 +154,6 @@
   "vim.useSystemClipboard": true,
   "window.newWindowDimensions": "maximized",
   "window.title": "${folderPath}",
-  "window.zoomLevel": 0.35,
   "workbench.colorTheme": "Tokyo Night",
   "workbench.editor.closeEmptyGroups": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,

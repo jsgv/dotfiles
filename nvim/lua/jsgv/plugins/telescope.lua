@@ -17,6 +17,17 @@ vim.keymap.set('n', '<Leader>fdi', function () builtin.diagnostics({ bufnr = 0 }
 
 -- Git
 vim.keymap.set('n', '<Leader>gst', function () builtin.git_status() end)
+vim.keymap.set('n', '<Leader>ta',  function () builtin.builtin() end)
+vim.keymap.set('n', '<Leader>ff',  function () builtin.find_files() end)
+vim.keymap.set('n', '<Leader>fg',  function () builtin.live_grep() end)
+vim.keymap.set('n', '<Leader>fb',  function () builtin.buffers() end)
+vim.keymap.set('n', '<Leader>fwd', function () builtin.diagnostics() end)
+vim.keymap.set('n', '<Leader>gst', function () builtin.git_status() end)
+vim.keymap.set('n', '<Leader>fi',  function () builtin.lsp_implementations() end)
+vim.keymap.set('n', '<Leader>fds', function () builtin.lsp_document_symbols() end)
+vim.keymap.set('n', '<Leader>fdi', function () builtin.diagnostics({ bufnr = 0 }) end)
+vim.keymap.set('n', '<Leader>fws', function () builtin.lsp_dynamic_workspace_symbols() end)
+vim.keymap.set('n', '<Leader>fr',  function () builtin.lsp_references({ include_current_line = true, show_line = false }) end)
 
 require('telescope').setup {
     defaults = {
@@ -24,7 +35,8 @@ require('telescope').setup {
         layout_strategy      = 'vertical',
         file_ignore_patterns = {
             'node_modules/.*',
-            'build/.*',
+            'vendor/.*',
+            -- 'build/.*',
         },
         mappings = {
             i = {

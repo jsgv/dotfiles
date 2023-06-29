@@ -41,7 +41,7 @@ require('nvim-tree').setup({
     },
     -- update_focused_file = {
     --     enable = true,
-    -- }
+    -- },
 })
 
 vim.api.nvim_set_keymap('', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true })

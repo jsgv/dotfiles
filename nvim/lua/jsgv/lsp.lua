@@ -26,7 +26,6 @@ vim.diagnostic.config({
     }
 })
 
-
 local on_attach = function(client, bufnr)
     -- local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
@@ -46,10 +45,10 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',       opts_set_keymap)
     buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',         opts_set_keymap)
     buf_set_keymap('n', 'ge',         '<Cmd>lua vim.diagnostic.set_loclist()<CR>',           opts_set_keymap)
-    buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.format({timeout_ms = 2000})<CR>', opts_set_keymap)
+    buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.format({ timeout_ms = 2000 })<CR>', opts_set_keymap)
 
     -- @todo
-    -- local format_file = function() 
+    -- local format_file = function()
     --     print("going to format_file")
     -- end
     -- buf_set_keymap('n', '<space>f',   [[ <Cmd>lua format_file()<CR> ]], opts_set_keymap)
@@ -59,13 +58,15 @@ local on_attach = function(client, bufnr)
 
     local format_on_save = {
         -- diagnosticls=true,
+        tsserver=true,
         terraformls=true,
         prismals=true,
     }
 
-    if client.name == 'tsserver' then
-        vim.diagnostic.config({ virtual_text = false })
-    end
+    -- if client.name == 'tsserver' then
+    --     vim.diagnostic.config({ virtual_text = false })
+    -- end
+
 
     if client.name == 'rust_analyzer' then
         vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.format() ]])
@@ -94,12 +95,10 @@ nvim_lsp.gopls.setup({
     }
 })
 
--- C++
-nvim_lsp.clangd.setup({
+-- Proto
+nvim_lsp.bufls.setup({
     on_attach    = on_attach,
     capabilities = capabilities,
-    cmd       = { 'clangd', '--background-index', '--clang-tidy' },
-    root_dir  = function() return vim.loop.cwd() end
 })
 
 if has_rust_tools then
@@ -132,6 +131,11 @@ if has_rust_tools then
                     lens = {
                         enable = true,
                     },
+                    -- remove/enable once fixed:
+                    -- https://github.com/simrat39/rust-tools.nvim/issues/300
+                    inlayHints = {
+                        locationLinks = false
+                    }
                 }
             }
         },
@@ -149,6 +153,11 @@ nvim_lsp.pyright.setup({
 --     on_attach    = on_attach,
 --     capabilities = capabilities,
 -- })
+
+nvim_lsp.pyright.setup {
+    on_attach    = on_attach,
+    capabilities = capabilities,
+}
 
 -- Prisma
 nvim_lsp.prismals.setup({
@@ -172,8 +181,31 @@ nvim_lsp.terraformls.setup({
 nvim_lsp.tsserver.setup({
     on_attach    = on_attach,
     capabilities = capabilities,
+    settings = {
+        typescript = {
+            format = {
+                baseIndentSize = 0,
+                indentSize = 4,
+                convertTabsToSpaces = true,
+                semicolons = 'insert',
+                trimTrailingWhitespace = true,
+                -- insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = true,
+                -- insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets = true,
+                -- insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis = true,
+                insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces = true,
+                insertSpaceBeforeFunctionParenthesis = true,
+                trimTrailingWhitespace = true,
+            }
+        }
+    },
+    init_options = {
+        hostInfo = "neovim",
+        preferences = {
+            quotePreference = "single",
+        }
+    },
     handlers = {
-        ['textDocument/publishDiagnostics'] = function() end
+        -- ['textDocument/publishDiagnostics'] = function() end
         -- ['textDocument/publishDiagnostics'] = function(_, result, ctx, config)
         --     -- disable certain diagnostics from appearing
         --     -- https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
@@ -196,6 +228,20 @@ nvim_lsp.tsserver.setup({
         -- end,
     },
 })
+
+-- C++
+-- nvim_lsp.clangd.setup({
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+--     filetypes    = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
+--     cmd       = { 'clangd', '--background-index', '--clang-tidy' },
+--     root_dir  = function() return vim.loop.cwd() end
+-- })
+
+-- nvim_lsp.kotlin_language_server.setup({
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+-- })
 
 -- Diagnosticls
 -- nvim_lsp.diagnosticls.setup({
@@ -276,6 +322,15 @@ nvim_lsp.tsserver.setup({
 --         '-E',
 --         sumneko_root_path .. '/main.lua',
 --     },
+-- local sumneko_binary    = '/opt/homebrew/bin/lua-language-server'
+-- nvim_lsp.sumneko_lua.setup {
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+--     -- cmd          = {
+--     --     sumneko_binary,
+--     --     '-E',
+--     --     sumneko_root_path .. '/main.lua',
+--     -- },
 --     settings = {
 --         Lua = {
 --             runtime = {
