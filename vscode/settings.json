@@ -111,6 +111,7 @@
     }
   ],
   "php.suggest.basic": false,
+  "prettier.requireConfig": true,
   "problems.autoReveal": false,
   "react-native-tools.showUserTips": false,
   "rust-analyzer.diagnostics.experimental.enable": true,
@@ -132,11 +133,6 @@
   "todo-tree.regex.regexCaseSensitive": false,
   "typescript.disableAutomaticTypeAcquisition": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "vetur.completion.autoImport": false,
-  "vetur.format.defaultFormatter.ts": "vscode-typescript",
-  "vetur.format.options.tabSize": 4,
-  "vetur.validation.script": false,
-  "vetur.validation.template": false,
   "vim.disableExtension": false,
   "vim.insertModeKeyBindings": [
     {
@@ -154,8 +150,9 @@
   "vim.useSystemClipboard": true,
   "window.newWindowDimensions": "maximized",
   "window.title": "${folderPath}",
-  "workbench.colorTheme": "Tokyo Night",
+  "workbench.colorTheme": "GitHub Dark Default",
   "workbench.editor.closeEmptyGroups": false,
+  "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "workbench.editor.showTabs": true,
   "workbench.editor.untitled.hint": "hidden",
