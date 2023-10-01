@@ -34,6 +34,8 @@ vim.opt.shiftwidth            = 4
 vim.opt.updatetime            = 300
 vim.opt.wildmode              = 'list:longest,list:full'
 vim.opt.list                  = true
+-- listchars=tab:> ,trail:-,nbsp:+
+vim.opt.listchars             = { tab = '| ', trail = '-', nbsp = '+' }
 vim.g.python_host_skip_check  = 1
 vim.g.python3_host_skip_check = 1
 vim.g.python_host_prog        = '/usr/bin/python'
@@ -45,7 +47,7 @@ vim.opt.signcolumn            = 'yes'
 
 vim.cmd([[
     set termguicolors
-    set colorcolumn=80
+    set colorcolumn=100
 ]])
 
 local opts = { noremap = true }

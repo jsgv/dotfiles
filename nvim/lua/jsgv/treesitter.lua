@@ -19,6 +19,7 @@ treesitter_configs.setup {
         'graphql',
         'hcl',
         'html',
+        'java',
         'javascript',
         'json',
         'json5',

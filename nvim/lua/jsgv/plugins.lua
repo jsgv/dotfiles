@@ -15,16 +15,6 @@ return require('packer').startup(function(use)
         end
     }
 
-    -- use {
-    --     '~/Code/github.com/jsgv/github-theme.nvim',
-    --     -- 'jsgv/github-theme.nvim',
-    --     config = function ()
-    --         require('github-theme').setup({
-    --             theme = 'dark_dimmed'
-    --         })
-    --     end
-    -- }
-
     use 'kyazdani42/nvim-tree.lua'
     use 'kyazdani42/nvim-web-devicons'
 
@@ -74,4 +64,6 @@ return require('packer').startup(function(use)
     }
 
     use 'nvim-treesitter/playground'
+
+    use 'github/copilot.vim'
 end)
