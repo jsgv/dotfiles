@@ -61,22 +61,11 @@ local on_attach = function(client, bufnr)
         tsserver=true,
         terraformls=true,
         prismals=true,
+        bufls=true,
+        rust_analyzer=true,
     }
 
-    -- if client.name == 'tsserver' then
-    --     vim.diagnostic.config({ virtual_text = false })
-    -- end
-
-
-    if client.name == 'rust_analyzer' then
-        vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.format() ]])
-
-        -- @temp Trying this for now.
-        if has_rust_tools then
-            vim.keymap.set('n', 'K', rust_tools.hover_actions.hover_actions, opts_keymap_set)
-            -- vim.keymap.set('n', '<Leader>ca', rust_tools.code_action_group.code_action_group, { buffer = bufnr })
-        end
-    elseif format_on_save[client.name] then
+    if format_on_save[client.name] then
         vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.format({ timeout_ms = 2000 }) ]])
     end
 end
@@ -97,6 +86,12 @@ nvim_lsp.gopls.setup({
 
 -- Proto
 nvim_lsp.bufls.setup({
+    on_attach    = on_attach,
+    capabilities = capabilities,
+})
+
+-- GraphQL
+nvim_lsp.graphql.setup({
     on_attach    = on_attach,
     capabilities = capabilities,
 })
@@ -154,10 +149,6 @@ nvim_lsp.pyright.setup({
 --     capabilities = capabilities,
 -- })
 
-nvim_lsp.pyright.setup {
-    on_attach    = on_attach,
-    capabilities = capabilities,
-}
 
 -- Prisma
 nvim_lsp.prismals.setup({
@@ -177,6 +168,12 @@ nvim_lsp.terraformls.setup({
     capabilities = capabilities,
 })
 
+-- Java
+nvim_lsp.jdtls.setup({
+    on_attach    = on_attach,
+    capabilities = capabilities,
+})
+
 -- TypeScript
 nvim_lsp.tsserver.setup({
     on_attach    = on_attach,
@@ -188,7 +185,6 @@ nvim_lsp.tsserver.setup({
                 indentSize = 4,
                 convertTabsToSpaces = true,
                 semicolons = 'insert',
-                trimTrailingWhitespace = true,
                 -- insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = true,
                 -- insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets = true,
                 -- insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis = true,
@@ -203,29 +199,6 @@ nvim_lsp.tsserver.setup({
         preferences = {
             quotePreference = "single",
         }
-    },
-    handlers = {
-        -- ['textDocument/publishDiagnostics'] = function() end
-        -- ['textDocument/publishDiagnostics'] = function(_, result, ctx, config)
-        --     -- disable certain diagnostics from appearing
-        --     -- https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
-        --     if result.diagnostics ~= nil then
-        --         for i = 1, #result.diagnostics do
-        --             local k  = result.diagnostics[i]
-
-        --             if k ~= nil then
-        --                 -- https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json#L6433-L6436
-        --                 if k.code == 80001 then
-        --                     table.remove(result.diagnostics, i)
-        --                 else
-        --                     i = i + 1
-        --                 end
-        --             end
-        --         end
-        --     end
-
-        --     vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
-        -- end,
     },
 })
 
@@ -312,42 +285,23 @@ nvim_lsp.tsserver.setup({
 -- })
 
 -- Lua
--- local sumneko_root_path = vim.fn.expand('~/Code/github.com/sumneko/lua-language-server')
--- local sumneko_binary    = sumneko_root_path .. '/bin/macOS/lua-language-server'
--- nvim_lsp.sumneko_lua.setup {
---     on_attach    = on_attach,
---     capabilities = capabilities,
---     cmd          = {
---         sumneko_binary,
---         '-E',
---         sumneko_root_path .. '/main.lua',
---     },
--- local sumneko_binary    = '/opt/homebrew/bin/lua-language-server'
--- nvim_lsp.sumneko_lua.setup {
---     on_attach    = on_attach,
---     capabilities = capabilities,
---     -- cmd          = {
---     --     sumneko_binary,
---     --     '-E',
---     --     sumneko_root_path .. '/main.lua',
---     -- },
---     settings = {
---         Lua = {
---             runtime = {
---                 version = '5.4',
---                 path    = { '/usr/local/bin/lua' },
---             },
---             -- Get the language server to recognize the `vim` global
---             diagnostics = { globals = {'vim'} },
---             workspace = {
---                 -- Make the server aware of Neovim runtime files
---                 library = vim.api.nvim_get_runtime_file('', true),
---             },
---             -- Do not send telemetry data
---             telemetry = { enable = false },
---         },
---     }
--- }
+nvim_lsp.lua_ls.setup({
+    on_attach    = on_attach,
+    capabilities = capabilities,
+    settings = {
+        Lua = {
+            runtime = {
+                version = 'LuaJIT',
+            },
+            workspace = {
+                checkThirdParty = false,
+                library = {
+                    vim.env.VIMRUNTIME
+                }
+            }
+        }
+    }
+})
 
 -- CodeQL
 -- nvim_lsp.codeqlls.setup {
@@ -381,15 +335,6 @@ nvim_lsp.tsserver.setup({
 --     capabilities = capabilities,
 -- }
 
-local has_words_before = function()
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
-end
-
-local feedkey = function(key, mode)
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-end
-
 cmp.setup {
     preselect = cmp.PreselectMode.None,
     snippet = {
@@ -405,15 +350,6 @@ cmp.setup {
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-e>'] = cmp.mapping.abort(),
-        ['<Tab>'] = cmp.mapping(function(fallback)
-            if vim.fn['vsnip#available'](1) == 1 then
-                feedkey('<Plug>(vsnip-expand-or-jump)', '')
-            elseif has_words_before() then
-                cmp.complete()
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
     }),
     formatting = {
         format = lspkind.cmp_format({
@@ -437,6 +373,6 @@ cmp.setup {
     }),
     experimental = {
         native_menu = false,
-        ghost_text  = true,
+        ghost_text  = false, -- Does not work well with Copilot
     },
 }
