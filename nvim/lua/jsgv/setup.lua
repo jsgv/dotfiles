@@ -44,11 +44,8 @@ vim.g.perl_host_prog          = '/usr/local/bin/perl'
 vim.o.completeopt             = 'menuone,noselect'
 vim.g.loaded_perl_provider    = 0
 vim.opt.signcolumn            = 'yes'
-
-vim.cmd([[
-    set termguicolors
-    set colorcolumn=100
-]])
+vim.opt.colorcolumn           = '100'
+vim.g.termguicolors           = true
 
 local opts = { noremap = true }
 
@@ -60,18 +57,6 @@ vim.api.nvim_set_keymap('n', '<C-p>',      ':e#<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>fc', ':NvimTreeFindFile<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>p',  ':!pwd<CR>', opts)
 
--- [BEGIN testing] checking to see if they work for me
-
-vim.api.nvim_set_keymap('n', 'J', 'mzJ`z', opts)
--- vim.api.nvim_set_keymap('n', 'n', 'nzzzv', opts)
--- vim.api.nvim_set_keymap('n', 'N', 'Nzzzv', opts)
--- vim.api.nvim_set_keymap('i', ',', ',<C-g>u', opts)
--- vim.api.nvim_set_keymap('i', '.', '.<C-g>u', opts)
--- vim.api.nvim_set_keymap('i', '!', '!<C-g>u', opts)
--- vim.api.nvim_set_keymap('i', '?', '?<C-g>u', opts)
-
--- [END testing]
-
 -- Pane hopping
 vim.api.nvim_set_keymap('n', '<C-j>', '<C-w>j', opts)
 vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', opts)
@@ -82,21 +67,45 @@ vim.api.nvim_set_keymap('n', '<C-w>m', '<C-w>_<CR><C-w>|<CR>', opts)
 
 -- Only show relative numbers in the current pane
 -- Toggle when switching between panes
-vim.cmd([[
-    function! SetRelativeNumber() abort
-        if (bufname('%') =~ 'NvimTree')
-            return
-        endif
-        set relativenumber
-    endfunction
+function setRelativeForBuffer(enabled)
+    local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
 
-    function! SetNoRelativeNumber() abort
-        set norelativenumber
-    endfunction
+    -- Don't do anything inside NvimTree pane
+    if string.find( bufname, 'NvimTree') ~= nil  then
+        return
+    end
 
-    augroup numbertoggle
-        autocmd!
-        autocmd BufEnter,FocusGained,InsertLeave * call SetRelativeNumber()
-        autocmd BufLeave,FocusLost,InsertEnter   * call SetNoRelativeNumber()
-    augroup END
-]])
+    vim.api.nvim_set_option_value('relativenumber', enabled, {
+        scope = 'local'
+    })
+end
+
+vim.api.nvim_create_autocmd(
+    { 'BufEnter' },
+    { callback = function() setRelativeForBuffer(true) end }
+)
+
+vim.api.nvim_create_autocmd(
+    { 'BufLeave' },
+    { callback = function() setRelativeForBuffer(false) end }
+)
+
+-- TODO: delete after confirming the above works
+-- vim.cmd([[
+--     function! SetRelativeNumber() abort
+--         if (bufname('%') =~ 'NvimTree')
+--             return
+--         endif
+--         set relativenumber
+--     endfunction
+
+--     function! SetNoRelativeNumber() abort
+--         set norelativenumber
+--     endfunction
+
+--     augroup numbertoggle
+--         autocmd!
+--         autocmd BufEnter,FocusGained,InsertLeave * call SetRelativeNumber()
+--         autocmd BufLeave,FocusLost,InsertEnter   * call SetNoRelativeNumber()
+--     augroup END
+-- ]])

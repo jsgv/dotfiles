@@ -45,4 +45,3 @@ require('nvim-tree').setup({
 })
 
 vim.api.nvim_set_keymap('', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true })
-
