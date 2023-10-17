@@ -240,8 +240,16 @@ cmp.setup {
         ['<C-e>'] = cmp.mapping.abort(),
         ['<Tab>'] = cmp.mapping(
             function(fallback)
-                if vim.fn['vsnip#jumpable'](1) then
-                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-jump-next)', true, true, true), '')
+                if vim.fn['vsnip#jumpable'](1) == 1 then
+                    vim.fn.feedkeys(
+                        vim.api.nvim_replace_termcodes(
+                            '<Plug>(vsnip-jump-next)',
+                            true,
+                            true,
+                            true
+                        ),
+                        ''
+                    )
                 else
                     fallback()
                 end
@@ -250,8 +258,16 @@ cmp.setup {
         ),
         ['<S-Tab>'] = cmp.mapping(
             function(fallback)
-                if vim.fn['vsnip#jumpable'](-1) then
-                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-jump-prev)', true, true, true), '')
+                if vim.fn['vsnip#jumpable'](-1) == 1 then
+                    vim.fn.feedkeys(
+                        vim.api.nvim_replace_termcodes(
+                            '<Plug>(vsnip-jump-prev)',
+                            true,
+                            true,
+                            true
+                        ),
+                        ''
+                    )
                 else
                     fallback()
                 end
