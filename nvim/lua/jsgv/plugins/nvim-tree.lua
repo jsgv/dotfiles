@@ -1,3 +1,12 @@
+if not pcall(require, 'nvim-tree') then
+  return
+end
+
+-- Disable netrw
+-- https://github.com/nvim-tree/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt#L2385
+vim.g.loaded_netrw       = 1
+vim.g.loaded_netrwPlugin = 1
+
 local function on_attach(bufnr)
   local api = require('nvim-tree.api')
 
@@ -39,9 +48,6 @@ require('nvim-tree').setup({
             '.DS_Store'
         },
     },
-    -- update_focused_file = {
-    --     enable = true,
-    -- },
 })
 
 vim.api.nvim_set_keymap('', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true })

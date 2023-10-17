@@ -1,6 +1,9 @@
+if not pcall(require, 'telescope') then
+  return
+end
+
 local actions       = require('telescope.actions')
 local builtin       = require('telescope.builtin')
-local sorters       = require('telescope.sorters')
 local action_layout = require('telescope.actions.layout')
 
 -- Files
@@ -24,7 +27,6 @@ vim.keymap.set('n', '<Leader>ta',  function () builtin.builtin() end)
 
 require('telescope').setup {
     defaults = {
-        file_sorter     = sorters.get_fuzzy_file,
         layout_strategy = 'horizontal',
         layout_config = {
             width  = 0.95,

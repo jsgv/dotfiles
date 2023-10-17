@@ -46,6 +46,7 @@ vim.g.loaded_perl_provider    = 0
 vim.opt.signcolumn            = 'yes'
 vim.opt.colorcolumn           = '100'
 vim.g.termguicolors           = true
+vim.opt.eol = true
 
 local opts = { noremap = true }
 
@@ -56,6 +57,9 @@ vim.api.nvim_set_keymap('i', 'jj',         '<ESC>l', opts)
 vim.api.nvim_set_keymap('n', '<C-p>',      ':e#<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>fc', ':NvimTreeFindFile<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>p',  ':!pwd<CR>', opts)
+
+vim.api.nvim_set_keymap('n', '<Enter>',    'o<ESC>', opts)
+vim.api.nvim_set_keymap('n', '<S-Enter>',  'O<ESC>', opts)
 
 -- Pane hopping
 vim.api.nvim_set_keymap('n', '<C-j>', '<C-w>j', opts)

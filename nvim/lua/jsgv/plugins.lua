@@ -3,9 +3,7 @@ vim.cmd([[packadd packer.nvim]])
 return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
-    use {
-        'nvim-lualine/lualine.nvim',
-    }
+    use 'nvim-lualine/lualine.nvim'
 
     use {
         'EdenEast/nightfox.nvim',
@@ -52,18 +50,26 @@ return require('packer').startup(function(use)
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-nvim-lua'
+    use 'onsails/lspkind-nvim'
 
     -- Snippets
     use 'hrsh7th/cmp-vsnip'
     use 'hrsh7th/vim-vsnip'
-    use 'onsails/lspkind-nvim'
 
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate'
-    }
-
-    use 'nvim-treesitter/playground'
+    use 'nvim-treesitter/nvim-treesitter'
+    use 'prettier/vim-prettier'
 
     use 'github/copilot.vim'
+    use 'ThePrimeagen/git-worktree.nvim'
+
+    -- use { '~/Code/github.com/jsgv/git-worktree.nvim' }
+    -- use {
+    --     '~/Code/github.com/jsgv/github-theme.nvim',
+    --     -- 'jsgv/github-theme.nvim',
+    --     config = function ()
+    --         require('github-theme').setup({
+    --             theme = 'dark'
+    --         })
+    --     end
+    -- }
 end)

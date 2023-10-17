@@ -1,8 +1,18 @@
+if not pcall(require, 'lspconfig') then
+  return
+end
+
+if not pcall(require, 'lspkind') then
+  return
+end
+
+if not pcall(require, 'cmp') then
+  return
+end
+
 local nvim_lsp = require('lspconfig')
 local lspkind = require('lspkind')
 local cmp = require('cmp')
-
-local has_rust_tools, rust_tools = pcall(require, 'rust-tools')
 
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 vim.opt.shortmess:append 'c'
@@ -26,9 +36,7 @@ vim.diagnostic.config({
     }
 })
 
-local on_attach = function(client, bufnr)
-    -- local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
-
+local on_attach = function(_, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -47,27 +55,20 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'ge',         '<Cmd>lua vim.diagnostic.set_loclist()<CR>',           opts_set_keymap)
     buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.format({ timeout_ms = 2000 })<CR>', opts_set_keymap)
 
-    -- @todo
-    -- local format_file = function()
-    --     print("going to format_file")
-    -- end
-    -- buf_set_keymap('n', '<space>f',   [[ <Cmd>lua format_file()<CR> ]], opts_set_keymap)
-
     local opts_keymap_set = { buffer = bufnr }
     vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, opts_keymap_set)
 
-    local format_on_save = {
-        -- diagnosticls=true,
-        tsserver=true,
-        terraformls=true,
-        prismals=true,
-        bufls=true,
-        rust_analyzer=true,
-    }
-
-    if format_on_save[client.name] then
-        vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.format({ timeout_ms = 2000 }) ]])
-    end
+    -- local format_on_save = {
+    --     -- diagnosticls=true,
+    --     -- tsserver=false,
+    --     terraformls=true,
+    --     -- prismals=true,
+    --     bufls=true,
+    --     rust_analyzer=true,
+    -- }
+    -- if format_on_save[client.name] then
+    --     vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.format({ timeout_ms = 2000 }) ]])
+    -- end
 end
 
 -- Go
@@ -90,12 +91,71 @@ nvim_lsp.bufls.setup({
     capabilities = capabilities,
 })
 
--- GraphQL
-nvim_lsp.graphql.setup({
+-- Python
+nvim_lsp.pyright.setup({
     on_attach    = on_attach,
     capabilities = capabilities,
 })
 
+-- Prisma
+nvim_lsp.prismals.setup({
+    on_attach    = on_attach,
+    capabilities = capabilities,
+})
+
+-- Tailwind CSS
+nvim_lsp.tailwindcss.setup({
+    on_attach    = on_attach,
+    capabilities = capabilities,
+})
+
+-- Terraform
+nvim_lsp.terraformls.setup({
+    on_attach    = on_attach,
+    capabilities = capabilities,
+})
+
+-- Java
+nvim_lsp.jdtls.setup({
+    on_attach    = on_attach,
+    capabilities = capabilities,
+})
+
+-- TypeScript
+nvim_lsp.tsserver.setup({
+    on_attach    = on_attach,
+    capabilities = capabilities,
+})
+
+-- C/C++
+nvim_lsp.clangd.setup({
+    on_attach    = on_attach,
+    capabilities = capabilities,
+    -- filetypes    = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
+    -- cmd       = { 'clangd', '--background-index', '--clang-tidy' },
+    -- root_dir  = function() return vim.loop.cwd() end
+})
+
+-- Lua
+nvim_lsp.lua_ls.setup({
+    on_attach    = on_attach,
+    capabilities = capabilities,
+    settings = {
+        Lua = {
+            runtime = {
+                version = 'LuaJIT',
+            },
+            workspace = {
+                checkThirdParty = false,
+                library = {
+                    vim.env.VIMRUNTIME
+                }
+            }
+        }
+    }
+})
+
+local has_rust_tools, rust_tools = pcall(require, 'rust-tools')
 if has_rust_tools then
     rust_tools.setup({
         tools = {
@@ -137,204 +197,6 @@ if has_rust_tools then
     })
 end
 
--- Python
-nvim_lsp.pyright.setup({
-    on_attach    = on_attach,
-    capabilities = capabilities,
-})
-
--- PHP
--- nvim_lsp.phpactor.setup({
---     on_attach    = on_attach,
---     capabilities = capabilities,
--- })
-
-
--- Prisma
-nvim_lsp.prismals.setup({
-    on_attach    = on_attach,
-    capabilities = capabilities,
-})
-
--- Tailwind CSS
-nvim_lsp.tailwindcss.setup({
-    on_attach    = on_attach,
-    capabilities = capabilities,
-})
-
--- Terraform
-nvim_lsp.terraformls.setup({
-    on_attach    = on_attach,
-    capabilities = capabilities,
-})
-
--- Java
-nvim_lsp.jdtls.setup({
-    on_attach    = on_attach,
-    capabilities = capabilities,
-})
-
--- TypeScript
-nvim_lsp.tsserver.setup({
-    on_attach    = on_attach,
-    capabilities = capabilities,
-    settings = {
-        typescript = {
-            format = {
-                baseIndentSize = 0,
-                indentSize = 4,
-                convertTabsToSpaces = true,
-                semicolons = 'insert',
-                -- insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = true,
-                -- insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets = true,
-                -- insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis = true,
-                insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces = true,
-                insertSpaceBeforeFunctionParenthesis = true,
-                trimTrailingWhitespace = true,
-            }
-        }
-    },
-    init_options = {
-        hostInfo = "neovim",
-        preferences = {
-            quotePreference = "single",
-        }
-    },
-})
-
--- C++
--- nvim_lsp.clangd.setup({
---     on_attach    = on_attach,
---     capabilities = capabilities,
---     filetypes    = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
---     cmd       = { 'clangd', '--background-index', '--clang-tidy' },
---     root_dir  = function() return vim.loop.cwd() end
--- })
-
--- nvim_lsp.kotlin_language_server.setup({
---     on_attach    = on_attach,
---     capabilities = capabilities,
--- })
-
--- Diagnosticls
--- nvim_lsp.diagnosticls.setup({
---     on_attach = on_attach,
---     filetypes = {
---         'typescript',
---         'typescriptreact',
---         'javascript',
---         'javascriptreact',
---         'css',
---     },
---     init_options = {
---         filetypes = {
---             typescript = 'eslint',
---             typescriptreact = 'eslint',
---             javascript = 'eslint',
---             javascriptreact = 'eslint',
---         },
---         linters = {
---             eslint = {
---                 sourceName = 'eslint',
---                 command = 'npx',
---                 args = {
---                     'eslint',
---                     '--stdin',
---                     '--stdin-filename=%filepath',
---                     '--format=json',
---                 },
---                 rootPatterns = {
---                     'package.json',
---                 },
---                 parseJson = {
---                     errorsRoot = '[0].messages',
---                     line = 'line',
---                     column = 'column',
---                     endLine = 'endLine',
---                     endColumn = 'endColumn',
---                     message = '${message} [${ruleId}]',
---                     security = 'severity',
---                 },
---                 securities = {
---                     [2] = 'error',
---                     [1] = 'warning',
---                 },
---             },
---         },
---         formatFiletypes = {
---             typescript      = 'prettier',
---             typescriptreact = 'prettier',
---             javascript      = 'prettier',
---             javascriptreact = 'prettier',
---             css             = 'prettier',
---         },
---         formatters = {
---             prettier = {
---                 sourceName = 'prettier',
---                 command = 'npx',
---                 args = {
---                     'prettier',
---                     '--stdin-filepath=%filepath',
---                 },
---                 rootPatterns = {
---                     'package.json',
---                 },
---             },
---         },
---     },
--- })
-
--- Lua
-nvim_lsp.lua_ls.setup({
-    on_attach    = on_attach,
-    capabilities = capabilities,
-    settings = {
-        Lua = {
-            runtime = {
-                version = 'LuaJIT',
-            },
-            workspace = {
-                checkThirdParty = false,
-                library = {
-                    vim.env.VIMRUNTIME
-                }
-            }
-        }
-    }
-})
-
--- CodeQL
--- nvim_lsp.codeqlls.setup {
---     on_attach    = on_attach,
---     capabilities = capabilities,
---     cmd          = { 'codeql', 'execute', 'language-server', '--check-errors', 'ON_CHANGE', '-q' },
---     settings     = {
---         search_path = {
---             vim.fn.expand('~/codeql-home/codeql-repo'),
---             vim.fn.expand('~/codeql-home/codeql-go'),
---             vim.fn.expand('~/codeql-home/codeql'),
---         }
---     },
--- }
-
--- Solidity
--- nvim_lsp.solc.setup{
---     on_attach    = on_attach,
---     capabilities = capabilities,
--- }
-
--- Bash
--- nvim_lsp.bashls.setup {
---     on_attach    = on_attach,
---     capabilities = capabilities,
--- }
-
--- Haskell
--- nvim_lsp.hls.setup {
---     on_attach    = on_attach,
---     capabilities = capabilities,
--- }
-
 cmp.setup {
     preselect = cmp.PreselectMode.None,
     snippet = {
@@ -343,23 +205,69 @@ cmp.setup {
         end,
     },
     mapping = cmp.mapping.preset.insert({
-        ['<C-y>'] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Insert,
-            select   = true,
+        ['<C-y>'] = cmp.mapping(
+            cmp.mapping.confirm {
+                behavior = cmp.ConfirmBehavior.Insert,
+                select   = true,
+            },
+            { 'i', 'c' }
+        ),
+        -- TODO: testing mapping
+        ['<M-y>'] = cmp.mapping(
+            cmp.mapping.confirm {
+                behavior = cmp.ConfirmBehavior.Replace,
+                select = false,
+            },
+            { 'i', 'c' }
+        ),
+        -- TODO: testing mapping
+        ['<C-space>'] = cmp.mapping {
+            i = cmp.mapping.complete(),
+            c = function(
+                _ --[[fallback]]
+                )
+                if cmp.visible() then
+                    if not cmp.confirm { select = true } then
+                        return
+                    end
+                else
+                    cmp.complete()
+                end
+            end,
         },
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-e>'] = cmp.mapping.abort(),
+        ['<Tab>'] = cmp.mapping(
+            function(fallback)
+                if vim.fn['vsnip#jumpable'](1) then
+                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-jump-next)', true, true, true), '')
+                else
+                    fallback()
+                end
+            end,
+            { 'i', 's' }
+        ),
+        ['<S-Tab>'] = cmp.mapping(
+            function(fallback)
+                if vim.fn['vsnip#jumpable'](-1) then
+                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-jump-prev)', true, true, true), '')
+                else
+                    fallback()
+                end
+            end,
+            { 'i', 's' }
+        ),
     }),
     formatting = {
         format = lspkind.cmp_format({
             mode = 'symbol_text',
             menu = {
-                nvim_lsp = '[LSP]',
-                vsnip    = '[Vsnip]',
-                buffer   = '[Buffer]',
-                nvim_lua = '[NvimLua]',
-                path     = '[Path]',
+                nvim_lsp = '[nvim_lsp]',
+                vsnip    = '[vsnip]',
+                buffer   = '[buffer]',
+                nvim_lua = '[nvim_lua]',
+                path     = '[path]',
             },
         }),
     },
