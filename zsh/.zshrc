@@ -4,24 +4,21 @@ export PATH=/opt/local/bin:$PATH
 export PATH=$HOME/.composer/vendor/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.yarn/bin:$PATH
+export PATH=$HOME/nvim/bin:$PATH
 export PATH=/usr/local/opt/llvm/bin:$PATH
 
-# Go
+export XDG_CONFIG_HOME=$HOME/.config
+
 export GO111MODULE=on
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export GOPROXY=direct
 export PATH=$GOBIN:$PATH
 
-export PATH=$HOME/nvim/bin:$PATH
-export PATH="/usr/local/opt/libpq/bin:$PATH"
+# export ANDROID_HOME=$HOME/Library/Android/sdk
+# export PATH=$PATH:$ANDROID_HOME/platform-tools
+# export PATH="/usr/local/opt/libpq/bin:$PATH"
 
-export XDG_CONFIG_HOME=$HOME/.config
-
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-
-export GPG_TTY=$(tty)
 
 export HOMEBREW_NO_ANALYTICS=1
 export LANG=en_US.UTF-8
@@ -41,6 +38,7 @@ export HASURA_GRAPHQL_ENABLE_TELEMETRY=false
 export STRIPE_CLI_TELEMETRY_OPTOUT=true
 export NEXT_TELEMETRY_DISABLED=1
 export RIPGREP_CONFIG_PATH=$HOME/.config/ripgrep/.ripgreprc
+export GPG_TTY=$(tty)
 
 autoload -Uz vcs_info compinit
 autoload -U colors && colors
@@ -60,23 +58,6 @@ RPROMPT='${vcs_info_msg_0_} %*'
 compinit
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-for i in `find -E -L $XDG_CONFIG_HOME/personal -regex ".*.(zsh|sh)"`; do
-    source $i;
-done
-
-# Haskell
-[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-export NODE_BIN="$NVM_BIN/node"
-
-source $HOME/.rvm/scripts/rvm
-
 setopt extended_history
 setopt hist_expire_dups_first
 setopt hist_ignore_dups
@@ -87,7 +68,6 @@ setopt share_history
 
 alias ls='gls --group-directories-first --color=always'
 alias ll='gls -l --group-directories-first --color=always'
-alias luamake="$HOME/Code/github.com/sumneko/lua-language-server/3rd/luamake/luamake"
 alias tf='terraform'
 
 RED="\033[1;31m"
@@ -102,5 +82,21 @@ bindkey "^[[1;3C" forward-word
 
 typeset -aU path
 
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/etc/profile.d/autojump.sh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh"
+[ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm"
+export NODE_BIN="$NVM_BIN/node"
+
+[ -f "$HOME/.rvm/scripts/rvm" ] && source $HOME/.rvm/scripts/rvm
+
+# Haskell
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
+
+for i in `find -E -L $XDG_CONFIG_HOME/personal -regex ".*.(zsh|sh)"`; do
+    source $i;
+done
 
