@@ -5,9 +5,9 @@ export PATH=$HOME/.composer/vendor/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.yarn/bin:$PATH
 export PATH=$HOME/codeql-home/codeql:$PATH
-
 export PATH=/usr/local/opt/llvm/bin:$PATH
 
+# Go
 export GO111MODULE=on
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
@@ -15,18 +15,15 @@ export GOPROXY=direct
 export PATH=$GOBIN:$PATH
 
 export PATH=$HOME/nvim/bin:$PATH
+export PATH="/usr/local/opt/libpq/bin:$PATH"
 
 export XDG_CONFIG_HOME=$HOME/.config
 
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-export PATH="/usr/local/opt/libpq/bin:$PATH"
-# export RUSTUP_TOOLCHAIN="nightly"
-
 export GPG_TTY=$(tty)
 
-export DO_NOT_TRACK=1 # https://consoledonottrack.com
 export HOMEBREW_NO_ANALYTICS=1
 export LANG=en_US.UTF-8
 export EDITOR=nvim
@@ -44,10 +41,10 @@ export DOCKER_BUILDKIT=1
 export HASURA_GRAPHQL_ENABLE_TELEMETRY=false
 export STRIPE_CLI_TELEMETRY_OPTOUT=true
 export NEXT_TELEMETRY_DISABLED=1
-
 export RIPGREP_CONFIG_PATH=$HOME/.config/ripgrep/.ripgreprc
 
 autoload -Uz vcs_info compinit
+autoload -U colors && colors
 
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
@@ -58,7 +55,7 @@ zstyle ':vcs_info:git*' get-revision      true
 zstyle ':vcs_info:git*' unstagedstr       '%F{1}*%f'
 zstyle ':vcs_info:git*' formats           '%m%u%c %7.7i %F{4}(%b)%f'
 
-PROMPT='%F{4}%~%f %F{8}%#%f '
+PROMPT='%F{7}%~%f %F{178}%#%f '
 RPROMPT='${vcs_info_msg_0_} %*'
 
 compinit
