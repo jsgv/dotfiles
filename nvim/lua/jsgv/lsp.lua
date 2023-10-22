@@ -36,7 +36,7 @@ vim.diagnostic.config({
     }
 })
 
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -58,17 +58,13 @@ local on_attach = function(_, bufnr)
     local opts_keymap_set = { buffer = bufnr }
     vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, opts_keymap_set)
 
-    -- local format_on_save = {
-    --     -- diagnosticls=true,
-    --     -- tsserver=false,
-    --     terraformls=true,
-    --     -- prismals=true,
-    --     bufls=true,
-    --     rust_analyzer=true,
-    -- }
-    -- if format_on_save[client.name] then
-    --     vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.format({ timeout_ms = 2000 }) ]])
-    -- end
+    local format_on_save = {
+        rust_analyzer=true,
+    }
+
+    if format_on_save[client.name] then
+        vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.format({ timeout_ms = 2000 }) ]])
+    end
 end
 
 -- Go

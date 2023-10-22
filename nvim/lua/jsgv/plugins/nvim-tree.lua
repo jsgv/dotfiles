@@ -4,8 +4,8 @@ end
 
 -- Disable netrw
 -- https://github.com/nvim-tree/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt#L2385
-vim.g.loaded_netrw       = 1
-vim.g.loaded_netrwPlugin = 1
+-- vim.g.loaded_netrw       = 1
+-- vim.g.loaded_netrwPlugin = 1
 
 local function on_attach(bufnr)
   local api = require('nvim-tree.api')

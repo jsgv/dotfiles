@@ -1,3 +1,7 @@
+if not pcall(require, 'nvim-treesitter.configs') then
+    return
+end
+
 local treesitter_configs = require('nvim-treesitter.configs')
 
 vim.opt.foldenable      = false

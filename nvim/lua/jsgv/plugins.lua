@@ -4,17 +4,25 @@ return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
     use 'nvim-lualine/lualine.nvim'
+    use 'itchyny/lightline.vim'
+
+    -- use {
+    --     'AlexvZyl/nordic.nvim',
+    --     config = function()
+    --         vim.cmd('colorscheme nordic')
+    --     end
+    -- }
 
     use {
-        'EdenEast/nightfox.nvim',
-        config = function ()
-          vim.opt.background = 'dark'
-          vim.cmd("colorscheme nightfox")
+        "ellisonleao/gruvbox.nvim",
+        config = function()
+            require("gruvbox").setup({
+                bold = false
+            })
+            vim.o.background = "dark"
+            vim.cmd([[colorscheme gruvbox]])
         end
     }
-
-    use 'kyazdani42/nvim-tree.lua'
-    use 'kyazdani42/nvim-web-devicons'
 
     use 'airblade/vim-gitgutter'
     use {
@@ -24,24 +32,18 @@ return require('packer').startup(function(use)
         end
     }
 
-    use 'tpope/vim-fugitive'
-    use 'tpope/vim-commentary'
-
     use {
         'fatih/vim-go',
         run = ':GoInstallBinaries'
     }
 
-    use {
-        'nvim-telescope/telescope.nvim',
-        requires = {
-            { 'nvim-lua/popup.nvim' },
-            { 'nvim-lua/plenary.nvim' },
-        }
-    }
+    use { 'nvim-telescope/telescope.nvim' }
+    use { 'nvim-lua/plenary.nvim' }
+    use { 'nvim-lua/popup.nvim' }
 
     -- LSP
     use 'neovim/nvim-lspconfig'
+    use 'nvim-treesitter/nvim-treesitter'
 
     -- Languages
     use 'simrat39/rust-tools.nvim'
@@ -56,20 +58,15 @@ return require('packer').startup(function(use)
     use 'hrsh7th/cmp-vsnip'
     use 'hrsh7th/vim-vsnip'
 
-    use 'nvim-treesitter/nvim-treesitter'
-    use 'prettier/vim-prettier'
 
     use 'github/copilot.vim'
     use 'ThePrimeagen/git-worktree.nvim'
+    use 'prettier/vim-prettier'
 
-    -- use { '~/Code/github.com/jsgv/git-worktree.nvim' }
-    -- use {
-    --     '~/Code/github.com/jsgv/github-theme.nvim',
-    --     -- 'jsgv/github-theme.nvim',
-    --     config = function ()
-    --         require('github-theme').setup({
-    --             theme = 'dark'
-    --         })
-    --     end
-    -- }
+    use 'tpope/vim-fugitive'
+    use 'tpope/vim-commentary'
+    use 'tpope/vim-surround'
+
+    -- use 'kyazdani42/nvim-tree.lua'
+    -- use 'kyazdani42/nvim-web-devicons'
 end)

@@ -32,7 +32,6 @@ vim.opt.tabstop               = 4
 vim.opt.softtabstop           = 4
 vim.opt.shiftwidth            = 4
 vim.opt.updatetime            = 300
-vim.opt.wildmode              = 'list:longest,list:full'
 vim.opt.list                  = true
 -- listchars=tab:> ,trail:-,nbsp:+
 vim.opt.listchars             = { tab = '| ', trail = '-', nbsp = '+' }
@@ -45,8 +44,8 @@ vim.o.completeopt             = 'menuone,noselect'
 vim.g.loaded_perl_provider    = 0
 vim.opt.signcolumn            = 'yes'
 vim.opt.colorcolumn           = '100'
-vim.g.termguicolors           = true
-vim.opt.eol = true
+vim.opt.termguicolors         = true
+vim.opt.eol                   = true
 
 local opts = { noremap = true }
 
@@ -67,7 +66,14 @@ vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', opts)
 vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', opts)
 vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', opts)
 
+vim.api.nvim_set_keymap('', '<C-b>', ':Explore<CR>', { noremap = true })
+
 vim.api.nvim_set_keymap('n', '<C-w>m', '<C-w>_<CR><C-w>|<CR>', opts)
+
+vim.g.netrw_browse_split = 0
+vim.g.netrw_banner = 0
+vim.g.netrw_usetab = 1
+vim.g.netrw_list_hide = '.DS_Store'
 
 -- Only show relative numbers in the current pane
 -- Toggle when switching between panes
