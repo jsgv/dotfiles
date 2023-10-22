@@ -4,7 +4,6 @@ export PATH=/opt/local/bin:$PATH
 export PATH=$HOME/.composer/vendor/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.yarn/bin:$PATH
-export PATH=$HOME/codeql-home/codeql:$PATH
 export PATH=/usr/local/opt/llvm/bin:$PATH
 
 # Go
@@ -63,8 +62,10 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/Code/github.com/jsgv/dotfiles/zsh/secrets.zsh
-source $HOME/Code/github.com/jsgv/dotfiles/zsh/functions.zsh
+
+for i in `find -L $XDG_CONFIG_HOME/personal`; do
+    source $i;
+done
 
 # Haskell
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
