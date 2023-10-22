@@ -63,7 +63,7 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-for i in `find -L $XDG_CONFIG_HOME/personal`; do
+for i in `find -E -L $XDG_CONFIG_HOME/personal -regex ".*.(zsh|sh)"`; do
     source $i;
 done
 

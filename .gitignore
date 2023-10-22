@@ -3,6 +3,5 @@ node_modules/
 nvim/plugin/packer_compiled.vim
 nvim/plugin/packer_compiled.lua
 nvim/lua/jsgv/wip.lua
-zsh/*
 *.bak.json
 package-lock.json
