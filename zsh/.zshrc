@@ -1,11 +1,10 @@
-export PATH=/usr/local/bin:$PATH
-export PATH=/usr/local/sbin:$PATH
-export PATH=/opt/local/bin:$PATH
-export PATH=$HOME/.composer/vendor/bin:$PATH
-export PATH=$HOME/.cargo/bin:$PATH
-export PATH=$HOME/.yarn/bin:$PATH
-export PATH=$HOME/nvim/bin:$PATH
-export PATH=/usr/local/opt/llvm/bin:$PATH
+export PATH=$PATH:/usr/local/bin
+export PATH=$PATH:/usr/local/sbin
+export PATH=$PATH:/opt/local/bin
+export PATH=$PATH:$HOME/.yarn/bin
+export PATH=$PATH:$HOME/nvim/bin
+export PATH=$PATH:/usr/local/opt/llvm/bin
+export PATH=$PATH:$HOME/.composer/vendor/bin
 
 export XDG_CONFIG_HOME=$HOME/.config
 
@@ -13,12 +12,11 @@ export GO111MODULE=on
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export GOPROXY=direct
-export PATH=$GOBIN:$PATH
+export PATH=$PATH:$GOBIN
 
 # export ANDROID_HOME=$HOME/Library/Android/sdk
 # export PATH=$PATH:$ANDROID_HOME/platform-tools
 # export PATH="/usr/local/opt/libpq/bin:$PATH"
-
 
 export HOMEBREW_NO_ANALYTICS=1
 export LANG=en_US.UTF-8
