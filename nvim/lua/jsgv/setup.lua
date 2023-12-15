@@ -54,11 +54,6 @@ vim.api.nvim_set_keymap('n', 'j',          'gj', opts)
 vim.api.nvim_set_keymap('n', 'k',          'gk', opts)
 vim.api.nvim_set_keymap('i', 'jj',         '<ESC>l', opts)
 vim.api.nvim_set_keymap('n', '<C-p>',      ':e#<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>fc', ':NvimTreeFindFile<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>p',  ':!pwd<CR>', opts)
-
-vim.api.nvim_set_keymap('n', '<Enter>',    'o<ESC>', opts)
-vim.api.nvim_set_keymap('n', '<S-Enter>',  'O<ESC>', opts)
 
 -- Pane hopping
 vim.api.nvim_set_keymap('n', '<C-j>', '<C-w>j', opts)
@@ -68,8 +63,6 @@ vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', opts)
 
 vim.api.nvim_set_keymap('', '<C-b>', ':Explore<CR>', { noremap = true })
 
-vim.api.nvim_set_keymap('n', '<C-w>m', '<C-w>_<CR><C-w>|<CR>', opts)
-
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_usetab = 1
@@ -77,7 +70,7 @@ vim.g.netrw_list_hide = '.DS_Store'
 
 -- Only show relative numbers in the current pane
 -- Toggle when switching between panes
-function setRelativeForBuffer(enabled)
+local function setRelativeForBuffer(enabled)
     local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
 
     -- Don't do anything inside NvimTree pane
@@ -99,23 +92,3 @@ vim.api.nvim_create_autocmd(
     { 'BufLeave' },
     { callback = function() setRelativeForBuffer(false) end }
 )
-
--- TODO: delete after confirming the above works
--- vim.cmd([[
---     function! SetRelativeNumber() abort
---         if (bufname('%') =~ 'NvimTree')
---             return
---         endif
---         set relativenumber
---     endfunction
-
---     function! SetNoRelativeNumber() abort
---         set norelativenumber
---     endfunction
-
---     augroup numbertoggle
---         autocmd!
---         autocmd BufEnter,FocusGained,InsertLeave * call SetRelativeNumber()
---         autocmd BufLeave,FocusLost,InsertEnter   * call SetNoRelativeNumber()
---     augroup END
--- ]])

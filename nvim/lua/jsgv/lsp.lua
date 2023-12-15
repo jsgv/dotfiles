@@ -53,7 +53,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',       opts_set_keymap)
     buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',         opts_set_keymap)
     buf_set_keymap('n', 'ge',         '<Cmd>lua vim.diagnostic.set_loclist()<CR>',           opts_set_keymap)
-    buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.format({ timeout_ms = 2000 })<CR>', opts_set_keymap)
+    -- buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.format({ timeout_ms = 2000 })<CR>', opts_set_keymap)
 
     local opts_keymap_set = { buffer = bufnr }
     vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, opts_keymap_set)
@@ -64,6 +64,10 @@ local on_attach = function(client, bufnr)
 
     if format_on_save[client.name] then
         vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.format({ timeout_ms = 2000 }) ]])
+    end
+
+    if client.name == 'tsserver' then
+        buf_set_keymap('n', '<space>f',   '<Cmd>Prettier<CR>', opts_set_keymap)
     end
 end
 
@@ -234,24 +238,25 @@ cmp.setup {
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-e>'] = cmp.mapping.abort(),
-        ['<Tab>'] = cmp.mapping(
-            function(fallback)
-                if vim.fn['vsnip#jumpable'](1) == 1 then
-                    vim.fn.feedkeys(
-                        vim.api.nvim_replace_termcodes(
-                            '<Plug>(vsnip-jump-next)',
-                            true,
-                            true,
-                            true
-                        ),
-                        ''
-                    )
-                else
-                    fallback()
-                end
-            end,
-            { 'i', 's' }
-        ),
+        -- this interferes with GitHub Copilot
+        -- ['<Tab>'] = cmp.mapping(
+        --     function(fallback)
+        --         if vim.fn['vsnip#jumpable'](1) == 1 then
+        --             vim.fn.feedkeys(
+        --                 vim.api.nvim_replace_termcodes(
+        --                     '<Plug>(vsnip-jump-next)',
+        --                     true,
+        --                     true,
+        --                     true
+        --                 ),
+        --                 ''
+        --             )
+        --         else
+        --             fallback()
+        --         end
+        --     end,
+        --     { 'i', 's' }
+        -- ),
         ['<S-Tab>'] = cmp.mapping(
             function(fallback)
                 if vim.fn['vsnip#jumpable'](-1) == 1 then

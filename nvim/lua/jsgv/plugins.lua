@@ -14,12 +14,12 @@ return require('packer').startup(function(use)
     -- }
 
     use {
-        "ellisonleao/gruvbox.nvim",
+        'ellisonleao/gruvbox.nvim',
         config = function()
-            require("gruvbox").setup({
+            require('gruvbox').setup({
                 bold = false
             })
-            vim.o.background = "dark"
+            vim.o.background = 'dark'
             vim.cmd([[colorscheme gruvbox]])
         end
     }
@@ -43,7 +43,10 @@ return require('packer').startup(function(use)
 
     -- LSP
     use 'neovim/nvim-lspconfig'
-    use 'nvim-treesitter/nvim-treesitter'
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate'
+    }
 
     -- Languages
     use 'simrat39/rust-tools.nvim'
