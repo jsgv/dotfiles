@@ -2,13 +2,23 @@ if not pcall(require, 'nvim-treesitter.configs') then
     return
 end
 
-local treesitter_configs = require('nvim-treesitter.configs')
+require("nvim-treesitter.parsers").get_parser_configs().just = {
+    install_info = {
+        url = "https://github.com/IndianBoy42/tree-sitter-just", -- local path or git repo
+        files = { "src/parser.c", "src/scanner.c" },
+        branch = "main",
+        -- use_makefile = true -- this may be necessary on MacOS (try if you see compiler errors)
+    },
+    maintainers = { "@IndianBoy42" },
+}
 
-vim.opt.foldenable      = false
-vim.opt.foldmethod      = 'expr'
-vim.opt.foldexpr        = 'nvim_treesitter#foldexpr()'
-vim.opt.foldlevel       = 1
-vim.opt.foldlevelstart  = 99
+local treesitter_configs                                     = require('nvim-treesitter.configs')
+
+vim.opt.foldenable                                           = false
+vim.opt.foldmethod                                           = 'expr'
+vim.opt.foldexpr                                             = 'nvim_treesitter#foldexpr()'
+vim.opt.foldlevel                                            = 1
+vim.opt.foldlevelstart                                       = 99
 
 vim.api.nvim_set_keymap('n', '<F9>', 'za', { noremap = true })
 

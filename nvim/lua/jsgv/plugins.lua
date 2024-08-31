@@ -48,8 +48,10 @@ return require('packer').startup(function(use)
         run = ':TSUpdate'
     }
 
+    use "IndianBoy42/tree-sitter-just"
+
     -- Languages
-    use 'simrat39/rust-tools.nvim'
+    -- use 'simrat39/rust-tools.nvim'
 
     -- Completion
     use 'hrsh7th/nvim-cmp'

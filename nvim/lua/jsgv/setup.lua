@@ -61,6 +61,19 @@ vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', opts)
 vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', opts)
 vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', opts)
 
+-- vim.api.nvim_create_autocmd(
+--     'filetype',
+--     {
+--         pattern = { 'netrw' },
+--         callback = function()
+--             vim.api.nvim_buf_set_keymap('n', '<C-j>', '<C-w>j', opts)
+--             vim.api.nvim_buf_set_keymap('n', '<C-k>', '<C-w>k', opts)
+--             vim.api.nvim_buf_set_keymap('n', '<C-h>', '<C-w>h', opts)
+--             vim.api.nvim_buf_set_keymap('n', '<C-l>', '<C-w>l', opts)
+--         end
+--     }
+-- )
+
 vim.api.nvim_set_keymap('', '<C-b>', ':Explore<CR>', { noremap = true })
 
 vim.g.netrw_browse_split = 0

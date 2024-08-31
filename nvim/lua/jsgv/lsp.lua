@@ -155,47 +155,77 @@ nvim_lsp.lua_ls.setup({
     }
 })
 
-local has_rust_tools, rust_tools = pcall(require, 'rust-tools')
-if has_rust_tools then
-    rust_tools.setup({
-        tools = {
-            autoSetHints = true,
-            inlay_hints = {
-                show_parameter_hints = false,
-                parameter_hints_prefix = '',
-                other_hints_prefix = '',
+-- Rust
+nvim_lsp.rust_analyzer.setup({
+    on_attach = on_attach,
+    settings = {
+        ['rust-analyzer'] = {
+            checkOnSave = {
+                command = 'clippy'
             },
-        },
-        server = {
-            on_attach = on_attach,
-            settings  = {
-                ['rust-analyzer'] = {
-                    checkOnSave = {
-                        command = 'clippy'
-                    },
-                    cargo = {
-                        loadOutDirsFromCheck = true
-                    },
-                    procMacro = {
-                        enable = true
-                    },
-                    diagnostics = {
-                        enable = true,
-                        enableExperimental = false,
-                    },
-                    lens = {
-                        enable = true,
-                    },
-                    -- remove/enable once fixed:
-                    -- https://github.com/simrat39/rust-tools.nvim/issues/300
-                    inlayHints = {
-                        locationLinks = false
-                    }
-                }
+            cargo = {
+                loadOutDirsFromCheck = true
+            },
+            procMacro = {
+                enable = true
+            },
+            diagnostics = {
+                enable = true,
+                enableExperimental = false,
+            },
+            lens = {
+                enable = true,
+            },
+            -- remove/enable once fixed:
+            -- https://github.com/simrat39/rust-tools.nvim/issues/300
+            inlayHints = {
+                locationLinks = false
             }
-        },
-    })
-end
+        }
+    }
+})
+
+-- local has_rust_tools, rust_tools = pcall(require, 'rust-tools')
+-- if has_rust_tools then
+--     rust_tools.setup({
+--         tools = {
+--             autoSetHints = true,
+--             inlay_hints = {
+--                 show_parameter_hints = false,
+--                 parameter_hints_prefix = '',
+--                 other_hints_prefix = '',
+--             },
+--         },
+--         server = {
+--             on_attach = on_attach,
+--             settings  = {
+--                 ['rust-analyzer'] = {
+--                     checkOnSave = {
+--                         command = 'clippy'
+--                     },
+--                     cargo = {
+--                         loadOutDirsFromCheck = true
+--                     },
+--                     procMacro = {
+--                         enable = true
+--                     },
+--                     diagnostics = {
+--                         enable = true,
+--                         enableExperimental = false,
+--                     },
+--                     lens = {
+--                         enable = true,
+--                     },
+--                     -- remove/enable once fixed:
+--                     -- https://github.com/simrat39/rust-tools.nvim/issues/300
+--                     inlayHints = {
+--                         locationLinks = false
+--                     }
+--                 }
+--             }
+--         },
+--     })
+-- end
 
 cmp.setup {
     preselect = cmp.PreselectMode.None,
