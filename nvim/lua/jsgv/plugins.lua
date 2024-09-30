@@ -4,7 +4,6 @@ return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
     use 'nvim-lualine/lualine.nvim'
-    use 'itchyny/lightline.vim'
 
     -- use {
     --     'AlexvZyl/nordic.nvim',
