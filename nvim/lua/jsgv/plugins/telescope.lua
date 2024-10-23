@@ -7,8 +7,8 @@ local builtin       = require('telescope.builtin')
 local action_layout = require('telescope.actions.layout')
 
 -- Files
-vim.keymap.set('n', '<Leader>ff',  function () builtin.find_files() end)
-vim.keymap.set('n', '<Leader>fg',  function () builtin.live_grep() end)
+vim.keymap.set('n', '<Leader>ff',  function () builtin.find_files({ hidden = true }) end)
+vim.keymap.set('n', '<Leader>fg',  function () builtin.live_grep({ additional_args = { "--hidden" } }) end)
 vim.keymap.set('n', '<Leader>fb',  function () builtin.buffers() end)
 
 -- LSP
