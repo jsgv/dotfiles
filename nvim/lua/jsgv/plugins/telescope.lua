@@ -12,7 +12,7 @@ vim.keymap.set('n', '<Leader>fg',  function () builtin.live_grep({ additional_ar
 vim.keymap.set('n', '<Leader>fb',  function () builtin.buffers() end)
 
 -- LSP
-vim.keymap.set('n', '<Leader>fdi', function () builtin.diagnostics() end)
+vim.keymap.set('n', '<Leader>fdi', function () builtin.diagnostics({ bufnr = nil }) end)
 vim.keymap.set('n', '<Leader>fi',  function () builtin.lsp_implementations() end)
 vim.keymap.set('n', '<Leader>fds', function () builtin.lsp_document_symbols() end)
 vim.keymap.set('n', '<Leader>fws', function () builtin.lsp_dynamic_workspace_symbols() end)

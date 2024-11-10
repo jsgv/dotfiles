@@ -46,14 +46,14 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '[d',         '<Cmd>lua vim.diagnostic.goto_prev({ float =  { border = "single" }})<CR>',         opts_set_keymap)
     buf_set_keymap('n', ']d',         '<Cmd>lua vim.diagnostic.goto_next({ float =  { border = "single" }})<CR>',         opts_set_keymap)
     buf_set_keymap('n', 'E',          '<Cmd>lua vim.diagnostic.open_float(0, { scope = "line", border = "single" })<CR>', opts_set_keymap)
-    buf_set_keymap('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>',               opts_set_keymap)
-    buf_set_keymap('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>',                    opts_set_keymap)
-    buf_set_keymap('n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>',                   opts_set_keymap)
-    buf_set_keymap('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>',               opts_set_keymap)
-    buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',       opts_set_keymap)
-    buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',         opts_set_keymap)
-    buf_set_keymap('n', 'ge',         '<Cmd>lua vim.diagnostic.set_loclist()<CR>',           opts_set_keymap)
-    -- buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.format({ timeout_ms = 2000 })<CR>', opts_set_keymap)
+    buf_set_keymap('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>',                  opts_set_keymap)
+    buf_set_keymap('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>',                       opts_set_keymap)
+    buf_set_keymap('n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>',                      opts_set_keymap)
+    buf_set_keymap('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>',                  opts_set_keymap)
+    buf_set_keymap('n', 'gh',         '<Cmd>lua vim.lsp.buf.document_highlight()<CR>',          opts_set_keymap)
+    buf_set_keymap('n', 'gc',         '<Cmd>lua vim.lsp.buf.clear_references()<CR>',            opts_set_keymap)
+    buf_set_keymap('n', 'ge',         '<Cmd>lua vim.diagnostic.set_loclist()<CR>',              opts_set_keymap)
+    buf_set_keymap('n', '<space>f',   '<Cmd>lua vim.lsp.buf.format({ timeout_ms = 2000 })<CR>', opts_set_keymap)
 
     local opts_keymap_set = { buffer = bufnr }
     vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, opts_keymap_set)
@@ -86,7 +86,7 @@ nvim_lsp.gopls.setup({
 })
 
 -- Proto
-nvim_lsp.bufls.setup({
+nvim_lsp.buf_ls.setup({
     on_attach    = on_attach,
     capabilities = capabilities,
 })
