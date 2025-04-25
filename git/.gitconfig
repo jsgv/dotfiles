@@ -1,21 +1,36 @@
 [alias]
-	br = branch --sort=-committerdate
+	br = branch
 	cm = commit
 	co = checkout
-	lg = log --oneline --graph
+    f  = fetch
 	pl = pull
 	ps = push
 	st = status
-[user]
-	useConfigOnly = true
+    w  = worktree
+    lg = !git --no-pager log -n 15 --color --graph --abbrev=8 --pretty=tformat:'%Cred%h%Creset %<(60,trunc)%s %Cgreen(%><(14,trunc)%cr) %C(bold blue)%<(13,trunc)%an%Creset %C(yellow)%d%Creset'
+[branch]
+    sort = -committerdate
+[column]
+    ui = auto
 [core]
 	excludesfile = ~/.gitignore_global
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+[fetch]
+    all = true
+    prune = true
+    pruneTags = true
+[help]
+    autocorrect = prompt
+[init]
+	defaultBranch = master
 [pager]
 	branch = false
 	stash = false
 [pull]
 	rebase = false
-[init]
-	defaultBranch = master
 [push]
 	followTags = true
+[user]
+	useConfigOnly = true
