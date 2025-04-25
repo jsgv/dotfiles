@@ -1,17 +1,17 @@
 [user]
-	name =
-	email =
-	signingkey =
+    name =
+    email =
+    signingkey =
 
 [alias]
-	br = branch
-	cm = commit
-	co = checkout
-	f  = fetch
-	pl = pull
-	ps = push
-	st = status
-	w  = worktree
+    br = branch
+    cm = commit
+    co = checkout
+    f  = fetch
+    pl = pull
+    ps = push
+    st = status
+    w  = worktree
     lg  = !git --no-pager log -n 15 --color --graph --abbrev=8 --pretty=tformat:'%Cred%h%Creset %<(60,trunc)%s %Cgreen(%><(14,trunc)%cr) %C(bold blue)%<(13,trunc)%an%Creset %GK %C(yellow)%d%Creset'
     lg1 = log --oneline --graph
     lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
@@ -24,7 +24,7 @@
     gpgsign = true
 
 [core]
-	excludesfile = ~/.gitignore_global
+    excludesfile = ~/.gitignore_global
 
 [diff]
     algorithm = histogram
@@ -39,17 +39,17 @@
     autocorrect = prompt
 
 [init]
-	defaultBranch = main
+    defaultBranch = main
 
 ; [pager]
-; 	branch = false
-; 	stash = false
+;     branch = false
+;     stash = false
 
 [pull]
-	rebase = true
+    rebase = true
 
 [push]
-	followTags = true
+    followTags = true
 
 [rebase]
     autostash = true
@@ -60,4 +60,4 @@
     gpgSign = true
 
 [user]
-	useConfigOnly = true
+    useConfigOnly = true
