@@ -1,36 +1,63 @@
+[user]
+	name =
+	email =
+	signingkey =
+
 [alias]
 	br = branch
 	cm = commit
 	co = checkout
-    f  = fetch
+	f  = fetch
 	pl = pull
 	ps = push
 	st = status
-    w  = worktree
-    lg = !git --no-pager log -n 15 --color --graph --abbrev=8 --pretty=tformat:'%Cred%h%Creset %<(60,trunc)%s %Cgreen(%><(14,trunc)%cr) %C(bold blue)%<(13,trunc)%an%Creset %C(yellow)%d%Creset'
+	w  = worktree
+    lg  = !git --no-pager log -n 15 --color --graph --abbrev=8 --pretty=tformat:'%Cred%h%Creset %<(60,trunc)%s %Cgreen(%><(14,trunc)%cr) %C(bold blue)%<(13,trunc)%an%Creset %C(yellow)%d%Creset'
+    lg1 = log --oneline --graph
+    lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
+    ; lg2 = !git --no-pager log -n 5 --reverse
+
 [branch]
     sort = -committerdate
-[column]
-    ui = auto
+
+[commit]
+    gpgsign = true
+
 [core]
 	excludesfile = ~/.gitignore_global
+
 [diff]
     algorithm = histogram
     colorMoved = plain
+
 [fetch]
     all = true
     prune = true
     pruneTags = true
+
 [help]
     autocorrect = prompt
+
 [init]
-	defaultBranch = master
-[pager]
-	branch = false
-	stash = false
+	defaultBranch = main
+
+; [pager]
+; 	branch = false
+; 	stash = false
+
 [pull]
-	rebase = false
+	rebase = true
+
 [push]
 	followTags = true
+
+[rebase]
+    autostash = true
+    autoSquash = true
+    updateRefs = true
+
+[tag]
+    gpgSign = true
+
 [user]
 	useConfigOnly = true

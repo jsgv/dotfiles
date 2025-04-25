@@ -46,6 +46,7 @@ vim.opt.signcolumn            = 'yes'
 vim.opt.colorcolumn           = '100'
 vim.opt.termguicolors         = true
 vim.opt.eol                   = true
+vim.o.winborder               = 'rounded'
 
 local opts = { noremap = true }
 
