@@ -24,6 +24,7 @@
     gpgsign = true
 
 [core]
+    editor = nvim
     excludesfile = ~/.gitignore_global
 
 [diff]
@@ -47,8 +48,10 @@
 
 [pull]
     rebase = true
+    prune = true
 
 [push]
+    autoSetupRemote = true
     followTags = true
 
 [rebase]

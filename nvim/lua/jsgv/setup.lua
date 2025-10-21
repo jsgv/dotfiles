@@ -97,6 +97,16 @@ local function setRelativeForBuffer(enabled)
     })
 end
 
+vim.api.nvim_create_user_command(
+    'CopyPath',
+    function()
+        local path = vim.fn.expand('%')
+        vim.fn.setreg('+', path)
+        print('Copied: ' .. path)
+    end,
+    {}
+)
+
 vim.api.nvim_create_autocmd(
     { 'BufEnter' },
     { callback = function() setRelativeForBuffer(true) end }

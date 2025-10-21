@@ -28,7 +28,6 @@ vim.keymap.set('n', '<Leader>ta', function() builtin.builtin() end)
 
 require('telescope').setup {
     defaults = {
-        border = false,
         layout_strategy = 'horizontal',
         layout_config = {
             width           = 0.95,
@@ -53,7 +52,7 @@ require('telescope').setup {
         },
         file_ignore_patterns = {
             'node_modules/.*',
-            -- 'vendor/.*',
+            '.git/.*',
 
             'venv/.*',
             '__pycache__/.*',

@@ -10,7 +10,8 @@ if not pcall(require, 'cmp') then
     return
 end
 
-local nvim_lsp = require('lspconfig')
+-- local nvim_lsp = require('lspconfig')
+-- local nvim_lsp = vim.lsp.config
 local lspkind = require('lspkind')
 local cmp = require('cmp')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -36,20 +37,23 @@ vim.diagnostic.config({
 })
 
 local on_attach = function(client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+    local function keymap_set(mode, lhs, rhs)
+        vim.keymap.set(mode, lhs, rhs, { buffer = bufnr })
+    end
 
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    local opts = { noremap = true, silent = false }
+    -- https://neovim.io/doc/user/lsp.html#_global-defaults
+    -- gra = vim.lsp.buf.code_action()
 
-    buf_set_keymap('n', 'E', '<Cmd>lua vim.diagnostic.open_float(0, {scope="line", border="single"})<CR>', opts)
-    buf_set_keymap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'gh', '<Cmd>lua vim.lsp.buf.document_highlight()<CR>', opts)
-    buf_set_keymap('n', 'gc', '<Cmd>lua vim.lsp.buf.clear_references()<CR>', opts)
-    buf_set_keymap('n', 'ge', '<Cmd>lua vim.diagnostic.set_loclist()<CR>', opts)
-    buf_set_keymap('n', '<space>f', '<Cmd>lua vim.lsp.buf.format({ timeout_ms = 2000 })<CR>', opts)
+    keymap_set('n', 'E', function() vim.diagnostic.open_float({ scope = "line" }) end)
+    keymap_set('n', '<C-]>', function() vim.lsp.buf.definition() end)
+    -- keymap_set('n', 'K', function() vim.lsp.buf.hover({ close_events = { "BufWinLeave" } }) end)
+    keymap_set('n', 'K', function() vim.lsp.buf.hover() end)
+    keymap_set('n', 'gh', function() vim.lsp.buf.document_highlight() end)
+    keymap_set('n', 'gc', function() vim.lsp.buf.clear_references() end)
+    keymap_set('n', 'ge', function() vim.diagnostic.set_loclist() end)
+    keymap_set('n', '<space>f', function() vim.lsp.buf.format({ timeout_ms = 2000 }) end)
 
     local format_on_save = {
         rust_analyzer = true,
@@ -70,7 +74,7 @@ local go_capabilities = require('cmp_nvim_lsp').default_capabilities()
 go_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Go
-nvim_lsp.gopls.setup({
+vim.lsp.config('gopls', {
     on_attach    = on_attach,
     capabilities = go_capabilities,
     flags        = {
@@ -82,60 +86,65 @@ nvim_lsp.gopls.setup({
         }
     }
 })
+vim.lsp.enable('gopls')
 
 -- Proto
-nvim_lsp.buf_ls.setup({
-    on_attach    = on_attach,
-    capabilities = capabilities,
-})
+-- vim.lsp.config('buf_ls', {
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+-- })
 
 -- Python
-nvim_lsp.pyright.setup({
-    on_attach    = on_attach,
-    capabilities = capabilities,
-})
+-- vim.lsp.config('pyright', {
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+-- })
 
 -- Prisma
-nvim_lsp.prismals.setup({
-    on_attach    = on_attach,
-    capabilities = capabilities,
-})
+-- vim.lsp.config('prismals', {
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+-- })
 
 -- Tailwind CSS
-nvim_lsp.tailwindcss.setup({
+vim.lsp.config('tailwindcss', {
     on_attach    = on_attach,
     capabilities = capabilities,
 })
+vim.lsp.enable('tailwindcss')
 
 -- Terraform
-nvim_lsp.terraformls.setup({
+vim.lsp.config('terraformls', {
     on_attach    = on_attach,
     capabilities = capabilities,
 })
+vim.lsp.enable('terraformls')
 
 -- Java
-nvim_lsp.jdtls.setup({
+vim.lsp.config('jdtls', {
     on_attach    = on_attach,
     capabilities = capabilities,
 })
+vim.lsp.enable('jdtls')
 
 -- TypeScript
-nvim_lsp.ts_ls.setup({
+vim.lsp.config('ts_ls', {
     on_attach    = on_attach,
     capabilities = capabilities,
 })
+vim.lsp.enable('ts_ls')
 
 -- C/C++
-nvim_lsp.clangd.setup({
-    on_attach    = on_attach,
-    capabilities = capabilities,
-    -- filetypes    = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
-    -- cmd       = { 'clangd', '--background-index', '--clang-tidy' },
-    -- root_dir  = function() return vim.loop.cwd() end
-})
+-- vim.lsp.config('clangd', {
+--     on_attach    = on_attach,
+--     capabilities = capabilities,
+--     -- filetypes    = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
+--     -- cmd       = { 'clangd', '--background-index', '--clang-tidy' },
+--     -- root_dir  = function() return vim.loop.cwd() end
+-- })
 
 -- Lua
-nvim_lsp.lua_ls.setup({
+vim.lsp.config('lua_ls', {
     on_attach    = on_attach,
     capabilities = capabilities,
     settings     = {
@@ -152,9 +161,10 @@ nvim_lsp.lua_ls.setup({
         }
     }
 })
+vim.lsp.enable('lua_ls')
 
 -- Rust
-nvim_lsp.rust_analyzer.setup({
+vim.lsp.config('rust_analyzer', {
     on_attach = on_attach,
     settings = {
         ['rust-analyzer'] = {
@@ -182,6 +192,7 @@ nvim_lsp.rust_analyzer.setup({
         }
     }
 })
+vim.lsp.enable('rust_analyzer')
 
 -- local has_rust_tools, rust_tools = pcall(require, 'rust-tools')
 -- if has_rust_tools then
