@@ -95,10 +95,11 @@ vim.lsp.enable('gopls')
 -- })
 
 -- Python
--- vim.lsp.config('pyright', {
---     on_attach    = on_attach,
---     capabilities = capabilities,
--- })
+vim.lsp.config('pyright', {
+    on_attach    = on_attach,
+    capabilities = capabilities,
+})
+vim.lsp.enable('pyright')
 
 -- Prisma
 -- vim.lsp.config('prismals', {
@@ -120,12 +121,7 @@ vim.lsp.config('terraformls', {
 })
 vim.lsp.enable('terraformls')
 
--- Java
-vim.lsp.config('jdtls', {
-    on_attach    = on_attach,
-    capabilities = capabilities,
-})
-vim.lsp.enable('jdtls')
+-- Java: configured via nvim-jdtls in after/ftplugin/java.lua
 
 -- TypeScript
 vim.lsp.config('ts_ls', {
@@ -135,13 +131,11 @@ vim.lsp.config('ts_ls', {
 vim.lsp.enable('ts_ls')
 
 -- C/C++
--- vim.lsp.config('clangd', {
---     on_attach    = on_attach,
---     capabilities = capabilities,
---     -- filetypes    = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
---     -- cmd       = { 'clangd', '--background-index', '--clang-tidy' },
---     -- root_dir  = function() return vim.loop.cwd() end
--- })
+vim.lsp.config('clangd', {
+    on_attach    = on_attach,
+    capabilities = capabilities,
+})
+vim.lsp.enable('clangd')
 
 -- Lua
 vim.lsp.config('lua_ls', {
@@ -165,30 +159,28 @@ vim.lsp.enable('lua_ls')
 
 -- Rust
 vim.lsp.config('rust_analyzer', {
-    on_attach = on_attach,
+    on_attach    = on_attach,
+    capabilities = capabilities,
     settings = {
         ['rust-analyzer'] = {
-            checkOnSave = {
+            checkOnSave = true,
+            check = {
                 command = 'clippy'
             },
             cargo = {
-                loadOutDirsFromCheck = true
+                buildScripts = {
+                    enable = true
+                },
             },
             procMacro = {
                 enable = true
             },
             diagnostics = {
                 enable = true,
-                enableExperimental = false,
             },
             lens = {
                 enable = true,
             },
-            -- remove/enable once fixed:
-            -- https://github.com/simrat39/rust-tools.nvim/issues/300
-            inlayHints = {
-                locationLinks = false
-            }
         }
     }
 })

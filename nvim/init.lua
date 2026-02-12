@@ -1,12 +1,15 @@
 -- vim.lsp.set_log_level("debug")
-require('jsgv.plugins')
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.uv.fs_stat(lazypath) then
+    vim.fn.system({
+        'git', 'clone', '--filter=blob:none',
+        'https://github.com/folke/lazy.nvim.git',
+        '--branch=stable',
+        lazypath,
+    })
+end
+vim.opt.rtp:prepend(lazypath)
+
 require('jsgv.setup')
+require('lazy').setup('jsgv.plugins')
 require('jsgv.lsp')
-require('jsgv.plugins.git-worktree')
-require('jsgv.plugins.lualine')
-require('jsgv.plugins.nvim-tree')
-require('jsgv.plugins.nvim-treesitter')
-require('jsgv.plugins.telescope')
-require('jsgv.plugins.vim-commentary')
-require('jsgv.plugins.vim-go')
-require('jsgv.plugins.vim-prettier')

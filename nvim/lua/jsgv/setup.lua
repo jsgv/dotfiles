@@ -15,7 +15,7 @@ vim.opt.breakindent           = true
 vim.g.nobackup                = true
 vim.g.nowritebackup           = true
 vim.opt.number                = true
-vim.opt.relativenumber        = true
+vim.opt.relativenumber        = false
 vim.opt.smartcase             = true
 vim.opt.smartindent           = true
 vim.opt.smarttab              = true
@@ -80,22 +80,7 @@ vim.api.nvim_set_keymap('', '<C-b>', ':Explore<CR>', { noremap = true })
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_usetab = 1
-vim.g.netrw_list_hide = '.DS_Store'
-
--- Only show relative numbers in the current pane
--- Toggle when switching between panes
-local function setRelativeForBuffer(enabled)
-    local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
-
-    -- Don't do anything inside NvimTree pane
-    if string.find( bufname, 'NvimTree') ~= nil  then
-        return
-    end
-
-    vim.api.nvim_set_option_value('relativenumber', enabled, {
-        scope = 'local'
-    })
-end
+-- vim.g.netrw_list_hide = '.DS_Store'
 
 vim.api.nvim_create_user_command(
     'CopyPath',
@@ -107,12 +92,27 @@ vim.api.nvim_create_user_command(
     {}
 )
 
-vim.api.nvim_create_autocmd(
-    { 'BufEnter' },
-    { callback = function() setRelativeForBuffer(true) end }
-)
+-- Only show relative numbers in the current pane
+-- Toggle when switching between panes
+-- local function setRelativeForBuffer(enabled)
+--     local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
 
-vim.api.nvim_create_autocmd(
-    { 'BufLeave' },
-    { callback = function() setRelativeForBuffer(false) end }
-)
+--     -- Don't do anything inside NvimTree pane
+--     if string.find( bufname, 'NvimTree') ~= nil  then
+--         return
+--     end
+
+--     vim.api.nvim_set_option_value('relativenumber', enabled, {
+--         scope = 'local'
+--     })
+-- end
+
+-- vim.api.nvim_create_autocmd(
+--     { 'BufEnter' },
+--     { callback = function() setRelativeForBuffer(true) end }
+-- )
+
+-- vim.api.nvim_create_autocmd(
+--     { 'BufLeave' },
+--     { callback = function() setRelativeForBuffer(false) end }
+-- )
