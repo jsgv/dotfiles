@@ -1,23 +1,15 @@
 [env]
-TERM = "screen-256color"
+TERM = "tmux-256color"
 
 [general]
 live_config_reload = true
 
-[terminal]
-
 [terminal.shell]
-program = "/usr/bin/bash"
-args = [
-    "--login",
-    "-x",
-    "-c",
-    "/home/linuxbrew/.linuxbrew/bin/tmux attach || /home/linuxbrew/.linuxbrew/bin/tmux"
-]
+program = "/usr/bin/zsh"
 
 [window]
-decorations = "none"
 opacity = 1
+decorations = "None"
 option_as_alt = "Both"
 startup_mode = "Maximized"
 
@@ -34,7 +26,6 @@ shape = "Underline"
 
 [font]
 size = 10
-
-[font.normal]
-family = "FiraCode Nerd Font"
-style = "Regular"
+normal = { family = "FiraCode Nerd Font", style = "Regular" }
+bold   = { family = "FiraCode Nerd Font", style = "Bold" }
+italic = { family = "FiraCode Nerd Font", style = "Italic" }
