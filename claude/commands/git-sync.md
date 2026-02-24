@@ -28,9 +28,10 @@ If a Jira ticket is found, store it for use in the commit message and PR title (
 ### 2. Create branch if needed
 
 If on `main` branch:
-- If argument provided (`$ARGUMENTS`), use it as the branch name
-- If no argument provided, analyze the staged/unstaged changes and generate an appropriate branch name:
+- If argument provided (`$ARGUMENTS`) **and it is NOT a Jira ticket pattern**, use it as the branch name
+- Otherwise, analyze the staged/unstaged changes and generate an appropriate branch name:
   - Use format: `<type>/<short-description>` (e.g., `feat/add-user-auth`, `fix/login-redirect`, `docs/update-readme`)
+  - If a Jira ticket was detected, include it in the branch name (e.g., `feat/ABC-123-add-user-auth`)
   - Keep it lowercase with hyphens, no spaces
   - Make it descriptive but concise (2-4 words after the type)
 - Check if branch already exists: `git branch --list <branch-name>`
@@ -46,6 +47,7 @@ If already on a feature branch, continue with that branch.
 ```bash
 git add -A
 git status
+git diff --cached
 ```
 
 Review **all** the staged changes (the full diff, not just recent edits) and create a commit message following conventional commits format.

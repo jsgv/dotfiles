@@ -32,7 +32,8 @@ Check that all CI status checks have passed:
 gh pr checks
 ```
 
-- **Every check must show a pass status.** If any check is pending or failing, **stop and tell the user** which checks are not passing. Do not proceed.
+- **If there are no CI checks configured**, treat this as OK and proceed.
+- **If checks exist, every check must show a pass status.** If any check is pending or failing, **stop and tell the user** which checks are not passing. Do not proceed.
 
 ### 3. Squash merge the PR
 
