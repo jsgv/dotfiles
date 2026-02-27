@@ -12,4 +12,5 @@ Logo | Name | Description
 <img width="32" src="images/homebrew.png"> | [Homebrew](https://brew.sh/) | macOS package manager
 <img width="24" src="images/neovim.svg"> | [Neovim](https://neovim.io/) | Editor / IDE
 <img width="34" src="images/tmux.png"> | [Tmux](https://github.com/tmux/tmux) | Terminal multiplexer
+<img width="32" src="images/vscode.svg"> | [VS Code](https://code.visualstudio.com/) | Code editor
 <img width="26" src="images/zsh.png"> | [Zsh](https://sourceforge.net/p/zsh/code/) | Terminal shell
