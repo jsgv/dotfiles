@@ -38,7 +38,7 @@ If on `main` branch:
 - If branch doesn't exist, create and switch to it: `git checkout -b <branch-name>`
 - If branch exists, switch to it: `git checkout <branch-name>`
 
-If already on a feature branch, continue with that branch.
+If already on a feature branch (any branch that is not `main`), **NEVER create a new branch**. Always continue with the current branch. Do not switch branches or create new ones — commit and push on the current branch as-is.
 
 ### 3. Stage and commit ALL changes
 
@@ -99,7 +99,7 @@ gh pr view --json url,title 2>/dev/null
 If a Jira ticket was detected, prefix the PR title the same way as the commit message (e.g., `ABC-123: feat: add user auth`).
 
 ```bash
-gh pr create --title "<commit-title>" --body "$(cat <<'EOF'
+gh pr create --draft --title "<commit-title>" --body "$(cat <<'EOF'
 ## Why
 
 [Explain the motivation and reasoning behind these changes. What problem does this solve? Why is this approach the right one? Focus on the context and rationale, not the implementation details.]
@@ -139,4 +139,5 @@ After creating or updating the PR, display the URL so the user can review it.
 - **Focus on WHY**: The PR description should emphasize the reasoning and motivation, not just list what changed
 - **Summary section is optional**: Only include if there are notable implementation details worth highlighting; the diff already shows what changed
 - **Conventional commits**: Always use conventional commit format
+- **Always create PRs as draft**: Use `--draft` flag when creating new PRs
 - **Don't force push**: Never use `--force` unless explicitly asked
