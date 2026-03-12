@@ -1,3 +1,4 @@
+typeset -aU path
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/opt/local/bin
@@ -41,15 +42,23 @@ export GPG_TTY=$(tty)
 autoload -Uz vcs_info compinit
 autoload -U colors && colors
 
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
+autoload -Uz vcs_info
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr '%F{green}+%f'
+zstyle ':vcs_info:git:*' unstagedstr '%F{red}*%f'
+zstyle ':vcs_info:git:*' formats ' %%F{yellow}(%b)%%f %u%c'
+
+_custom_vcs_info() {
+    if [[ "$(git rev-parse --is-bare-repository 2>/dev/null)" == "true" ]]; then
+        vcs_info_msg_0_=' %F{yellow}[bare]%f'
+    else
+        vcs_info
+    fi
+}
+
+precmd_functions+=( _custom_vcs_info )
 
 setopt PROMPT_SUBST
-zstyle ':vcs_info:git*' check-for-changes true
-zstyle ':vcs_info:git*' get-revision      true
-zstyle ':vcs_info:git*' unstagedstr       '%F{1}*%f'
-zstyle ':vcs_info:git*' formats           '%m%u%c %7.7i %F{4}(%b)%f'
-
 PROMPT='%F{7}%~%f %F{178}%#%f '
 RPROMPT='${vcs_info_msg_0_} %*'
 
@@ -77,8 +86,6 @@ bindkey "\e[A"    history-beginning-search-backward
 bindkey "\e[B"    history-beginning-search-forward
 bindkey "^[[1;3D" backward-word
 bindkey "^[[1;3C" forward-word
-
-typeset -aU path
 
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
