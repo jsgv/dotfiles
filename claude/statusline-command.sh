@@ -35,10 +35,22 @@ else
     token_info=""
 fi
 
+# Extract rate limit usage
+five_h=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
+seven_d=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
+
+rate_info=""
+if [ -n "$five_h" ] || [ -n "$seven_d" ]; then
+    parts=""
+    [ -n "$five_h" ] && parts="5h:$(printf '%.0f' "$five_h")%"
+    [ -n "$seven_d" ] && parts="${parts:+$parts }7d:$(printf '%.0f' "$seven_d")%"
+    rate_info=$(printf " \033[31m[%s]\033[0m" "$parts")
+fi
+
 model_info=""
 if [ -n "$model_name" ]; then
     model_info=$(printf " \033[35m%s\033[0m" "$model_name")
 fi
 
-printf "\033[34m%s\033[0m\033[33m%s\033[0m%s\033[36m%s\033[0m" \
-    "$display_cwd" "$git_branch" "$model_info" "$token_info"
+printf "\033[34m%s\033[0m\033[33m%s\033[0m%s\033[36m%s\033[0m%s" \
+    "$display_cwd" "$git_branch" "$model_info" "$token_info" "$rate_info"
