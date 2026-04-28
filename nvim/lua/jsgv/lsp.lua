@@ -19,21 +19,16 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 vim.opt.shortmess:append 'c'
 
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text     = {
-            prefix  = '»',
-            spacing = 4,
-        },
-        signs            = true,
-        update_in_insert = false,
-    }
-)
-
 vim.diagnostic.config({
-    float = {
-        source = true
-    }
+    virtual_text = {
+        prefix  = '»',
+        spacing = 4,
+    },
+    signs            = true,
+    update_in_insert = false,
+    float            = {
+        source = true,
+    },
 })
 
 local on_attach = function(client, bufnr)

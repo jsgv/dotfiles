@@ -58,6 +58,31 @@ _custom_vcs_info() {
 
 precmd_functions+=( _custom_vcs_info )
 
+_tmux_rename_window() {
+  [[ -z "$TMUX" ]] && return
+
+  local name
+  local common_dir
+  common_dir=$(git rev-parse --git-common-dir 2>/dev/null)
+
+  if [[ -n "$common_dir" ]]; then
+    if [[ "$(basename "$common_dir")" == ".git" || "$common_dir" == "." ]]; then
+      # regular repo or bare repo root
+      name=$(basename "$PWD")
+    else
+      # worktree of a bare repo
+      name=$(basename "$common_dir")
+    fi
+  else
+    name=$(basename "$PWD")
+  fi
+
+  [[ "$PWD" == "$HOME" ]] && name="~"
+
+  tmux rename-window "$name"
+}
+precmd_functions+=( _tmux_rename_window )
+
 setopt PROMPT_SUBST
 PROMPT='%F{7}%~%f %F{178}%#%f '
 RPROMPT='${vcs_info_msg_0_} %*'

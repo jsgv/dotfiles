@@ -75,26 +75,21 @@ return {
 
             require('telescope').setup {
                 defaults = {
-                    layout_strategy = 'horizontal',
+                    layout_strategy = 'flex',
                     layout_config = {
                         width           = 0.95,
-                        height          = 0.85,
+                        height          = 0.95,
                         prompt_position = 'bottom',
-
+                        flip_columns    = 140,
                         horizontal      = {
                             preview_width = function(_, cols, _)
                                 return math.floor(cols * 0.6)
                             end,
                         },
                         vertical        = {
-                            width          = 0.9,
+                            width          = 0.95,
                             height         = 0.95,
                             preview_height = 0.5,
-                        },
-                        flex            = {
-                            horizontal = {
-                                preview_width = 0.9,
-                            },
                         },
                     },
                     file_ignore_patterns = {
