@@ -14,7 +14,7 @@ option_as_alt = "Both"
 startup_mode = "Maximized"
 
 [scrolling]
-history = 10000
+history = 50000
 multiplier = 3
 
 [cursor]
@@ -25,7 +25,22 @@ blinking = "Always"
 shape = "Underline"
 
 [font]
-size = 10
-normal = { family = "FiraCode Nerd Font", style = "Regular" }
-bold   = { family = "FiraCode Nerd Font", style = "Bold" }
-italic = { family = "FiraCode Nerd Font", style = "Italic" }
+size = 9
+builtin_box_drawing = true
+
+[font.normal]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Light"
+# style = "Regular"
+
+[font.bold]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Bold"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Italic"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Bold Italic"
