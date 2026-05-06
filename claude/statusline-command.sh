@@ -37,13 +37,30 @@ fi
 
 # Extract rate limit usage
 five_h=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
+five_h_resets=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // empty')
 seven_d=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
+seven_d_resets=$(echo "$input" | jq -r '.rate_limits.seven_day.resets_at // empty')
 
 rate_info=""
 if [ -n "$five_h" ] || [ -n "$seven_d" ]; then
+    now=$(date +%s)
     parts=""
-    [ -n "$five_h" ] && parts="5h:$(printf '%.0f' "$five_h")%"
-    [ -n "$seven_d" ] && parts="${parts:+$parts }7d:$(printf '%.0f' "$seven_d")%"
+    if [ -n "$five_h" ]; then
+        parts="5h:$(printf '%.0f' "$five_h")%"
+        if [ -n "$five_h_resets" ]; then
+            secs=$(( five_h_resets - now ))
+            (( secs < 0 )) && secs=0
+            parts="$parts ($((secs/3600))h$(((secs%3600)/60))m)"
+        fi
+    fi
+    if [ -n "$seven_d" ]; then
+        parts="${parts:+$parts }7d:$(printf '%.0f' "$seven_d")%"
+        if [ -n "$seven_d_resets" ]; then
+            secs=$(( seven_d_resets - now ))
+            (( secs < 0 )) && secs=0
+            parts="$parts ($((secs/86400))d$(((secs%86400)/3600))h)"
+        fi
+    fi
     rate_info=$(printf " \033[31m[%s]\033[0m" "$parts")
 fi
 
