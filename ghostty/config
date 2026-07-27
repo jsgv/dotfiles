@@ -1,0 +1,38 @@
+# Tokyo Night — matches waybar/fuzzel/swaync/hyprlock
+theme = TokyoNight
+
+# Font
+font-family = "JetBrainsMono Nerd Font Mono"
+font-style = "Light"
+font-style-bold = "Bold"
+font-style-italic = "Italic"
+font-style-bold-italic = "Bold Italic"
+font-size = 9
+
+# Window
+background-opacity = 0.95
+window-decoration = false
+window-padding-x = 10
+window-padding-y = 8
+window-padding-balance = true
+maximize = true
+
+# Cursor
+cursor-style = underline
+cursor-style-blink = true
+
+# Scrollback
+scrollback-limit = 50000
+
+# Shell / term
+command = /usr/bin/zsh
+# Not tmux-256color: that terminfo would apply to every shell, including ones
+# outside tmux. tmux.conf sets its own default-terminal and declares
+# xterm-ghostty:RGB for the outer terminal, so it handles truecolor itself.
+# xterm-256color over ghostty's native xterm-ghostty for ssh to hosts that
+# don't ship ghostty's terminfo.
+term = xterm-256color
+
+# Behavior
+confirm-close-surface = false
+copy-on-select = clipboard

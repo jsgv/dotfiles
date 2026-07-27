@@ -7,10 +7,17 @@ display_cwd="$cwd"
 display_cwd="${display_cwd/#$HOME\/Code\/github.com\//}"
 
 git_branch=""
+git_dirty=""
 if [ -d "$cwd/.git" ] || git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
     git_branch=$(git -C "$cwd" --no-optional-locks branch --show-current 2>/dev/null)
     if [ -n "$git_branch" ]; then
         git_branch=" ($git_branch)"
+    fi
+
+    # Count uncommitted changes (staged, unstaged, and untracked)
+    dirty_count=$(git -C "$cwd" --no-optional-locks status --porcelain 2>/dev/null | wc -l)
+    if [ "$dirty_count" -gt 0 ]; then
+        git_dirty=$(printf " \033[31m*%d\033[0m" "$dirty_count")
     fi
 fi
 
@@ -69,5 +76,5 @@ if [ -n "$model_name" ]; then
     model_info=$(printf " \033[35m%s\033[0m" "$model_name")
 fi
 
-printf "\033[34m%s\033[0m\033[33m%s\033[0m%s\033[36m%s\033[0m%s" \
-    "$display_cwd" "$git_branch" "$model_info" "$token_info" "$rate_info"
+printf "\033[34m%s\033[0m\033[33m%s\033[0m%s%s\033[36m%s\033[0m%s" \
+    "$display_cwd" "$git_branch" "$git_dirty" "$model_info" "$token_info" "$rate_info"

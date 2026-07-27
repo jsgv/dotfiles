@@ -8,10 +8,12 @@ live_config_reload = true
 program = "/usr/bin/zsh"
 
 [window]
-opacity = 1
+opacity = 0.95
 decorations = "None"
 option_as_alt = "Both"
 startup_mode = "Maximized"
+padding = { x = 10, y = 8 }
+dynamic_padding = true
 
 [scrolling]
 history = 50000
@@ -31,7 +33,6 @@ builtin_box_drawing = true
 [font.normal]
 family = "JetBrainsMono Nerd Font Mono"
 style = "Light"
-# style = "Regular"
 
 [font.bold]
 family = "JetBrainsMono Nerd Font Mono"
@@ -44,3 +45,36 @@ style = "Italic"
 [font.bold_italic]
 family = "JetBrainsMono Nerd Font Mono"
 style = "Bold Italic"
+
+# Tokyo Night palette — matches ghostty/waybar/fuzzel/swaync
+[colors.primary]
+background = "#1a1b26"
+foreground = "#c0caf5"
+
+[colors.cursor]
+text = "#1a1b26"
+cursor = "#c0caf5"
+
+[colors.selection]
+text = "#c0caf5"
+background = "#283457"
+
+[colors.normal]
+black   = "#15161e"
+red     = "#f7768e"
+green   = "#9ece6a"
+yellow  = "#e0af68"
+blue    = "#7aa2f7"
+magenta = "#bb9af7"
+cyan    = "#7dcfff"
+white   = "#a9b1d6"
+
+[colors.bright]
+black   = "#414868"
+red     = "#f7768e"
+green   = "#9ece6a"
+yellow  = "#e0af68"
+blue    = "#7aa2f7"
+magenta = "#bb9af7"
+cyan    = "#7dcfff"
+white   = "#c0caf5"

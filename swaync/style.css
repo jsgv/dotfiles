@@ -1,0 +1,177 @@
+/* Tokyo Night — matches waybar / fuzzel / ghostty */
+
+* {
+    font-family: "JetBrainsMono Nerd Font", sans-serif;
+    font-size: 12px;
+    color: #c0caf5;
+}
+
+/* ────────────────── Notification popups ────────────────── */
+
+.notification-row {
+    outline: none;
+    margin: 0;
+    padding: 0;
+}
+
+.notification-background .notification {
+    background-color: rgba(26, 27, 38, 0.96);
+    border: 1px solid rgba(122, 162, 247, 0.25);
+    border-radius: 12px;
+    margin: 6px 10px;
+    padding: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.notification.low .notification-content {
+    border-left: 3px solid #565f89;
+}
+.notification.normal .notification-content {
+    border-left: 3px solid #7aa2f7;
+}
+.notification.critical .notification-content {
+    border-left: 3px solid #f7768e;
+}
+
+.notification-content {
+    padding: 10px 14px;
+    border-radius: 0 12px 12px 0;
+}
+
+.summary {
+    font-weight: 600;
+    color: #c0caf5;
+    text-shadow: none;
+}
+
+.body {
+    color: #a9b1d6;
+}
+
+.close-button {
+    background: transparent;
+    color: #565f89;
+    border: none;
+    border-radius: 6px;
+    padding: 2px 6px;
+    margin: 4px;
+}
+
+.close-button:hover {
+    background-color: rgba(247, 118, 142, 0.2);
+    color: #f7768e;
+}
+
+/* ────────────────── Control Center ────────────────── */
+
+.control-center {
+    background: rgba(26, 27, 38, 0.96);
+    border: 1px solid rgba(122, 162, 247, 0.25);
+    border-radius: 14px;
+    margin: 8px;
+    padding: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+}
+
+.control-center-list {
+    background: transparent;
+}
+
+.control-center-list .notification {
+    background-color: rgba(40, 42, 54, 0.85);
+    border-radius: 10px;
+    margin: 4px 0;
+}
+
+/* Widgets */
+
+.widget-title {
+    margin: 4px 0 10px 4px;
+    font-weight: 600;
+    color: #c0caf5;
+}
+
+.widget-title > button {
+    background-color: rgba(122, 162, 247, 0.15);
+    color: #7aa2f7;
+    border: none;
+    border-radius: 8px;
+    padding: 4px 10px;
+}
+
+.widget-title > button:hover {
+    background-color: rgba(122, 162, 247, 0.3);
+    color: #c0caf5;
+}
+
+.widget-dnd {
+    margin: 8px 0;
+    font-size: 12px;
+}
+
+.widget-dnd > switch {
+    background-color: rgba(40, 42, 54, 0.85);
+    border-radius: 12px;
+    border: 1px solid rgba(86, 95, 137, 0.5);
+}
+
+.widget-dnd > switch:checked {
+    background-color: #7aa2f7;
+}
+
+.widget-volume {
+    background-color: rgba(40, 42, 54, 0.85);
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin: 6px 0;
+}
+
+.widget-mpris {
+    background-color: rgba(40, 42, 54, 0.85);
+    border-radius: 12px;
+    padding: 12px;
+    margin: 6px 0;
+}
+
+.widget-mpris-title {
+    font-weight: 600;
+    color: #c0caf5;
+}
+
+.widget-mpris-subtitle {
+    color: #565f89;
+}
+
+.widget-buttons-grid {
+    background: transparent;
+    margin: 6px 0;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+    background-color: rgba(40, 42, 54, 0.85);
+    border-radius: 10px;
+    margin: 4px;
+    padding: 10px;
+    font-size: 16px;
+    color: #c0caf5;
+    border: none;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+    background-color: rgba(122, 162, 247, 0.25);
+    color: #7aa2f7;
+}
+
+trough {
+    background-color: rgba(86, 95, 137, 0.4);
+    border-radius: 8px;
+}
+
+slider {
+    background-color: #7aa2f7;
+    border-radius: 8px;
+}
+
+scrollbar {
+    background: transparent;
+}
