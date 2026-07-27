@@ -1,0 +1,84 @@
+# Tokyo Night — minimal but useful
+# https://starship.rs/config
+
+add_newline = false
+
+format = """
+[](color_blue)\
+$username\
+[@](color_blue)\
+$hostname\
+[ ](color_blue)\
+$directory\
+$git_branch\
+$git_status\
+$cmd_duration\
+$line_break\
+$character\
+"""
+
+palette = "tokyonight"
+
+[palettes.tokyonight]
+color_fg     = "#c0caf5"
+color_subtle = "#565f89"
+color_blue   = "#7aa2f7"
+color_green  = "#9ece6a"
+color_yellow = "#e0af68"
+color_red    = "#f7768e"
+color_purple = "#bb9af7"
+
+[username]
+style_user = "color_blue"
+style_root = "color_red"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+format = "[$hostname](color_blue)"
+
+[directory]
+format = "[ $path ](color_fg)"
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+format = "[$symbol$branch ](color_yellow)"
+symbol = " "
+
+[git_status]
+format = '([\[$all_status$ahead_behind\] ](color_red))'
+staged = "+$count"
+modified = "*$count"
+deleted = "-$count"
+untracked = "?$count"
+conflicted = "!$count"
+ahead = "↑$count"
+behind = "↓$count"
+diverged = "↕$ahead_count/$behind_count"
+
+[cmd_duration]
+min_time = 2_000
+format = "[took $duration](color_subtle) "
+
+[character]
+success_symbol = "[\\$](color_green)"
+error_symbol   = "[\\$](color_red)"
+vimcmd_symbol  = "[<](color_purple)"
+
+# Module toggles — mise covers runtime versions so skip the language modules
+[nodejs]
+disabled = true
+[python]
+disabled = true
+[golang]
+disabled = true
+[rust]
+disabled = true
+[java]
+disabled = true
+[package]
+disabled = true

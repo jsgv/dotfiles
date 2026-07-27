@@ -1,14 +1,22 @@
 return {
-    -- Colorscheme
+    -- Colorscheme — Tokyo Night (matches ghostty/waybar/fuzzel/swaync/tmux)
     {
-        'ellisonleao/gruvbox.nvim',
+        'folke/tokyonight.nvim',
         priority = 1000,
         config = function()
-            require('gruvbox').setup({
-                bold = false,
+            require('tokyonight').setup({
+                style = 'night',
+                transparent = false,
+                styles = {
+                    comments = { italic = true },
+                    keywords = { italic = false },
+                    sidebars = 'dark',
+                    floats = 'dark',
+                },
+                on_colors = function(_) end,
             })
             vim.o.background = 'dark'
-            vim.cmd([[colorscheme gruvbox]])
+            vim.cmd([[colorscheme tokyonight]])
         end,
     },
 
@@ -17,7 +25,14 @@ return {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
-            require('lualine').setup({})
+            require('lualine').setup({
+                options = {
+                    theme = 'tokyonight',
+                    component_separators = { left = '', right = '' },
+                    section_separators = { left = '', right = '' },
+                    globalstatus = true,
+                },
+            })
         end,
     },
 
@@ -195,6 +210,9 @@ return {
     -- Prettier
     {
         'prettier/vim-prettier',
+        -- Pinned: master now tracks the 2.0.0-beta line, which breaks
+        -- formatting on save ("failed to parse buffer"). Hold at last stable.
+        commit = '7dbdbb12c50a9f4ba72390cce2846248e4368fd0',
         config = function()
             vim.g['prettier#autoformat'] = 1
             vim.g['prettier#autoformat_require_pragma'] = 0
