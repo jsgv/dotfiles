@@ -46,7 +46,7 @@ style = "Italic"
 family = "JetBrainsMono Nerd Font Mono"
 style = "Bold Italic"
 
-# Tokyo Night palette — matches waybar/wofi/mako
+# Tokyo Night palette — matches ghostty/waybar/fuzzel/swaync
 [colors.primary]
 background = "#1a1b26"
 foreground = "#c0caf5"
