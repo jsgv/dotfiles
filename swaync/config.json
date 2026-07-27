@@ -55,7 +55,7 @@
     "buttons-grid": {
       "actions": [
         { "label": "󰂯", "command": "blueman-manager" },
-        { "label": "󰖩", "command": "nm-connection-editor" },
+        { "label": "󰖩", "command": "ghostty -e nmtui" },
         { "label": "󰂵", "command": "hyprlock" },
         { "label": "󰐥", "command": "wlogout" }
       ]

@@ -26,7 +26,12 @@ scrollback-limit = 50000
 
 # Shell / term
 command = /usr/bin/zsh
-term = tmux-256color
+# Not tmux-256color: that terminfo would apply to every shell, including ones
+# outside tmux. tmux.conf sets its own default-terminal and declares
+# xterm-ghostty:RGB for the outer terminal, so it handles truecolor itself.
+# xterm-256color over ghostty's native xterm-ghostty for ssh to hosts that
+# don't ship ghostty's terminfo.
+term = xterm-256color
 
 # Behavior
 confirm-close-surface = false
