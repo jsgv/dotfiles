@@ -50,6 +50,16 @@ local on_attach = function(client, bufnr)
     keymap_set('n', 'ge', function() vim.diagnostic.set_loclist() end)
     keymap_set('n', '<space>f', function() vim.lsp.buf.format({ timeout_ms = 2000 }) end)
 
+    if client:supports_method('textDocument/inlayHint') then
+        vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+        keymap_set('n', '<space>h', function()
+            vim.lsp.inlay_hint.enable(
+                not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
+                { bufnr = bufnr }
+            )
+        end)
+    end
+
     local format_on_save = {
         rust_analyzer = true,
     }
@@ -57,12 +67,6 @@ local on_attach = function(client, bufnr)
     if format_on_save[client.name] then
         vim.api.nvim_command([[ autocmd BufWritePre <buffer> :lua vim.lsp.buf.format({ timeout_ms = 2000 }) ]])
     end
-
-    -- if client.name == 'ts_ls' then
-    --     -- buf_set_keymap('n', '<space>f', '<Cmd>Prettier<CR>', opts_set_keymap)
-    -- else
-    --     buf_set_keymap('n', '<space>f', '<Cmd>lua vim.lsp.buf.format({ timeout_ms = 2000 })<CR>', opts)
-    -- end
 end
 
 local go_capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -77,7 +81,18 @@ vim.lsp.config('gopls', {
     },
     settings     = {
         gopls = {
-            gofumpt = true
+            gofumpt = true,
+            -- Every hint kind defaults to false; toggle display with <space>h.
+            hints   = {
+                assignVariableTypes    = true,
+                compositeLiteralFields = true,
+                compositeLiteralTypes  = true,
+                constantValues         = true,
+                functionTypeParameters = true,
+                ignoredError           = true,
+                parameterNames         = true,
+                rangeVariableTypes     = true,
+            },
         }
     }
 })
@@ -119,11 +134,14 @@ vim.lsp.enable('terraformls')
 -- Java: configured via nvim-jdtls in after/ftplugin/java.lua
 
 -- TypeScript
-vim.lsp.config('ts_ls', {
+-- typescript v7+ is the native Go port: it speaks LSP directly (no tsserver.js,
+-- so ts_ls cannot drive it) and exposes the language server via the tsc binary.
+vim.lsp.config('tsgo', {
     on_attach    = on_attach,
     capabilities = capabilities,
+    cmd          = { 'tsc', '--lsp', '--stdio' },
 })
-vim.lsp.enable('ts_ls')
+vim.lsp.enable('tsgo')
 
 -- C/C++
 vim.lsp.config('clangd', {
